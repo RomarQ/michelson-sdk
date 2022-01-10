@@ -1,0 +1,75 @@
+{
+    "name": "@tezwell/michelson-sdk",
+    "version": "0.0.1",
+    "description": "Michelson SDK",
+    "keywords": [
+        "Tezos",
+        "Michelson",
+        "Micheline",
+        "Smart Contract"
+    ],
+    "author": {
+        "name": "Rodrigo Quelhas",
+        "email": "rodrigo_quelhas@outlook.pt"
+    },
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "main": "index.js",
+    "module": "index.js",
+    "exports": {
+        ".": "./index.js",
+        "./core": "./core/index.js",
+        "./core/literal": "./core/literal.js",
+        "./core/type": "./core/type.js"
+    },
+    "scripts": {
+        "build": "node --max_old_space_size=8192 scripts/build.js && tsc --build",
+        "test": "NODE_OPTIONS=--max-old-space-size=8192 jest --runInBand --detectOpenHandles --watch",
+        "ci-test": "NODE_OPTIONS=--max-old-space-size=8192 CI=true jest --collect-coverage --reporters=default --reporters=jest-junit --reporters=jest-html-reporter",
+        "prettier:fix": "prettier --write '{src,tests}/**/*.{js,ts,json}'",
+        "lint:fix": "eslint '{src,tests}/**/*.{js,ts,json}' --quiet --fix",
+        "package": "cp package.json README.md dist",
+        "publish": "cd dist && npm publish"
+    },
+    "devDependencies": {
+        "@types/jest": "27.0.3",
+        "@typescript-eslint/eslint-plugin": "5.7.0",
+        "@typescript-eslint/parser": "5.7.0",
+        "coveralls": "3.1.1",
+        "esbuild": "0.14.3",
+        "eslint": "8.4.1",
+        "eslint-config-prettier": "8.3.0",
+        "eslint-plugin-prettier": "4.0.0",
+        "jest": "27.4.5",
+        "jest-html-reporter": "3.4.1",
+        "jest-junit": "13.0.0",
+        "prettier": "2.5.1",
+        "ts-jest": "27.1.1",
+        "typescript": "4.5.4"
+    },
+    "jest-junit": {
+        "suiteName": "jest tests",
+        "outputDirectory": ".",
+        "outputName": "coverage/junit.xml",
+        "uniqueOutputName": "false",
+        "classNameTemplate": "{classname} - {title}",
+        "titleTemplate": "{classname} - {title}",
+        "ancestorSeparator": " › ",
+        "usePathForSuiteName": "true"
+    },
+    "jest-html-reporter": {
+        "outputPath": "coverage/test-report.html"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts}": [
+            "npm run lint:fix"
+        ]
+    }
+}
