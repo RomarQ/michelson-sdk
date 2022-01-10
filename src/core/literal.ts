@@ -1,3 +1,4 @@
+import { TOption } from '.';
 import Utils from '../misc/utils';
 import { MichelsonJSON, MichelsonMicheline } from '../typings';
 import { Prim } from './enums/prim';
@@ -26,9 +27,11 @@ export class Michelson_Literal {
     constructor(prim: Prim, type: Michelson_Type, value?: number | string | boolean) {
         this.prim = prim;
         this.type = type;
-        switch (this.prim) {
+        switch (prim) {
             case Prim.Unit:
-                this.value = Prim.Unit;
+            case Prim.None:
+                this.value = prim;
+                break;
             default:
                 if (typeof value === 'undefined') {
                     throw new Error('Expected a value!');
@@ -132,6 +135,8 @@ export class Michelson_Literal_C1 {
 
     toMicheline(): MichelsonMicheline {
         switch (this.prim) {
+            case Prim.Some:
+                return `${this.prim} ${this.elements.map((v) => v.toMicheline()).join(' ; ')}`;
             case Prim.list:
                 return `{ ${this.elements.map((v) => v.toMicheline()).join(' ; ')} }`;
         }
@@ -141,6 +146,11 @@ export class Michelson_Literal_C1 {
 
     toJSON(): MichelsonJSON {
         switch (this.prim) {
+            case Prim.Some:
+                return {
+                    prim: this.prim,
+                    args: this.elements.map((v) => v.toJSON()),
+                };
             case Prim.list:
                 return this.elements.map((v) => v.toJSON());
         }
@@ -166,6 +176,10 @@ export const Bool = (value: boolean) => new Michelson_Literal(Prim.bool, TBool, 
 export const List = (elements: Michelson_LiteralUnion[], innerType: Michelson_Type) =>
     new Michelson_Literal_C1(Prim.list, TList(innerType), elements);
 
+export const None = (innerType: Michelson_Type) => new Michelson_Literal(Prim.None, TOption(innerType));
+export const Some = (element: Michelson_LiteralUnion, innerType: Michelson_Type) =>
+    new Michelson_Literal_C1(Prim.Some, TOption(innerType), [element]);
+
 const Literals = {
     Unit,
     Nat,
@@ -178,6 +192,8 @@ const Literals = {
     ChainID,
     Bytes,
     List,
+    None,
+    Some,
 };
 
 export default Literals;

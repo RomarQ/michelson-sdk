@@ -39,6 +39,7 @@ export class Michelson_Type {
             case PrimType.bytes:
                 return String(this.type);
             case PrimType.list:
+            case PrimType.option:
                 return `(${this.type} ${this.innerTypes.map((t) => t.toMicheline()).join(' ')})`;
         }
         throw new Error(`Cannot produce michelson for type: ${this.type}`);
@@ -60,6 +61,7 @@ export class Michelson_Type {
                     prim: this.type,
                 };
             case PrimType.list:
+            case PrimType.option:
                 return {
                     prim: this.type,
                     args: this.innerTypes.map((t) => t.toJSON()),
@@ -83,6 +85,7 @@ export const TChainID = new Michelson_Type(PrimType.chain_id);
 export const TBytes = new Michelson_Type(PrimType.bytes);
 // Container types
 export const TList = (innerType: Michelson_Type) => new Michelson_Type(PrimType.list, innerType);
+export const TOption = (innerType: Michelson_Type) => new Michelson_Type(PrimType.option, innerType);
 
 const Types = {
     // Singleton types
@@ -97,6 +100,7 @@ const Types = {
     TChainID,
     // Container types
     TList,
+    TOption,
 };
 
 export default Types;

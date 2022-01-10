@@ -1,6 +1,20 @@
 import path from 'path';
 import { execSync } from 'child_process';
-import { Address, Bool, Bytes, ChainID, Int, List, Mutez, Nat, String, Timestamp } from '../../src/core/literal';
+import {
+    Address,
+    Bool,
+    Bytes,
+    ChainID,
+    Int,
+    List,
+    Mutez,
+    Nat,
+    None,
+    Some,
+    String,
+    Timestamp,
+    Unit,
+} from '../../src/core/literal';
 import { TNat } from '../../src/core/type';
 
 const TEZOS_CLIENT_CMD = './tests/e2e/tezos-binaries/tezos-client';
@@ -152,6 +166,26 @@ if (process.platform == 'linux') {
 
             expect(jsonValue).toEqual(JSON.parse(result));
         });
+        it('Unit', () => {
+            const literal = Unit();
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+        });
+        it('None', () => {
+            const literal = None(TNat);
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+        });
     });
 
     describe('[E2E] - Michelson compilation (Container Literals)', () => {
@@ -163,7 +197,16 @@ if (process.platform == 'linux') {
 
             const result = convertMichelsonToJSON(`"${value}"`, type);
 
-            console.error(value, type, jsonValue, literal.type.toJSON());
+            expect(jsonValue).toEqual(JSON.parse(result));
+        });
+        it('Some', () => {
+            const literal = Some(Nat(1), TNat);
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
             expect(jsonValue).toEqual(JSON.parse(result));
         });
     });
