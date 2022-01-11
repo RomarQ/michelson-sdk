@@ -1,6 +1,6 @@
 {
     "name": "@tezwell/michelson-sdk",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Michelson SDK",
     "keywords": [
         "Tezos",
@@ -30,8 +30,7 @@
         "ci-test": "NODE_OPTIONS=--max-old-space-size=8192 CI=true jest --collect-coverage --reporters=default --reporters=jest-junit --reporters=jest-html-reporter",
         "prettier:fix": "prettier --write '{src,tests}/**/*.{js,ts,json}'",
         "lint:fix": "eslint '{src,tests}/**/*.{js,ts,json}' --quiet --fix",
-        "package": "cp package.json README.md dist",
-        "publish": "cd dist && npm publish"
+        "publish": "sh scripts/publish.sh"
     },
     "devDependencies": {
         "@types/jest": "27.0.3",
