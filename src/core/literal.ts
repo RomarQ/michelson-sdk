@@ -177,8 +177,8 @@ export const List = (elements: Michelson_LiteralUnion[], innerType: Michelson_Ty
     new Michelson_Literal_C1(Prim.list, TList(innerType), elements);
 
 export const None = (innerType: Michelson_Type) => new Michelson_Literal(Prim.None, TOption(innerType));
-export const Some = (element: Michelson_LiteralUnion, innerType: Michelson_Type) =>
-    new Michelson_Literal_C1(Prim.Some, TOption(innerType), [element]);
+export const Some = (element: Michelson_LiteralUnion) =>
+    new Michelson_Literal_C1(Prim.Some, TOption(element.type), [element]);
 
 const Literals = {
     Unit,

@@ -200,7 +200,7 @@ if (process.platform == 'linux') {
             expect(jsonValue).toEqual(JSON.parse(result));
         });
         it('Some', () => {
-            const literal = Some(Nat(1), TNat);
+            const literal = Some(Nat(1));
             const value = literal.toMicheline();
             const type = literal.type.toMicheline();
             const jsonValue = literal.toJSON();
