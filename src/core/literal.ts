@@ -171,11 +171,9 @@ class Michelson_Record {
         this.#layout = layout || Michelson_Type_Record.composeRightCombLayout(Object.keys(fields));
         this.type = TRecord(
             Object.entries(fields).reduce((pv, [key, value]) => {
-                const type = value.type;
-                type.setAnnotation(key);
                 return {
                     ...pv,
-                    [key]: type,
+                    [key]: value.type.setAnnotation(key),
                 };
             }, {}),
             this.#layout,

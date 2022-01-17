@@ -34,6 +34,7 @@ export class Michelson_Type implements IType {
      */
     public setAnnotation(annotation: string) {
         this.#annotation = annotation;
+        return this;
     }
 
     toMicheline(): MichelsonMicheline {
@@ -113,6 +114,7 @@ export class Michelson_Type_Record implements IType {
      */
     public setAnnotation(annotation: string) {
         this.#annotation = annotation;
+        return this;
     }
 
     /**
@@ -186,7 +188,7 @@ export const TBytes = new Michelson_Type(PrimType.bytes);
 // Container types
 export const TList = (innerType: Michelson_Type) => new Michelson_Type(PrimType.list, innerType);
 export const TOption = (innerType: Michelson_Type) => new Michelson_Type(PrimType.option, innerType);
-export const TRecord = (fields: Record<string, IType>, layout: ILayout) => new Michelson_Type_Record(fields, layout);
+export const TRecord = (fields: Record<string, IType>, layout?: ILayout) => new Michelson_Type_Record(fields, layout);
 
 const Types = {
     // Singleton types
