@@ -1,6 +1,7 @@
-import { TOption } from '.';
+import { Michelson_Type_Record, TOption, TRecord } from './type';
 import Utils from '../misc/utils';
 import { MichelsonJSON, MichelsonMicheline } from '../typings';
+import { ILayout, IType } from '../typings/type';
 import { Prim } from './enums/prim';
 import {
     Michelson_Type,
@@ -123,39 +124,119 @@ export class Michelson_Literal {
 }
 
 export class Michelson_Literal_C1 {
-    private prim: Prim;
-    private elements: Michelson_LiteralUnion[];
+    #prim: Prim;
+    #elements: Michelson_LiteralUnion[];
     type: Michelson_Type;
 
     constructor(prim: Prim, type: Michelson_Type, elements: Michelson_LiteralUnion[]) {
-        this.prim = prim;
+        this.#prim = prim;
         this.type = type;
-        this.elements = elements;
+        this.#elements = elements;
     }
 
     toMicheline(): MichelsonMicheline {
-        switch (this.prim) {
+        switch (this.#prim) {
             case Prim.Some:
-                return `${this.prim} ${this.elements.map((v) => v.toMicheline()).join(' ; ')}`;
+                return `${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ; ')}`;
             case Prim.list:
-                return `{ ${this.elements.map((v) => v.toMicheline()).join(' ; ')} }`;
+                return `{ ${this.#elements.map((v) => v.toMicheline()).join(' ; ')} }`;
         }
 
-        throw new Error(`Cannot produce michelson for literal of type: ${this.prim}`);
+        throw new Error(`Cannot produce michelson for literal of type: ${this.#prim}`);
     }
 
     toJSON(): MichelsonJSON {
-        switch (this.prim) {
+        switch (this.#prim) {
             case Prim.Some:
                 return {
-                    prim: this.prim,
-                    args: this.elements.map((v) => v.toJSON()),
+                    prim: this.#prim,
+                    args: this.#elements.map((v) => v.toJSON()),
                 };
             case Prim.list:
-                return this.elements.map((v) => v.toJSON());
+                return this.#elements.map((v) => v.toJSON());
         }
 
-        throw new Error(`Cannot produce michelson JSON for literal of type: ${this.prim}`);
+        throw new Error(`Cannot produce michelson JSON for literal of type: ${this.#prim}`);
+    }
+}
+
+class Michelson_Record {
+    #fields: Record<string, Michelson_LiteralUnion>;
+    type: IType;
+    // Default layout => https://tezos.gitlab.io/active/michelson.html#operations-on-pairs-and-right-combs
+    #layout: ILayout;
+
+    constructor(fields: Record<string, Michelson_LiteralUnion>, layout?: ILayout) {
+        this.#fields = fields;
+        this.#layout = layout || Michelson_Type_Record.composeRightCombLayout(Object.keys(fields));
+        this.type = TRecord(
+            Object.entries(fields).reduce((pv, [key, value]) => {
+                const type = value.type;
+                type.setAnnotation(key);
+                return {
+                    ...pv,
+                    [key]: type,
+                };
+            }, {}),
+            this.#layout,
+        );
+    }
+
+    /**
+     * @description Generate the Micheline representation
+     * @param fields Record fields
+     * @param layout Record layout
+     * @returns {MichelsonMicheline} Micheline representation
+     */
+    private _toMicheline(
+        fields: globalThis.Record<string, Michelson_LiteralUnion>,
+        layout: ILayout,
+    ): MichelsonMicheline {
+        const innerTypes = layout
+            .map((layout) => {
+                if (Array.isArray(layout)) {
+                    return this._toMicheline(fields, layout as ILayout);
+                }
+
+                return fields[layout].toMicheline();
+            }, '')
+            .join(' ');
+        return `(${Prim.Pair} ${innerTypes})`;
+    }
+
+    /**
+     * @description Generate the Micheline representation
+     * @returns {MichelsonMicheline} Micheline representation
+     */
+    public toMicheline(): MichelsonMicheline {
+        return this._toMicheline(this.#fields, this.#layout);
+    }
+
+    /**
+     * @description Generate the JSON representation
+     * @param fields Record fields
+     * @param layout Record layout
+     * @returns {MichelsonMicheline} JSON representation
+     */
+    private _toJSON(fields: Record<string, Michelson_LiteralUnion>, layout: ILayout): MichelsonJSON {
+        return {
+            prim: Prim.Pair,
+            args: layout.map((layout) => {
+                if (Array.isArray(layout)) {
+                    return this._toJSON(fields, layout as ILayout);
+                }
+
+                return fields[layout].toJSON();
+            }, []),
+        };
+    }
+
+    /**
+     * @description Generate the JSON representation
+     * @returns {MichelsonMicheline} JSON representation
+     */
+    public toJSON(): MichelsonJSON {
+        return this._toJSON(this.#fields, this.#layout);
     }
 }
 
@@ -180,6 +261,9 @@ export const None = (innerType: Michelson_Type) => new Michelson_Literal(Prim.No
 export const Some = (element: Michelson_LiteralUnion) =>
     new Michelson_Literal_C1(Prim.Some, TOption(element.type), [element]);
 
+export const Record = (fields: Record<string, Michelson_LiteralUnion>, layout?: ILayout) =>
+    new Michelson_Record(fields, layout);
+
 const Literals = {
     Unit,
     Nat,
@@ -194,6 +278,7 @@ const Literals = {
     List,
     None,
     Some,
+    Record,
 };
 
 export default Literals;

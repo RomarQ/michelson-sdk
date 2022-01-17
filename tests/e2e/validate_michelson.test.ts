@@ -10,6 +10,7 @@ import {
     Mutez,
     Nat,
     None,
+    Record,
     Some,
     String,
     Timestamp,
@@ -55,6 +56,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(value, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Int', () => {
             const literal = Int(2);
@@ -65,6 +67,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(value, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Mutez', () => {
             const literal = Mutez(10);
@@ -75,6 +78,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(value, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('String', () => {
             const literal = String('Hello World');
@@ -85,6 +89,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(`'${value}'`, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Bool (True)', () => {
             const literal = Bool(true);
@@ -95,6 +100,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(value, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Bool (False)', () => {
             const literal = Bool(false);
@@ -105,6 +111,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(value, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Bytes', () => {
             const literal = Bytes('0xFFFF');
@@ -115,6 +122,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(value, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Address', () => {
             const literal = Address('tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC');
@@ -125,6 +133,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(`'${value}'`, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Timestamp (string)', () => {
             const literal = Timestamp('2019-09-26T10:59:51Z');
@@ -135,6 +144,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(`'${value}'`, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Timestamp (number)', () => {
             const literal = Timestamp(1571659294);
@@ -145,6 +155,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(value, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('ChainID (string)', () => {
             const literal = ChainID('NetXynUjJNZm7wi');
@@ -155,6 +166,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(`'${value}'`, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('ChainID (bytes)', () => {
             const literal = ChainID('0x7a06a770');
@@ -165,6 +177,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(value, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Unit', () => {
             const literal = Unit();
@@ -175,6 +188,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(`'${value}'`, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('None', () => {
             const literal = None(TNat);
@@ -185,6 +199,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(`'${value}'`, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
     });
 
@@ -198,6 +213,7 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(`"${value}"`, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
         it('Some', () => {
             const literal = Some(Nat(1));
@@ -208,6 +224,62 @@ if (process.platform == 'linux') {
             const result = convertMichelsonToJSON(`'${value}'`, type);
 
             expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+    });
+
+    describe('[E2E] - Michelson compilation (Record)', () => {
+        it('Left Comb Layout', () => {
+            const literal = Record(
+                {
+                    field1: Nat(1),
+                    field2: Nat(2),
+                    field3: Nat(3),
+                },
+                [['field1', 'field2'], 'field3'],
+            );
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Balanced Layout', () => {
+            const literal = Record(
+                {
+                    field1: Nat(1),
+                    field2: Nat(2),
+                    field3: Nat(3),
+                    field4: Nat(4),
+                },
+                [
+                    ['field1', 'field2'],
+                    ['field3', 'field4'],
+                ],
+            );
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Right Comb Layout', () => {
+            const literal = Record({
+                field1: Nat(1),
+                field2: Nat(2),
+                field3: Nat(3),
+            });
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
         });
     });
 }

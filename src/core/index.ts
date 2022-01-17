@@ -1,5 +1,5 @@
 export * from './type';
 export * from './literal';
 
-export { default as Type } from './type';
-export { default as Literal } from './literal';
+export * as Type from './type';
+export * as Literal from './literal';
