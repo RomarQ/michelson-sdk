@@ -18,12 +18,12 @@ import {
     TUnit,
 } from './type';
 
-export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1;
+export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1 | Michelson_Record;
 
 export class Michelson_Literal {
     private prim: Prim;
     private value: number | string | boolean;
-    type: Michelson_Type;
+    type: IType;
 
     constructor(prim: Prim, type: Michelson_Type, value?: number | string | boolean) {
         this.prim = prim;
@@ -126,7 +126,7 @@ export class Michelson_Literal {
 export class Michelson_Literal_C1 {
     #prim: Prim;
     #elements: Michelson_LiteralUnion[];
-    type: Michelson_Type;
+    type: IType;
 
     constructor(prim: Prim, type: Michelson_Type, elements: Michelson_LiteralUnion[]) {
         this.#prim = prim;
@@ -252,10 +252,10 @@ export const ChainID = (value: string) => new Michelson_Literal(Prim.chain_id, T
 
 export const Bool = (value: boolean) => new Michelson_Literal(Prim.bool, TBool, value);
 
-export const List = (elements: Michelson_LiteralUnion[], innerType: Michelson_Type) =>
+export const List = (elements: Michelson_LiteralUnion[], innerType: IType) =>
     new Michelson_Literal_C1(Prim.list, TList(innerType), elements);
 
-export const None = (innerType: Michelson_Type) => new Michelson_Literal(Prim.None, TOption(innerType));
+export const None = (innerType: IType) => new Michelson_Literal(Prim.None, TOption(innerType));
 export const Some = (element: Michelson_LiteralUnion) =>
     new Michelson_Literal_C1(Prim.Some, TOption(element.type), [element]);
 

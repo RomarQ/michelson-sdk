@@ -21,9 +21,9 @@ export class Michelson_Type implements IType {
     _isType = true as const;
     #annotation?: string;
 
-    private innerTypes: Michelson_Type[];
+    private innerTypes: IType[];
 
-    constructor(private type: PrimType, ...innerTypes: Michelson_Type[]) {
+    constructor(private type: PrimType, ...innerTypes: IType[]) {
         this.innerTypes = innerTypes;
     }
 
@@ -186,8 +186,8 @@ export const TTimestamp = new Michelson_Type(PrimType.timestamp);
 export const TChainID = new Michelson_Type(PrimType.chain_id);
 export const TBytes = new Michelson_Type(PrimType.bytes);
 // Container types
-export const TList = (innerType: Michelson_Type) => new Michelson_Type(PrimType.list, innerType);
-export const TOption = (innerType: Michelson_Type) => new Michelson_Type(PrimType.option, innerType);
+export const TList = (innerType: IType) => new Michelson_Type(PrimType.list, innerType);
+export const TOption = (innerType: IType) => new Michelson_Type(PrimType.option, innerType);
 export const TRecord = (fields: Record<string, IType>, layout?: ILayout) => new Michelson_Type_Record(fields, layout);
 
 const Types = {
