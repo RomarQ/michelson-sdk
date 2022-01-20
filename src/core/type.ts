@@ -15,6 +15,7 @@ export enum PrimType {
     bool = Prim.bool,
     list = Prim.list,
     option = Prim.option,
+    pair = Prim.pair,
 }
 
 export class Michelson_Type implements IType {
@@ -52,6 +53,7 @@ export class Michelson_Type implements IType {
             case PrimType.bytes:
                 return expr;
             case PrimType.list:
+            case PrimType.pair:
             case PrimType.option:
                 return `(${[expr, ...this.innerTypes.map((t) => t.toMicheline())].join(' ')})`;
         }
@@ -76,6 +78,7 @@ export class Michelson_Type implements IType {
                     prim: this.type,
                 };
             case PrimType.list:
+            case PrimType.pair:
             case PrimType.option:
                 return {
                     ...obj,
@@ -188,6 +191,7 @@ export const TBytes = new Michelson_Type(PrimType.bytes);
 // Container types
 export const TList = (innerType: IType) => new Michelson_Type(PrimType.list, innerType);
 export const TOption = (innerType: IType) => new Michelson_Type(PrimType.option, innerType);
+export const TPair = (leftType: IType, rightType: IType) => new Michelson_Type(PrimType.pair, leftType, rightType);
 export const TRecord = (fields: Record<string, IType>, layout?: ILayout) => new Michelson_Type_Record(fields, layout);
 
 const Types = {
@@ -204,6 +208,7 @@ const Types = {
     // Container types
     TList,
     TOption,
+    TPair,
     TRecord,
 };
 

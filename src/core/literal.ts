@@ -17,6 +17,7 @@ import {
     TTimestamp,
     TUnit,
 } from './type';
+import { TPair } from '.';
 
 export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1 | Michelson_Record;
 
@@ -137,7 +138,8 @@ export class Michelson_Literal_C1 {
     toMicheline(): MichelsonMicheline {
         switch (this.#prim) {
             case Prim.Some:
-                return `${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ; ')}`;
+            case Prim.Pair:
+                return `(${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ')})`;
             case Prim.list:
                 return `{ ${this.#elements.map((v) => v.toMicheline()).join(' ; ')} }`;
         }
@@ -148,6 +150,7 @@ export class Michelson_Literal_C1 {
     toJSON(): MichelsonJSON {
         switch (this.#prim) {
             case Prim.Some:
+            case Prim.Pair:
                 return {
                     prim: this.#prim,
                     args: this.#elements.map((v) => v.toJSON()),
@@ -259,6 +262,8 @@ export const None = (innerType: IType) => new Michelson_Literal(Prim.None, TOpti
 export const Some = (element: Michelson_LiteralUnion) =>
     new Michelson_Literal_C1(Prim.Some, TOption(element.type), [element]);
 
+export const Pair = (left: Michelson_LiteralUnion, right: Michelson_LiteralUnion) =>
+    new Michelson_Literal_C1(Prim.Pair, TPair(left.type, right.type), [left, right]);
 export const Record = (fields: Record<string, Michelson_LiteralUnion>, layout?: ILayout) =>
     new Michelson_Record(fields, layout);
 
@@ -276,6 +281,7 @@ const Literals = {
     List,
     None,
     Some,
+    Pair,
     Record,
 };
 

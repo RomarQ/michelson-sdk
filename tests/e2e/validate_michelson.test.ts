@@ -10,6 +10,7 @@ import {
     Mutez,
     Nat,
     None,
+    Pair,
     Record,
     Some,
     String,
@@ -223,6 +224,31 @@ if (process.platform == 'linux') {
 
             const result = convertMichelsonToJSON(`'${value}'`, type);
 
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+    });
+
+    describe('[E2E] - Michelson compilation (Pair)', () => {
+        it('Simple', () => {
+            const literal = Pair(Nat(1), Unit());
+
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Nested', () => {
+            const literal = Pair(Nat(1), Pair(Bool(false), String('Test')));
+
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
             expect(jsonValue).toEqual(JSON.parse(result));
             expect(jsonValue).toMatchSnapshot();
         });

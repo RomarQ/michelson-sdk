@@ -22,6 +22,42 @@ Object {
 }
 `;
 
+exports[`[E2E] - Michelson compilation (Pair) Nested 1`] = `
+Object {
+  "args": Array [
+    Object {
+      "int": "1",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "False",
+        },
+        Object {
+          "string": "Test",
+        },
+      ],
+      "prim": "Pair",
+    },
+  ],
+  "prim": "Pair",
+}
+`;
+
+exports[`[E2E] - Michelson compilation (Pair) Simple 1`] = `
+Object {
+  "args": Array [
+    Object {
+      "int": "1",
+    },
+    Object {
+      "prim": "Unit",
+    },
+  ],
+  "prim": "Pair",
+}
+`;
+
 exports[`[E2E] - Michelson compilation (Record) Balanced Layout 1`] = `
 Object {
   "args": Array [
