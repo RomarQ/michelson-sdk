@@ -4,7 +4,7 @@ import {
     Address,
     Bool,
     Bytes,
-    ChainID,
+    Chain_id,
     Int,
     List,
     Mutez,
@@ -17,6 +17,12 @@ import {
     Timestamp,
     Unit,
     Set,
+    Bls12_381_fr,
+    Bls12_381_g2,
+    Bls12_381_g1,
+    Key,
+    Signature,
+    Key_hash,
 } from '../../src/core/literal';
 import { TNat } from '../../src/core/type';
 
@@ -160,7 +166,7 @@ if (process.platform == 'linux') {
             expect(jsonValue).toMatchSnapshot();
         });
         it('ChainID (string)', () => {
-            const literal = ChainID('NetXynUjJNZm7wi');
+            const literal = Chain_id('NetXynUjJNZm7wi');
             const value = literal.toMicheline();
             const type = literal.type.toMicheline();
             const jsonValue = literal.toJSON();
@@ -171,7 +177,7 @@ if (process.platform == 'linux') {
             expect(jsonValue).toMatchSnapshot();
         });
         it('ChainID (bytes)', () => {
-            const literal = ChainID('0x7a06a770');
+            const literal = Chain_id('0x7a06a770');
             const value = literal.toMicheline();
             const type = literal.type.toMicheline();
             const jsonValue = literal.toJSON();
@@ -183,6 +189,89 @@ if (process.platform == 'linux') {
         });
         it('Unit', () => {
             const literal = Unit();
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Bls12_381_fr (bytes)', () => {
+            const literal = Bls12_381_fr('0x0001');
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Bls12_381_fr (number)', () => {
+            const literal = Bls12_381_fr(1);
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Bls12_381_g1', () => {
+            const literal = Bls12_381_g1(
+                '0x0572cbea904d67468808c8eb50a9450c9721db309128012543902d0ac358a62ae28f75bb8f1c7c42c39a8c5529bf0f4e166a9d8cabc673a322fda673779d8e3822ba3ecb8670e461f73bb9021d5fd76a4c56d9d4cd16bd1bba86881979749d28',
+            );
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Bls12_381_g2', () => {
+            const literal = Bls12_381_g2(
+                '0x13e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb813fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed0d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa',
+            );
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Key', () => {
+            const literal = Key('edpku3g7CeTEvSKhxipD4Q2B6EiEP8cR323u8PFmGFgKRVRvCneEmT');
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Key hash', () => {
+            const literal = Key_hash('tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC');
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Signature', () => {
+            const literal = Signature(
+                'sigsAujsNePapNNGsVotTvcKWMNNJja9B4a2FfAe8vExzFhEgEo1GTQStiif22uSA6iNxPGCGsXsRyeLHzeLbJL2y8CnYuNe',
+            );
             const value = literal.toMicheline();
             const type = literal.type.toMicheline();
             const jsonValue = literal.toJSON();

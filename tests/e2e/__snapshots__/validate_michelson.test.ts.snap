@@ -155,6 +155,30 @@ Object {
 }
 `;
 
+exports[`[E2E] - Michelson compilation (Singleton Literals) Bls12_381_fr (bytes) 1`] = `
+Object {
+  "bytes": "0001",
+}
+`;
+
+exports[`[E2E] - Michelson compilation (Singleton Literals) Bls12_381_fr (number) 1`] = `
+Object {
+  "int": "1",
+}
+`;
+
+exports[`[E2E] - Michelson compilation (Singleton Literals) Bls12_381_g1 1`] = `
+Object {
+  "bytes": "0572cbea904d67468808c8eb50a9450c9721db309128012543902d0ac358a62ae28f75bb8f1c7c42c39a8c5529bf0f4e166a9d8cabc673a322fda673779d8e3822ba3ecb8670e461f73bb9021d5fd76a4c56d9d4cd16bd1bba86881979749d28",
+}
+`;
+
+exports[`[E2E] - Michelson compilation (Singleton Literals) Bls12_381_g2 1`] = `
+Object {
+  "bytes": "13e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb813fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed0d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa",
+}
+`;
+
 exports[`[E2E] - Michelson compilation (Singleton Literals) Bool (False) 1`] = `
 Object {
   "prim": "False",
@@ -191,6 +215,18 @@ Object {
 }
 `;
 
+exports[`[E2E] - Michelson compilation (Singleton Literals) Key 1`] = `
+Object {
+  "string": "edpku3g7CeTEvSKhxipD4Q2B6EiEP8cR323u8PFmGFgKRVRvCneEmT",
+}
+`;
+
+exports[`[E2E] - Michelson compilation (Singleton Literals) Key hash 1`] = `
+Object {
+  "string": "tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC",
+}
+`;
+
 exports[`[E2E] - Michelson compilation (Singleton Literals) Mutez 1`] = `
 Object {
   "int": "10",
@@ -200,6 +236,12 @@ Object {
 exports[`[E2E] - Michelson compilation (Singleton Literals) Nat 1`] = `
 Object {
   "int": "1",
+}
+`;
+
+exports[`[E2E] - Michelson compilation (Singleton Literals) Signature 1`] = `
+Object {
+  "string": "sigsAujsNePapNNGsVotTvcKWMNNJja9B4a2FfAe8vExzFhEgEo1GTQStiif22uSA6iNxPGCGsXsRyeLHzeLbJL2y8CnYuNe",
 }
 `;
 
