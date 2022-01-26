@@ -82,7 +82,7 @@ export class Michelson_Type implements IType {
     }
 
     toJSON(): MichelsonJSON {
-        const obj = this.#annotation ? { annotation: this.#annotation } : {};
+        const obj = this.#annotation ? { annots: [`%${this.#annotation}`] } : {};
         switch (this.type) {
             case PrimType.unit:
             case PrimType.int:
@@ -188,7 +188,7 @@ export class Michelson_Type_Record implements IType {
     private _toJSON(fields: Record<string, IType>, layout: ILayout): MichelsonJSON {
         return {
             prim: Prim.pair,
-            ...(this.#annotation ? { annotation: this.#annotation } : {}),
+            ...(this.#annotation ? { annots: [`%${this.#annotation}`] } : {}),
             args: layout.map((layout) => {
                 if (Array.isArray(layout)) {
                     return this._toJSON(fields, layout as ILayout);

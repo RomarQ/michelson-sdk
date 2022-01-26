@@ -30,7 +30,7 @@ import { ILayout, IType } from '../typings/type';
 import { Prim } from './enums/prim';
 import { TBig_map } from '.';
 
-export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1 | Michelson_Record;
+export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1 | Michelson_Record | Michelson_Map;
 
 export class Michelson_Literal {
     private prim: Prim;

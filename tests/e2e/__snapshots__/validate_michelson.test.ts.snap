@@ -2,23 +2,157 @@
 
 exports[`[E2E] - Michelson compilation (List) List 1`] = `
 Array [
-  Object {
-    "int": "1",
-  },
-  Object {
-    "int": "2",
-  },
+  "storage (list nat);
+parameter unit;
+code {
+  DROP;
+  PUSH (list nat) { 1 ; 2 };
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+          ],
+          "prim": "list",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                ],
+                "prim": "list",
+              },
+              Array [
+                Object {
+                  "int": "1",
+                },
+                Object {
+                  "int": "2",
+                },
+              ],
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
 ]
 `;
 
 exports[`[E2E] - Michelson compilation (List) Set 1`] = `
 Array [
-  Object {
-    "int": "1",
-  },
-  Object {
-    "int": "2",
-  },
+  "storage (set nat);
+parameter unit;
+code {
+  DROP;
+  PUSH (set nat) { 1 ; 2 };
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+          ],
+          "prim": "set",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                ],
+                "prim": "set",
+              },
+              Array [
+                Object {
+                  "int": "1",
+                },
+                Object {
+                  "int": "2",
+                },
+              ],
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
 ]
 `;
 
@@ -51,274 +185,2150 @@ Array [
 
 exports[`[E2E] - Michelson compilation (Maps) Map 1`] = `
 Array [
-  Object {
-    "args": Array [
-      Object {
-        "int": "1",
-      },
-      Object {
-        "string": "VALUE1",
-      },
-    ],
-    "prim": "Elt",
-  },
-  Object {
-    "args": Array [
-      Object {
-        "int": "2",
-      },
-      Object {
-        "string": "VALUE2",
-      },
-    ],
-    "prim": "Elt",
-  },
+  "storage (map nat string);
+parameter unit;
+code {
+  DROP;
+  PUSH (map nat string) { Elt 1 \\"VALUE1\\" ; Elt 2 \\"VALUE2\\" };
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+            Object {
+              "prim": "string",
+            },
+          ],
+          "prim": "map",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                  Object {
+                    "prim": "string",
+                  },
+                ],
+                "prim": "map",
+              },
+              Array [
+                Object {
+                  "args": Array [
+                    Object {
+                      "int": "1",
+                    },
+                    Object {
+                      "string": "VALUE1",
+                    },
+                  ],
+                  "prim": "Elt",
+                },
+                Object {
+                  "args": Array [
+                    Object {
+                      "int": "2",
+                    },
+                    Object {
+                      "string": "VALUE2",
+                    },
+                  ],
+                  "prim": "Elt",
+                },
+              ],
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
 ]
 `;
 
 exports[`[E2E] - Michelson compilation (Option) None 1`] = `
-Object {
-  "prim": "None",
-}
+Array [
+  "storage (option nat);
+parameter unit;
+code {
+  DROP;
+  PUSH (option nat) None;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+          ],
+          "prim": "option",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                ],
+                "prim": "option",
+              },
+              Object {
+                "prim": "None",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Option) Some 1`] = `
-Object {
-  "args": Array [
+Array [
+  "storage (option nat);
+parameter unit;
+code {
+  DROP;
+  PUSH (option nat) (Some 1);
+  NIL operation;
+  PAIR;
+};",
+  Array [
     Object {
-      "int": "1",
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+          ],
+          "prim": "option",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                ],
+                "prim": "option",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "int": "1",
+                  },
+                ],
+                "prim": "Some",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
     },
   ],
-  "prim": "Some",
-}
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Pair) Nested 1`] = `
-Object {
-  "args": Array [
+Array [
+  "storage (pair nat (pair nat (pair bool string)));
+parameter unit;
+code {
+  DROP;
+  PUSH (pair nat (pair nat (pair bool string))) (Pair 1 (Pair 1 (Pair False \\"Test\\")));
+  NIL operation;
+  PAIR;
+};",
+  Array [
     Object {
-      "int": "1",
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "prim": "nat",
+                },
+                Object {
+                  "args": Array [
+                    Object {
+                      "prim": "bool",
+                    },
+                    Object {
+                      "prim": "string",
+                    },
+                  ],
+                  "prim": "pair",
+                },
+              ],
+              "prim": "pair",
+            },
+          ],
+          "prim": "pair",
+        },
+      ],
+      "prim": "storage",
     },
     Object {
       "args": Array [
         Object {
-          "prim": "False",
-        },
-        Object {
-          "string": "Test",
+          "prim": "unit",
         },
       ],
-      "prim": "Pair",
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "prim": "nat",
+                      },
+                      Object {
+                        "args": Array [
+                          Object {
+                            "prim": "bool",
+                          },
+                          Object {
+                            "prim": "string",
+                          },
+                        ],
+                        "prim": "pair",
+                      },
+                    ],
+                    "prim": "pair",
+                  },
+                ],
+                "prim": "pair",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "int": "1",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "int": "1",
+                      },
+                      Object {
+                        "args": Array [
+                          Object {
+                            "prim": "False",
+                          },
+                          Object {
+                            "string": "Test",
+                          },
+                        ],
+                        "prim": "Pair",
+                      },
+                    ],
+                    "prim": "Pair",
+                  },
+                ],
+                "prim": "Pair",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
     },
   ],
-  "prim": "Pair",
-}
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Pair) Simple 1`] = `
-Object {
-  "args": Array [
+Array [
+  "storage (pair nat unit);
+parameter unit;
+code {
+  DROP;
+  PUSH (pair nat unit) (Pair 1 Unit);
+  NIL operation;
+  PAIR;
+};",
+  Array [
     Object {
-      "int": "1",
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+            Object {
+              "prim": "unit",
+            },
+          ],
+          "prim": "pair",
+        },
+      ],
+      "prim": "storage",
     },
     Object {
-      "prim": "Unit",
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                  Object {
+                    "prim": "unit",
+                  },
+                ],
+                "prim": "pair",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "int": "1",
+                  },
+                  Object {
+                    "prim": "Unit",
+                  },
+                ],
+                "prim": "Pair",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
     },
   ],
-  "prim": "Pair",
-}
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Record) Balanced Layout 1`] = `
-Object {
-  "args": Array [
+Array [
+  "storage (pair (pair (nat %field1) (nat %field2)) (pair (nat %field3) (nat %field4)));
+parameter unit;
+code {
+  DROP;
+  PUSH (pair (pair (nat %field1) (nat %field2)) (pair (nat %field3) (nat %field4))) (Pair (Pair 1 2) (Pair 3 4));
+  NIL operation;
+  PAIR;
+};",
+  Array [
     Object {
       "args": Array [
         Object {
-          "int": "1",
-        },
-        Object {
-          "int": "2",
+          "args": Array [
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%field1",
+                  ],
+                  "prim": "nat",
+                },
+                Object {
+                  "annots": Array [
+                    "%field2",
+                  ],
+                  "prim": "nat",
+                },
+              ],
+              "prim": "pair",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%field3",
+                  ],
+                  "prim": "nat",
+                },
+                Object {
+                  "annots": Array [
+                    "%field4",
+                  ],
+                  "prim": "nat",
+                },
+              ],
+              "prim": "pair",
+            },
+          ],
+          "prim": "pair",
         },
       ],
-      "prim": "Pair",
+      "prim": "storage",
     },
     Object {
       "args": Array [
         Object {
-          "int": "3",
-        },
-        Object {
-          "int": "4",
+          "prim": "unit",
         },
       ],
-      "prim": "Pair",
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%field1",
+                        ],
+                        "prim": "nat",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%field2",
+                        ],
+                        "prim": "nat",
+                      },
+                    ],
+                    "prim": "pair",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%field3",
+                        ],
+                        "prim": "nat",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%field4",
+                        ],
+                        "prim": "nat",
+                      },
+                    ],
+                    "prim": "pair",
+                  },
+                ],
+                "prim": "pair",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "int": "1",
+                      },
+                      Object {
+                        "int": "2",
+                      },
+                    ],
+                    "prim": "Pair",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "int": "3",
+                      },
+                      Object {
+                        "int": "4",
+                      },
+                    ],
+                    "prim": "Pair",
+                  },
+                ],
+                "prim": "Pair",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
     },
   ],
-  "prim": "Pair",
-}
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Record) Left Comb Layout 1`] = `
-Object {
-  "args": Array [
+Array [
+  "storage (pair (pair (nat %field1) (nat %field2)) (nat %field3));
+parameter unit;
+code {
+  DROP;
+  PUSH (pair (pair (nat %field1) (nat %field2)) (nat %field3)) (Pair (Pair 1 2) 3);
+  NIL operation;
+  PAIR;
+};",
+  Array [
     Object {
       "args": Array [
         Object {
-          "int": "1",
-        },
-        Object {
-          "int": "2",
+          "args": Array [
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%field1",
+                  ],
+                  "prim": "nat",
+                },
+                Object {
+                  "annots": Array [
+                    "%field2",
+                  ],
+                  "prim": "nat",
+                },
+              ],
+              "prim": "pair",
+            },
+            Object {
+              "annots": Array [
+                "%field3",
+              ],
+              "prim": "nat",
+            },
+          ],
+          "prim": "pair",
         },
       ],
-      "prim": "Pair",
+      "prim": "storage",
     },
     Object {
-      "int": "3",
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%field1",
+                        ],
+                        "prim": "nat",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%field2",
+                        ],
+                        "prim": "nat",
+                      },
+                    ],
+                    "prim": "pair",
+                  },
+                  Object {
+                    "annots": Array [
+                      "%field3",
+                    ],
+                    "prim": "nat",
+                  },
+                ],
+                "prim": "pair",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "int": "1",
+                      },
+                      Object {
+                        "int": "2",
+                      },
+                    ],
+                    "prim": "Pair",
+                  },
+                  Object {
+                    "int": "3",
+                  },
+                ],
+                "prim": "Pair",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
     },
   ],
-  "prim": "Pair",
-}
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Record) Right Comb Layout 1`] = `
-Object {
-  "args": Array [
+Array [
+  "storage (pair (nat %field1) (pair (nat %field2) (nat %field3)));
+parameter unit;
+code {
+  DROP;
+  PUSH (pair (nat %field1) (pair (nat %field2) (nat %field3))) (Pair 1 (Pair 2 3));
+  NIL operation;
+  PAIR;
+};",
+  Array [
     Object {
-      "int": "1",
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "annots": Array [
+                "%field1",
+              ],
+              "prim": "nat",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%field2",
+                  ],
+                  "prim": "nat",
+                },
+                Object {
+                  "annots": Array [
+                    "%field3",
+                  ],
+                  "prim": "nat",
+                },
+              ],
+              "prim": "pair",
+            },
+          ],
+          "prim": "pair",
+        },
+      ],
+      "prim": "storage",
     },
     Object {
       "args": Array [
         Object {
-          "int": "2",
-        },
-        Object {
-          "int": "3",
+          "prim": "unit",
         },
       ],
-      "prim": "Pair",
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "annots": Array [
+                      "%field1",
+                    ],
+                    "prim": "nat",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%field2",
+                        ],
+                        "prim": "nat",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%field3",
+                        ],
+                        "prim": "nat",
+                      },
+                    ],
+                    "prim": "pair",
+                  },
+                ],
+                "prim": "pair",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "int": "1",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "int": "2",
+                      },
+                      Object {
+                        "int": "3",
+                      },
+                    ],
+                    "prim": "Pair",
+                  },
+                ],
+                "prim": "Pair",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
     },
   ],
-  "prim": "Pair",
-}
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Address 1`] = `
-Object {
-  "string": "tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC",
-}
+Array [
+  "storage address;
+parameter unit;
+code {
+  DROP;
+  PUSH address \\"tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC\\";
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "address",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "address",
+              },
+              Object {
+                "string": "tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Bls12_381_fr (bytes) 1`] = `
-Object {
-  "bytes": "0001",
-}
+Array [
+  "storage bls12_381_fr;
+parameter unit;
+code {
+  DROP;
+  PUSH bls12_381_fr 0x0001;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "bls12_381_fr",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "bls12_381_fr",
+              },
+              Object {
+                "bytes": "0001",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Bls12_381_fr (number) 1`] = `
-Object {
-  "int": "1",
-}
+Array [
+  "storage bls12_381_fr;
+parameter unit;
+code {
+  DROP;
+  PUSH bls12_381_fr 1;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "bls12_381_fr",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "bls12_381_fr",
+              },
+              Object {
+                "int": "1",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Bls12_381_g1 1`] = `
-Object {
-  "bytes": "0572cbea904d67468808c8eb50a9450c9721db309128012543902d0ac358a62ae28f75bb8f1c7c42c39a8c5529bf0f4e166a9d8cabc673a322fda673779d8e3822ba3ecb8670e461f73bb9021d5fd76a4c56d9d4cd16bd1bba86881979749d28",
-}
+Array [
+  "storage bls12_381_g1;
+parameter unit;
+code {
+  DROP;
+  PUSH bls12_381_g1 0x0572cbea904d67468808c8eb50a9450c9721db309128012543902d0ac358a62ae28f75bb8f1c7c42c39a8c5529bf0f4e166a9d8cabc673a322fda673779d8e3822ba3ecb8670e461f73bb9021d5fd76a4c56d9d4cd16bd1bba86881979749d28;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "bls12_381_g1",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "bls12_381_g1",
+              },
+              Object {
+                "bytes": "0572cbea904d67468808c8eb50a9450c9721db309128012543902d0ac358a62ae28f75bb8f1c7c42c39a8c5529bf0f4e166a9d8cabc673a322fda673779d8e3822ba3ecb8670e461f73bb9021d5fd76a4c56d9d4cd16bd1bba86881979749d28",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Bls12_381_g2 1`] = `
-Object {
-  "bytes": "13e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb813fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed0d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa",
-}
+Array [
+  "storage bls12_381_g2;
+parameter unit;
+code {
+  DROP;
+  PUSH bls12_381_g2 0x13e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb813fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed0d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "bls12_381_g2",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "bls12_381_g2",
+              },
+              Object {
+                "bytes": "13e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb813fa4d4a0ad8b1ce186ed5061789213d993923066dddaf1040bc3ff59f825c78df74f2d75467e25e0f55f8a00fa030ed0d1b3cc2c7027888be51d9ef691d77bcb679afda66c73f17f9ee3837a55024f78c71363275a75d75d86bab79f74782aa",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Bool (False) 1`] = `
-Object {
-  "prim": "False",
-}
+Array [
+  "storage bool;
+parameter unit;
+code {
+  DROP;
+  PUSH bool False;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "bool",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "bool",
+              },
+              Object {
+                "prim": "False",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Bool (True) 1`] = `
-Object {
-  "prim": "True",
-}
+Array [
+  "storage bool;
+parameter unit;
+code {
+  DROP;
+  PUSH bool True;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "bool",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "bool",
+              },
+              Object {
+                "prim": "True",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Bytes 1`] = `
-Object {
-  "bytes": "ffff",
-}
+Array [
+  "storage bytes;
+parameter unit;
+code {
+  DROP;
+  PUSH bytes 0xFFFF;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "bytes",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "bytes",
+              },
+              Object {
+                "bytes": "ffff",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) ChainID (bytes) 1`] = `
-Object {
-  "bytes": "7a06a770",
-}
+Array [
+  "storage chain_id;
+parameter unit;
+code {
+  DROP;
+  PUSH chain_id 0x7a06a770;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "chain_id",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "chain_id",
+              },
+              Object {
+                "bytes": "7a06a770",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) ChainID (string) 1`] = `
-Object {
-  "string": "NetXynUjJNZm7wi",
-}
+Array [
+  "storage chain_id;
+parameter unit;
+code {
+  DROP;
+  PUSH chain_id \\"NetXynUjJNZm7wi\\";
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "chain_id",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "chain_id",
+              },
+              Object {
+                "string": "NetXynUjJNZm7wi",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Int 1`] = `
-Object {
-  "int": "2",
-}
+Array [
+  "storage int;
+parameter unit;
+code {
+  DROP;
+  PUSH int 2;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "int",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "int",
+              },
+              Object {
+                "int": "2",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Key 1`] = `
-Object {
-  "string": "edpku3g7CeTEvSKhxipD4Q2B6EiEP8cR323u8PFmGFgKRVRvCneEmT",
-}
+Array [
+  "storage key;
+parameter unit;
+code {
+  DROP;
+  PUSH key \\"edpku3g7CeTEvSKhxipD4Q2B6EiEP8cR323u8PFmGFgKRVRvCneEmT\\";
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "key",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "key",
+              },
+              Object {
+                "string": "edpku3g7CeTEvSKhxipD4Q2B6EiEP8cR323u8PFmGFgKRVRvCneEmT",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Key hash 1`] = `
-Object {
-  "string": "tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC",
-}
+Array [
+  "storage key_hash;
+parameter unit;
+code {
+  DROP;
+  PUSH key_hash \\"tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC\\";
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "key_hash",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "key_hash",
+              },
+              Object {
+                "string": "tz28QJHLyqvaY2rXAoFZTbxrXeD88NA8wscC",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Mutez 1`] = `
-Object {
-  "int": "10",
-}
+Array [
+  "storage mutez;
+parameter unit;
+code {
+  DROP;
+  PUSH mutez 10;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "mutez",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "mutez",
+              },
+              Object {
+                "int": "10",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Nat 1`] = `
-Object {
-  "int": "1",
-}
+Array [
+  "storage nat;
+parameter unit;
+code {
+  DROP;
+  PUSH nat 1;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "nat",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "nat",
+              },
+              Object {
+                "int": "1",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Signature 1`] = `
-Object {
-  "string": "sigsAujsNePapNNGsVotTvcKWMNNJja9B4a2FfAe8vExzFhEgEo1GTQStiif22uSA6iNxPGCGsXsRyeLHzeLbJL2y8CnYuNe",
-}
+Array [
+  "storage signature;
+parameter unit;
+code {
+  DROP;
+  PUSH signature \\"sigsAujsNePapNNGsVotTvcKWMNNJja9B4a2FfAe8vExzFhEgEo1GTQStiif22uSA6iNxPGCGsXsRyeLHzeLbJL2y8CnYuNe\\";
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "signature",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "signature",
+              },
+              Object {
+                "string": "sigsAujsNePapNNGsVotTvcKWMNNJja9B4a2FfAe8vExzFhEgEo1GTQStiif22uSA6iNxPGCGsXsRyeLHzeLbJL2y8CnYuNe",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) String 1`] = `
-Object {
-  "string": "Hello World",
-}
+Array [
+  "storage string;
+parameter unit;
+code {
+  DROP;
+  PUSH string \\"Hello World\\";
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "string",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "string",
+              },
+              Object {
+                "string": "Hello World",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Timestamp (number) 1`] = `
-Object {
-  "int": "1571659294",
-}
+Array [
+  "storage timestamp;
+parameter unit;
+code {
+  DROP;
+  PUSH timestamp 1571659294;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "timestamp",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "timestamp",
+              },
+              Object {
+                "int": "1571659294",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Timestamp (string) 1`] = `
-Object {
-  "string": "2019-09-26T10:59:51Z",
-}
+Array [
+  "storage timestamp;
+parameter unit;
+code {
+  DROP;
+  PUSH timestamp \\"2019-09-26T10:59:51Z\\";
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "timestamp",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "timestamp",
+              },
+              Object {
+                "string": "2019-09-26T10:59:51Z",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
 
 exports[`[E2E] - Michelson compilation (Singleton Literals) Unit 1`] = `
-Object {
-  "prim": "Unit",
-}
+Array [
+  "storage unit;
+parameter unit;
+code {
+  DROP;
+  PUSH unit Unit;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "unit",
+              },
+              Object {
+                "prim": "Unit",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
 `;
