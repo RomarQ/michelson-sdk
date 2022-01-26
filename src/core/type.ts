@@ -17,6 +17,12 @@ export enum PrimType {
     set = Prim.set,
     option = Prim.option,
     pair = Prim.pair,
+    bls12_381_fr = Prim.bls12_381_fr,
+    bls12_381_g1 = Prim.bls12_381_g1,
+    bls12_381_g2 = Prim.bls12_381_g2,
+    key = Prim.key,
+    key_hash = Prim.key_hash,
+    signature = Prim.signature,
 }
 
 export class Michelson_Type implements IType {
@@ -52,6 +58,12 @@ export class Michelson_Type implements IType {
             case PrimType.chain_id:
             case PrimType.bool:
             case PrimType.bytes:
+            case PrimType.bls12_381_fr:
+            case PrimType.bls12_381_g1:
+            case PrimType.bls12_381_g2:
+            case PrimType.key:
+            case PrimType.key_hash:
+            case PrimType.signature:
                 return expr;
             case PrimType.list:
             case PrimType.set:
@@ -75,6 +87,12 @@ export class Michelson_Type implements IType {
             case PrimType.chain_id:
             case PrimType.bool:
             case PrimType.bytes:
+            case PrimType.bls12_381_fr:
+            case PrimType.bls12_381_g1:
+            case PrimType.bls12_381_g2:
+            case PrimType.key:
+            case PrimType.key_hash:
+            case PrimType.signature:
                 return {
                     ...obj,
                     prim: this.type,
@@ -191,6 +209,12 @@ export const TAddress = new Michelson_Type(PrimType.address);
 export const TTimestamp = new Michelson_Type(PrimType.timestamp);
 export const TChain_id = new Michelson_Type(PrimType.chain_id);
 export const TBytes = new Michelson_Type(PrimType.bytes);
+export const TBls12_381_fr = new Michelson_Type(PrimType.bls12_381_fr);
+export const TBls12_381_g1 = new Michelson_Type(PrimType.bls12_381_g1);
+export const TBls12_381_g2 = new Michelson_Type(PrimType.bls12_381_g2);
+export const TKey = new Michelson_Type(PrimType.key);
+export const TKey_hash = new Michelson_Type(PrimType.key_hash);
+export const TSignature = new Michelson_Type(PrimType.signature);
 
 // Container types
 export const TList = (innerType: IType) => new Michelson_Type(PrimType.list, innerType);
@@ -211,6 +235,12 @@ const Types = {
     TAddress,
     TTimestamp,
     TChain_id,
+    TBls12_381_fr,
+    TBls12_381_g1,
+    TBls12_381_g2,
+    TKey,
+    TKey_hash,
+    TSignature,
     // Container types
     TList,
     TSet,
