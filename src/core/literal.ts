@@ -1,4 +1,4 @@
-import { Michelson_Type_Record, TOption, TRecord } from './type';
+import { Michelson_Type_Record, TOption, TRecord, TSet } from './type';
 import Utils from '../misc/utils';
 import { MichelsonJSON, MichelsonMicheline } from '../typings';
 import { ILayout, IType } from '../typings/type';
@@ -8,7 +8,7 @@ import {
     TAddress,
     TBool,
     TBytes,
-    TChainID,
+    TChain_id,
     TInt,
     TList,
     TMutez,
@@ -141,6 +141,7 @@ export class Michelson_Literal_C1 {
             case Prim.Pair:
                 return `(${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ')})`;
             case Prim.list:
+            case Prim.set:
                 return `{ ${this.#elements.map((v) => v.toMicheline()).join(' ; ')} }`;
         }
 
@@ -156,6 +157,7 @@ export class Michelson_Literal_C1 {
                     args: this.#elements.map((v) => v.toJSON()),
                 };
             case Prim.list:
+            case Prim.set:
                 return this.#elements.map((v) => v.toJSON());
         }
 
@@ -251,12 +253,15 @@ export const Timestamp = (value: number | string) => new Michelson_Literal(Prim.
 export const String = (value: string) => new Michelson_Literal(Prim.string, TString, value);
 export const Address = (value: string) => new Michelson_Literal(Prim.address, TAddress, value);
 export const Bytes = (value: string) => new Michelson_Literal(Prim.bytes, TBytes, value);
-export const ChainID = (value: string) => new Michelson_Literal(Prim.chain_id, TChainID, value);
+export const ChainID = (value: string) => new Michelson_Literal(Prim.chain_id, TChain_id, value);
 
 export const Bool = (value: boolean) => new Michelson_Literal(Prim.bool, TBool, value);
 
 export const List = (elements: Michelson_LiteralUnion[], innerType: IType) =>
     new Michelson_Literal_C1(Prim.list, TList(innerType), elements);
+
+export const Set = (elements: Michelson_LiteralUnion[], innerType: IType) =>
+    new Michelson_Literal_C1(Prim.set, TSet(innerType), elements);
 
 export const None = (innerType: IType) => new Michelson_Literal(Prim.None, TOption(innerType));
 export const Some = (element: Michelson_LiteralUnion) =>
@@ -278,7 +283,9 @@ const Literals = {
     Timestamp,
     ChainID,
     Bytes,
+    //
     List,
+    Set,
     None,
     Some,
     Pair,

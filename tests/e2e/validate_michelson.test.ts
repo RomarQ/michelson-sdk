@@ -16,6 +16,7 @@ import {
     String,
     Timestamp,
     Unit,
+    Set,
 } from '../../src/core/literal';
 import { TNat } from '../../src/core/type';
 
@@ -191,20 +192,9 @@ if (process.platform == 'linux') {
             expect(jsonValue).toEqual(JSON.parse(result));
             expect(jsonValue).toMatchSnapshot();
         });
-        it('None', () => {
-            const literal = None(TNat);
-            const value = literal.toMicheline();
-            const type = literal.type.toMicheline();
-            const jsonValue = literal.toJSON();
-
-            const result = convertMichelsonToJSON(`'${value}'`, type);
-
-            expect(jsonValue).toEqual(JSON.parse(result));
-            expect(jsonValue).toMatchSnapshot();
-        });
     });
 
-    describe('[E2E] - Michelson compilation (Container Literals)', () => {
+    describe('[E2E] - Michelson compilation (List)', () => {
         it('List', () => {
             const literal = List([Nat(1), Nat(2)], TNat);
             const value = literal.toMicheline();
@@ -216,8 +206,33 @@ if (process.platform == 'linux') {
             expect(jsonValue).toEqual(JSON.parse(result));
             expect(jsonValue).toMatchSnapshot();
         });
+        it('Set', () => {
+            const literal = Set([Nat(1), Nat(2)], TNat);
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`"${value}"`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+    });
+
+    describe('[E2E] - Michelson compilation (Option)', () => {
         it('Some', () => {
             const literal = Some(Nat(1));
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('None', () => {
+            const literal = None(TNat);
             const value = literal.toMicheline();
             const type = literal.type.toMicheline();
             const jsonValue = literal.toJSON();

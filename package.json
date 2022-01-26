@@ -21,8 +21,8 @@
     "exports": {
         ".": "./index.js",
         "./core": "./core/index.js",
-        "./core/literal": "./core/literal.js",
-        "./core/type": "./core/type.js"
+        "./literal": "./core/literal.js",
+        "./type": "./core/type.js"
     },
     "scripts": {
         "build": "node --max_old_space_size=8192 scripts/build.js && tsc --build",

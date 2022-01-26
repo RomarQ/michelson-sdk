@@ -14,6 +14,7 @@ export enum PrimType {
     chain_id = Prim.chain_id,
     bool = Prim.bool,
     list = Prim.list,
+    set = Prim.set,
     option = Prim.option,
     pair = Prim.pair,
 }
@@ -53,6 +54,7 @@ export class Michelson_Type implements IType {
             case PrimType.bytes:
                 return expr;
             case PrimType.list:
+            case PrimType.set:
             case PrimType.pair:
             case PrimType.option:
                 return `(${[expr, ...this.innerTypes.map((t) => t.toMicheline())].join(' ')})`;
@@ -78,6 +80,7 @@ export class Michelson_Type implements IType {
                     prim: this.type,
                 };
             case PrimType.list:
+            case PrimType.set:
             case PrimType.pair:
             case PrimType.option:
                 return {
@@ -186,10 +189,12 @@ export const TString = new Michelson_Type(PrimType.string);
 export const TBool = new Michelson_Type(PrimType.bool);
 export const TAddress = new Michelson_Type(PrimType.address);
 export const TTimestamp = new Michelson_Type(PrimType.timestamp);
-export const TChainID = new Michelson_Type(PrimType.chain_id);
+export const TChain_id = new Michelson_Type(PrimType.chain_id);
 export const TBytes = new Michelson_Type(PrimType.bytes);
+
 // Container types
 export const TList = (innerType: IType) => new Michelson_Type(PrimType.list, innerType);
+export const TSet = (innerType: IType) => new Michelson_Type(PrimType.set, innerType);
 export const TOption = (innerType: IType) => new Michelson_Type(PrimType.option, innerType);
 export const TPair = (leftType: IType, rightType: IType) => new Michelson_Type(PrimType.pair, leftType, rightType);
 export const TRecord = (fields: Record<string, IType>, layout?: ILayout) => new Michelson_Type_Record(fields, layout);
@@ -202,11 +207,13 @@ const Types = {
     TMutez,
     TString,
     TBool,
+    TBytes,
     TAddress,
     TTimestamp,
-    TChainID,
+    TChain_id,
     // Container types
     TList,
+    TSet,
     TOption,
     TPair,
     TRecord,

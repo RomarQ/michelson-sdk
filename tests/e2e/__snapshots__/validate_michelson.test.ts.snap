@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`[E2E] - Michelson compilation (Container Literals) List 1`] = `
+exports[`[E2E] - Michelson compilation (List) List 1`] = `
 Array [
   Object {
     "int": "1",
@@ -11,7 +11,24 @@ Array [
 ]
 `;
 
-exports[`[E2E] - Michelson compilation (Container Literals) Some 1`] = `
+exports[`[E2E] - Michelson compilation (List) Set 1`] = `
+Array [
+  Object {
+    "int": "1",
+  },
+  Object {
+    "int": "2",
+  },
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Option) None 1`] = `
+Object {
+  "prim": "None",
+}
+`;
+
+exports[`[E2E] - Michelson compilation (Option) Some 1`] = `
 Object {
   "args": Array [
     Object {
@@ -183,12 +200,6 @@ Object {
 exports[`[E2E] - Michelson compilation (Singleton Literals) Nat 1`] = `
 Object {
   "int": "1",
-}
-`;
-
-exports[`[E2E] - Michelson compilation (Singleton Literals) None 1`] = `
-Object {
-  "prim": "None",
 }
 `;
 

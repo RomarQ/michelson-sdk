@@ -5,4 +5,5 @@ module.exports = {
     },
     testRegex: '.*.test\\.ts$',
     moduleFileExtensions: ['ts', 'js'],
+    coveragePathIgnorePatterns: ['<rootDir>/tests'],
 };
