@@ -12,7 +12,7 @@
 ```ts
 import { List, Nat, TNat } from '@tezwell/michelson-sdk';
 
-const literal = List([Nat(1), Nat(2)], TNat);
+const literal = List([Nat(1), Nat(2)], TNat());
 
 // Micheline
 console.log(literal.toMicheline());         // { 1 ; 2 }
@@ -28,7 +28,7 @@ console.log(literal.type.toJSON());         // { prim: 'list', args: [ { prim: '
 ```ts
 import { TList, TNat } from '@tezwell/michelson-sdk';
 
-const list_type = TList(TNat);
+const list_type = TList(TNat());
 
 // Micheline
 console.log(list_type.toMicheline());    // (list nat)

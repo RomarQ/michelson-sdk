@@ -209,22 +209,22 @@ export class Michelson_Type_Record implements IType {
 }
 
 // Singleton types
-export const TUnit = new Michelson_Type(PrimType.unit);
-export const TNat = new Michelson_Type(PrimType.nat);
-export const TInt = new Michelson_Type(PrimType.int);
-export const TMutez = new Michelson_Type(PrimType.mutez);
-export const TString = new Michelson_Type(PrimType.string);
-export const TBool = new Michelson_Type(PrimType.bool);
-export const TAddress = new Michelson_Type(PrimType.address);
-export const TTimestamp = new Michelson_Type(PrimType.timestamp);
-export const TChain_id = new Michelson_Type(PrimType.chain_id);
-export const TBytes = new Michelson_Type(PrimType.bytes);
-export const TBls12_381_fr = new Michelson_Type(PrimType.bls12_381_fr);
-export const TBls12_381_g1 = new Michelson_Type(PrimType.bls12_381_g1);
-export const TBls12_381_g2 = new Michelson_Type(PrimType.bls12_381_g2);
-export const TKey = new Michelson_Type(PrimType.key);
-export const TKey_hash = new Michelson_Type(PrimType.key_hash);
-export const TSignature = new Michelson_Type(PrimType.signature);
+export const TUnit = () => new Michelson_Type(PrimType.unit);
+export const TNat = () => new Michelson_Type(PrimType.nat);
+export const TInt = () => new Michelson_Type(PrimType.int);
+export const TMutez = () => new Michelson_Type(PrimType.mutez);
+export const TString = () => new Michelson_Type(PrimType.string);
+export const TBool = () => new Michelson_Type(PrimType.bool);
+export const TAddress = () => new Michelson_Type(PrimType.address);
+export const TTimestamp = () => new Michelson_Type(PrimType.timestamp);
+export const TChain_id = () => new Michelson_Type(PrimType.chain_id);
+export const TBytes = () => new Michelson_Type(PrimType.bytes);
+export const TBls12_381_fr = () => new Michelson_Type(PrimType.bls12_381_fr);
+export const TBls12_381_g1 = () => new Michelson_Type(PrimType.bls12_381_g1);
+export const TBls12_381_g2 = () => new Michelson_Type(PrimType.bls12_381_g2);
+export const TKey = () => new Michelson_Type(PrimType.key);
+export const TKey_hash = () => new Michelson_Type(PrimType.key_hash);
+export const TSignature = () => new Michelson_Type(PrimType.signature);
 
 // Container types
 export const TList = (innerType: IType) => new Michelson_Type(PrimType.list, innerType);

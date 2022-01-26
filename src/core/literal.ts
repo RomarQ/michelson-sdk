@@ -21,12 +21,14 @@ import {
     TTimestamp,
     TUnit,
     TPair,
+    TMap,
 } from './type';
 import type { Michelson_Type } from './type';
 import Utils from '../misc/utils';
 import { MichelsonJSON, MichelsonMicheline } from '../typings';
 import { ILayout, IType } from '../typings/type';
 import { Prim } from './enums/prim';
+import { TBig_map } from '.';
 
 export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1 | Michelson_Record;
 
@@ -195,6 +197,31 @@ export class Michelson_Literal_C1 {
     }
 }
 
+export class Michelson_Map {
+    #elements: Michelson_LiteralUnion[][];
+    type: IType;
+
+    constructor(type: Michelson_Type, elements: Michelson_LiteralUnion[][]) {
+        this.type = type;
+        this.#elements = elements;
+    }
+
+    private buildMichelineElt = (key: Michelson_LiteralUnion, value: Michelson_LiteralUnion) => {
+        return `${Prim.Elt} ${key.toMicheline()} ${value.toMicheline()}`;
+    };
+
+    toMicheline(): MichelsonMicheline {
+        return `{ ${this.#elements.map(([key, value]) => this.buildMichelineElt(key, value)).join(' ; ')} }`;
+    }
+
+    toJSON(): MichelsonJSON {
+        return this.#elements.map(([key, value]) => ({
+            prim: Prim.Elt,
+            args: [key.toJSON(), value.toJSON()],
+        }));
+    }
+}
+
 class Michelson_Record {
     #fields: Record<string, Michelson_LiteralUnion>;
     type: IType;
@@ -273,25 +300,26 @@ class Michelson_Record {
     }
 }
 
-export const Unit = () => new Michelson_Literal(Prim.Unit, TUnit);
+export const Unit = () => new Michelson_Literal(Prim.Unit, TUnit());
 
-export const Nat = (value: number) => new Michelson_Literal(Prim.nat, TNat, value);
-export const Int = (value: number) => new Michelson_Literal(Prim.int, TInt, value);
-export const Mutez = (value: number) => new Michelson_Literal(Prim.mutez, TMutez, value);
-export const Timestamp = (value: number | string) => new Michelson_Literal(Prim.timestamp, TTimestamp, value);
+export const Nat = (value: number) => new Michelson_Literal(Prim.nat, TNat(), value);
+export const Int = (value: number) => new Michelson_Literal(Prim.int, TInt(), value);
+export const Mutez = (value: number) => new Michelson_Literal(Prim.mutez, TMutez(), value);
+export const Timestamp = (value: number | string) => new Michelson_Literal(Prim.timestamp, TTimestamp(), value);
 
-export const String = (value: string) => new Michelson_Literal(Prim.string, TString, value);
-export const Address = (value: string) => new Michelson_Literal(Prim.address, TAddress, value);
-export const Bytes = (value: string) => new Michelson_Literal(Prim.bytes, TBytes, value);
-export const Chain_id = (value: string) => new Michelson_Literal(Prim.chain_id, TChain_id, value);
-export const Bls12_381_fr = (value: string | number) => new Michelson_Literal(Prim.bls12_381_fr, TBls12_381_fr, value);
-export const Bls12_381_g1 = (value: string) => new Michelson_Literal(Prim.bls12_381_g1, TBls12_381_g1, value);
-export const Bls12_381_g2 = (value: string) => new Michelson_Literal(Prim.bls12_381_g2, TBls12_381_g2, value);
-export const Key = (value: string) => new Michelson_Literal(Prim.key, TKey, value);
-export const Key_hash = (value: string) => new Michelson_Literal(Prim.key_hash, TKey_hash, value);
-export const Signature = (value: string) => new Michelson_Literal(Prim.signature, TSignature, value);
+export const String = (value: string) => new Michelson_Literal(Prim.string, TString(), value);
+export const Address = (value: string) => new Michelson_Literal(Prim.address, TAddress(), value);
+export const Bytes = (value: string) => new Michelson_Literal(Prim.bytes, TBytes(), value);
+export const Chain_id = (value: string) => new Michelson_Literal(Prim.chain_id, TChain_id(), value);
+export const Bls12_381_fr = (value: string | number) =>
+    new Michelson_Literal(Prim.bls12_381_fr, TBls12_381_fr(), value);
+export const Bls12_381_g1 = (value: string) => new Michelson_Literal(Prim.bls12_381_g1, TBls12_381_g1(), value);
+export const Bls12_381_g2 = (value: string) => new Michelson_Literal(Prim.bls12_381_g2, TBls12_381_g2(), value);
+export const Key = (value: string) => new Michelson_Literal(Prim.key, TKey(), value);
+export const Key_hash = (value: string) => new Michelson_Literal(Prim.key_hash, TKey_hash(), value);
+export const Signature = (value: string) => new Michelson_Literal(Prim.signature, TSignature(), value);
 
-export const Bool = (value: boolean) => new Michelson_Literal(Prim.bool, TBool, value);
+export const Bool = (value: boolean) => new Michelson_Literal(Prim.bool, TBool(), value);
 
 export const List = (elements: Michelson_LiteralUnion[], innerType: IType) =>
     new Michelson_Literal_C1(Prim.list, TList(innerType), elements);
@@ -307,6 +335,11 @@ export const Pair = (left: Michelson_LiteralUnion, right: Michelson_LiteralUnion
     new Michelson_Literal_C1(Prim.Pair, TPair(left.type, right.type), [left, right]);
 export const Record = (fields: Record<string, Michelson_LiteralUnion>, layout?: ILayout) =>
     new Michelson_Record(fields, layout);
+
+export const Map = (elements: Michelson_LiteralUnion[][], keyType: IType, valueType: IType) =>
+    new Michelson_Map(TMap(keyType, valueType), elements);
+export const Big_map = (elements: Michelson_LiteralUnion[][], keyType: IType, valueType: IType) =>
+    new Michelson_Map(TBig_map(keyType, valueType), elements);
 
 const Literals = {
     Unit,
@@ -332,6 +365,9 @@ const Literals = {
     Some,
     Pair,
     Record,
+    Map,
+    Big_map,
+    // Lambda,
 };
 
 export default Literals;

@@ -23,8 +23,10 @@ import {
     Key,
     Signature,
     Key_hash,
+    Map,
+    Big_map,
 } from '../../src/core/literal';
-import { TNat } from '../../src/core/type';
+import { TNat, TString } from '../../src/core/type';
 
 const TEZOS_CLIENT_CMD = './tests/e2e/tezos-binaries/tezos-client';
 
@@ -285,7 +287,7 @@ if (process.platform == 'linux') {
 
     describe('[E2E] - Michelson compilation (List)', () => {
         it('List', () => {
-            const literal = List([Nat(1), Nat(2)], TNat);
+            const literal = List([Nat(1), Nat(2)], TNat());
             const value = literal.toMicheline();
             const type = literal.type.toMicheline();
             const jsonValue = literal.toJSON();
@@ -296,7 +298,7 @@ if (process.platform == 'linux') {
             expect(jsonValue).toMatchSnapshot();
         });
         it('Set', () => {
-            const literal = Set([Nat(1), Nat(2)], TNat);
+            const literal = Set([Nat(1), Nat(2)], TNat());
             const value = literal.toMicheline();
             const type = literal.type.toMicheline();
             const jsonValue = literal.toJSON();
@@ -321,7 +323,7 @@ if (process.platform == 'linux') {
             expect(jsonValue).toMatchSnapshot();
         });
         it('None', () => {
-            const literal = None(TNat);
+            const literal = None(TNat());
             const value = literal.toMicheline();
             const type = literal.type.toMicheline();
             const jsonValue = literal.toJSON();
@@ -408,6 +410,45 @@ if (process.platform == 'linux') {
             const jsonValue = literal.toJSON();
 
             const result = convertMichelsonToJSON(`'${value}'`, type);
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+    });
+
+    describe('[E2E] - Michelson compilation (Maps)', () => {
+        it('Map', () => {
+            const literal = Map(
+                [
+                    [Nat(1), String('VALUE1')],
+                    [Nat(2), String('VALUE2')],
+                ],
+                TNat(),
+                TString(),
+            );
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
+            expect(jsonValue).toEqual(JSON.parse(result));
+            expect(jsonValue).toMatchSnapshot();
+        });
+        it('Big Map', () => {
+            const literal = Big_map(
+                [
+                    [String('KEY1'), Nat(1)],
+                    [String('KEY2'), Nat(2)],
+                ],
+                TString(),
+                TNat(),
+            );
+            const value = literal.toMicheline();
+            const type = literal.type.toMicheline();
+            const jsonValue = literal.toJSON();
+
+            const result = convertMichelsonToJSON(`'${value}'`, type);
+
             expect(jsonValue).toEqual(JSON.parse(result));
             expect(jsonValue).toMatchSnapshot();
         });
