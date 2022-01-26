@@ -1,4 +1,4 @@
-# Michelson SDK (Work in Progress)
+# Michelson SDK
 ![CI](https://github.com/RomarQ/michelson-sdk/workflows/CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/RomarQ/michelson-sdk/badge.svg?branch=main&t=bN86Fp)](https://coveralls.io/github/RomarQ/michelson-sdk?branch=main)
 
