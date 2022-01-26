@@ -13,16 +13,20 @@ export enum PrimType {
     bytes = Prim.bytes,
     chain_id = Prim.chain_id,
     bool = Prim.bool,
-    list = Prim.list,
-    set = Prim.set,
-    option = Prim.option,
-    pair = Prim.pair,
     bls12_381_fr = Prim.bls12_381_fr,
     bls12_381_g1 = Prim.bls12_381_g1,
     bls12_381_g2 = Prim.bls12_381_g2,
     key = Prim.key,
     key_hash = Prim.key_hash,
     signature = Prim.signature,
+    // Container types
+    list = Prim.list,
+    set = Prim.set,
+    option = Prim.option,
+    pair = Prim.pair,
+    map = Prim.map,
+    big_map = Prim.big_map,
+    lambda = Prim.lambda,
 }
 
 export class Michelson_Type implements IType {
@@ -69,6 +73,9 @@ export class Michelson_Type implements IType {
             case PrimType.set:
             case PrimType.pair:
             case PrimType.option:
+            case PrimType.map:
+            case PrimType.big_map:
+            case PrimType.lambda:
                 return `(${[expr, ...this.innerTypes.map((t) => t.toMicheline())].join(' ')})`;
         }
         throw new Error(`Cannot produce michelson for type: ${this.type}`);
@@ -101,6 +108,9 @@ export class Michelson_Type implements IType {
             case PrimType.set:
             case PrimType.pair:
             case PrimType.option:
+            case PrimType.map:
+            case PrimType.big_map:
+            case PrimType.lambda:
                 return {
                     ...obj,
                     prim: this.type,
@@ -222,6 +232,9 @@ export const TSet = (innerType: IType) => new Michelson_Type(PrimType.set, inner
 export const TOption = (innerType: IType) => new Michelson_Type(PrimType.option, innerType);
 export const TPair = (leftType: IType, rightType: IType) => new Michelson_Type(PrimType.pair, leftType, rightType);
 export const TRecord = (fields: Record<string, IType>, layout?: ILayout) => new Michelson_Type_Record(fields, layout);
+export const TMap = (keyType: IType, valueType: IType) => new Michelson_Type(PrimType.map, keyType, valueType);
+export const TBig_map = (keyType: IType, valueType: IType) => new Michelson_Type(PrimType.big_map, keyType, valueType);
+export const TLambda = (inType: IType, outType: IType) => new Michelson_Type(PrimType.lambda, inType, outType);
 
 const Types = {
     // Singleton types
@@ -247,6 +260,9 @@ const Types = {
     TOption,
     TPair,
     TRecord,
+    TMap,
+    TBig_map,
+    TLambda,
 };
 
 export default Types;
