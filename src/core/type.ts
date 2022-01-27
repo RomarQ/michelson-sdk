@@ -3,6 +3,7 @@ import { ILayout, IType } from '../typings/type';
 import { Prim } from './enums/prim';
 
 export enum PrimType {
+    // Singleton types
     unit = Prim.unit,
     nat = Prim.nat,
     int = Prim.int,
@@ -49,6 +50,10 @@ export class Michelson_Type implements IType {
         return this;
     }
 
+    /**
+     * @description Generate the Micheline representation of the type
+     * @returns {MichelsonMicheline} Micheline representation
+     */
     toMicheline(): MichelsonMicheline {
         const expr = this.#annotation ? `(${this.type} %${this.#annotation})` : `${this.type}`;
         switch (this.type) {
@@ -81,6 +86,10 @@ export class Michelson_Type implements IType {
         throw new Error(`Cannot produce michelson for type: ${this.type}`);
     }
 
+    /**
+     * @description Generate the JSON representation of the type
+     * @returns {MichelsonMicheline} JSON representation
+     */
     toJSON(): MichelsonJSON {
         const obj = this.#annotation ? { annots: [`%${this.#annotation}`] } : {};
         switch (this.type) {
@@ -119,6 +128,14 @@ export class Michelson_Type implements IType {
         }
 
         throw new Error(`Cannot produce michelson JSON for type: ${this.type}`);
+    }
+
+    /**
+     * @description Resolve type instance to a primitive
+     * @return {MichelsonJSON} Michelson JSON format
+     */
+    [Symbol.toPrimitive](): MichelsonJSON {
+        return this.toJSON();
     }
 }
 
@@ -205,6 +222,14 @@ export class Michelson_Type_Record implements IType {
      */
     public toJSON(): MichelsonJSON {
         return this._toJSON(this.#fields, this.#layout);
+    }
+
+    /**
+     * @description Resolve type instance to a primitive
+     * @return {MichelsonJSON} Michelson JSON format
+     */
+    [Symbol.toPrimitive](): MichelsonJSON {
+        return this.toJSON();
     }
 }
 
