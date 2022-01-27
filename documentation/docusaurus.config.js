@@ -9,12 +9,13 @@ const config = {
     title: 'Michelson SDK',
     tagline: 'Michelson SDK is a framework for generating Michelson values and types from Javascript.',
     url: 'https://github.com',
-    baseUrl: '/',
+    baseUrl: process.env.NODE_ENV === 'development' ? '/' : '/michelson-sdk/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
     organizationName: 'RoMarQ',
     projectName: 'michelson-sdk',
+    trailingSlash: false,
 
     presets: [
         [
