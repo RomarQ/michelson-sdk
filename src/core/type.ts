@@ -1,5 +1,5 @@
-import { MichelsonJSON, MichelsonMicheline } from '../typings';
-import { ILayout, IType } from '../typings/type';
+import { MichelsonJSON, MichelsonMicheline, PairsOfKeys } from '../typings';
+import { IType } from '../typings/type';
 import { Prim } from './enums/prim';
 
 export enum PrimType {
@@ -139,21 +139,22 @@ export class Michelson_Type implements IType {
     }
 }
 
-export class Michelson_Type_Record implements IType {
+export class Michelson_Type_Record<T extends Record<string, IType>> implements IType {
     _isType = true as const;
     #annotation?: string;
-    #fields: Record<string, IType>;
+    #fields: T;
     // Default layout => https://tezos.gitlab.io/active/michelson.html#operations-on-pairs-and-right-combs
-    #layout: ILayout;
+    #layout: PairsOfKeys<keyof T>;
 
-    constructor(fields: Record<string, IType>, layout?: ILayout) {
+    constructor(fields: T, layout?: PairsOfKeys<keyof T>) {
         this.#fields = fields;
-        this.#layout = layout || Michelson_Type_Record.composeRightCombLayout(Object.keys(fields));
+        this.#layout =
+            layout || Michelson_Type_Record.composeRightCombLayout<keyof T>(Object.keys(fields) as (keyof T)[]);
     }
 
-    static composeRightCombLayout = (fields: ILayout): ILayout => {
+    static composeRightCombLayout = <K>(fields: K[]): PairsOfKeys<K> => {
         if (fields.length > 2) {
-            return [fields[0], this.composeRightCombLayout(fields.slice(1))];
+            return [fields[0], this.composeRightCombLayout<K>(fields.slice(1))];
         }
         return fields;
     };
@@ -174,12 +175,12 @@ export class Michelson_Type_Record implements IType {
      * @param layout Record layout
      * @returns {MichelsonMicheline} Micheline representation
      */
-    private _toMicheline(fields: Record<string, IType>, layout: ILayout): MichelsonMicheline {
+    private _toMicheline(fields: T, layout: PairsOfKeys<keyof T>): MichelsonMicheline {
         const annotation = this.#annotation ? ` %${this.#annotation}` : '';
         const innerTypes = layout
             .map((layout) => {
                 if (Array.isArray(layout)) {
-                    return this._toMicheline(fields, layout as ILayout);
+                    return this._toMicheline(fields, layout);
                 }
 
                 return fields[layout].toMicheline();
@@ -202,13 +203,13 @@ export class Michelson_Type_Record implements IType {
      * @param layout Record layout
      * @returns {MichelsonMicheline} JSON representation
      */
-    private _toJSON(fields: Record<string, IType>, layout: ILayout): MichelsonJSON {
+    private _toJSON(fields: T, layout: PairsOfKeys<keyof T>): MichelsonJSON {
         return {
             prim: Prim.pair,
             ...(this.#annotation ? { annots: [`%${this.#annotation}`] } : {}),
             args: layout.map((layout) => {
                 if (Array.isArray(layout)) {
-                    return this._toJSON(fields, layout as ILayout);
+                    return this._toJSON(fields, layout);
                 }
 
                 return fields[layout].toJSON();
@@ -236,7 +237,7 @@ export class Michelson_Type_Record implements IType {
 // Singleton types
 export const TUnit = () => new Michelson_Type(PrimType.unit);
 export const TNat = () => new Michelson_Type(PrimType.nat);
-export const TInt = () => new Michelson_Type(PrimType.int);
+export const TInt = (): IType => new Michelson_Type(PrimType.int);
 export const TMutez = () => new Michelson_Type(PrimType.mutez);
 export const TString = () => new Michelson_Type(PrimType.string);
 export const TBool = () => new Michelson_Type(PrimType.bool);
@@ -256,7 +257,10 @@ export const TList = (innerType: IType) => new Michelson_Type(PrimType.list, inn
 export const TSet = (innerType: IType) => new Michelson_Type(PrimType.set, innerType);
 export const TOption = (innerType: IType) => new Michelson_Type(PrimType.option, innerType);
 export const TPair = (leftType: IType, rightType: IType) => new Michelson_Type(PrimType.pair, leftType, rightType);
-export const TRecord = (fields: Record<string, IType>, layout?: ILayout) => new Michelson_Type_Record(fields, layout);
+export const TRecord = <T extends Record<string, IType>, K extends keyof T>(
+    fields: T,
+    layout?: PairsOfKeys<K>,
+): IType => new Michelson_Type_Record(fields, layout);
 export const TMap = (keyType: IType, valueType: IType) => new Michelson_Type(PrimType.map, keyType, valueType);
 export const TBig_map = (keyType: IType, valueType: IType) => new Michelson_Type(PrimType.big_map, keyType, valueType);
 export const TLambda = (inType: IType, outType: IType) => new Michelson_Type(PrimType.lambda, inType, outType);
