@@ -1,34 +1,6 @@
 import { MichelsonJSON, MichelsonMicheline, PairsOfKeys } from '../typings';
-import { IType } from '../typings/type';
+import { IType, PrimType } from '../typings/type';
 import { Prim } from './enums/prim';
-
-export enum PrimType {
-    // Singleton types
-    unit = Prim.unit,
-    nat = Prim.nat,
-    int = Prim.int,
-    mutez = Prim.mutez,
-    timestamp = Prim.timestamp,
-    string = Prim.string,
-    address = Prim.address,
-    bytes = Prim.bytes,
-    chain_id = Prim.chain_id,
-    bool = Prim.bool,
-    bls12_381_fr = Prim.bls12_381_fr,
-    bls12_381_g1 = Prim.bls12_381_g1,
-    bls12_381_g2 = Prim.bls12_381_g2,
-    key = Prim.key,
-    key_hash = Prim.key_hash,
-    signature = Prim.signature,
-    // Container types
-    list = Prim.list,
-    set = Prim.set,
-    option = Prim.option,
-    pair = Prim.pair,
-    map = Prim.map,
-    big_map = Prim.big_map,
-    lambda = Prim.lambda,
-}
 
 export class Michelson_Type implements IType {
     _isType = true as const;
@@ -57,30 +29,30 @@ export class Michelson_Type implements IType {
     toMicheline(): MichelsonMicheline {
         const expr = this.#annotation ? `(${this.type} %${this.#annotation})` : `${this.type}`;
         switch (this.type) {
-            case PrimType.unit:
-            case PrimType.int:
-            case PrimType.nat:
-            case PrimType.mutez:
-            case PrimType.timestamp:
-            case PrimType.string:
-            case PrimType.address:
-            case PrimType.chain_id:
-            case PrimType.bool:
-            case PrimType.bytes:
-            case PrimType.bls12_381_fr:
-            case PrimType.bls12_381_g1:
-            case PrimType.bls12_381_g2:
-            case PrimType.key:
-            case PrimType.key_hash:
-            case PrimType.signature:
+            case Prim.unit:
+            case Prim.int:
+            case Prim.nat:
+            case Prim.mutez:
+            case Prim.timestamp:
+            case Prim.string:
+            case Prim.address:
+            case Prim.chain_id:
+            case Prim.bool:
+            case Prim.bytes:
+            case Prim.bls12_381_fr:
+            case Prim.bls12_381_g1:
+            case Prim.bls12_381_g2:
+            case Prim.key:
+            case Prim.key_hash:
+            case Prim.signature:
                 return expr;
-            case PrimType.list:
-            case PrimType.set:
-            case PrimType.pair:
-            case PrimType.option:
-            case PrimType.map:
-            case PrimType.big_map:
-            case PrimType.lambda:
+            case Prim.list:
+            case Prim.set:
+            case Prim.pair:
+            case Prim.option:
+            case Prim.map:
+            case Prim.big_map:
+            case Prim.lambda:
                 return `(${[expr, ...this.innerTypes.map((t) => t.toMicheline())].join(' ')})`;
         }
         throw new Error(`Cannot produce michelson for type: ${this.type}`);
@@ -93,33 +65,33 @@ export class Michelson_Type implements IType {
     toJSON(): MichelsonJSON {
         const obj = this.#annotation ? { annots: [`%${this.#annotation}`] } : {};
         switch (this.type) {
-            case PrimType.unit:
-            case PrimType.int:
-            case PrimType.nat:
-            case PrimType.mutez:
-            case PrimType.timestamp:
-            case PrimType.string:
-            case PrimType.address:
-            case PrimType.chain_id:
-            case PrimType.bool:
-            case PrimType.bytes:
-            case PrimType.bls12_381_fr:
-            case PrimType.bls12_381_g1:
-            case PrimType.bls12_381_g2:
-            case PrimType.key:
-            case PrimType.key_hash:
-            case PrimType.signature:
+            case Prim.unit:
+            case Prim.int:
+            case Prim.nat:
+            case Prim.mutez:
+            case Prim.timestamp:
+            case Prim.string:
+            case Prim.address:
+            case Prim.chain_id:
+            case Prim.bool:
+            case Prim.bytes:
+            case Prim.bls12_381_fr:
+            case Prim.bls12_381_g1:
+            case Prim.bls12_381_g2:
+            case Prim.key:
+            case Prim.key_hash:
+            case Prim.signature:
                 return {
                     ...obj,
                     prim: this.type,
                 };
-            case PrimType.list:
-            case PrimType.set:
-            case PrimType.pair:
-            case PrimType.option:
-            case PrimType.map:
-            case PrimType.big_map:
-            case PrimType.lambda:
+            case Prim.list:
+            case Prim.set:
+            case Prim.pair:
+            case Prim.option:
+            case Prim.map:
+            case Prim.big_map:
+            case Prim.lambda:
                 return {
                     ...obj,
                     prim: this.type,
@@ -139,11 +111,11 @@ export class Michelson_Type implements IType {
     }
 }
 
-export class Michelson_Type_Record<T extends Record<string, IType>> implements IType {
+export class Michelson_Type_Record<T extends Record<string, IType> = Record<string, IType>> implements IType {
     _isType = true as const;
     #annotation?: string;
     #fields: T;
-    // Default layout => https://tezos.gitlab.io/active/michelson.html#operations-on-pairs-and-right-combs
+    // Default: right combs => https://tezos.gitlab.io/active/michelson.html#operations-on-pairs-and-right-combs
     #layout: PairsOfKeys<keyof T>;
 
     constructor(fields: T, layout?: PairsOfKeys<keyof T>) {
@@ -182,7 +154,6 @@ export class Michelson_Type_Record<T extends Record<string, IType>> implements I
                 if (Array.isArray(layout)) {
                     return this._toMicheline(fields, layout);
                 }
-
                 return fields[layout].toMicheline();
             }, '')
             .join(' ');
@@ -235,35 +206,35 @@ export class Michelson_Type_Record<T extends Record<string, IType>> implements I
 }
 
 // Singleton types
-export const TUnit = () => new Michelson_Type(PrimType.unit);
-export const TNat = () => new Michelson_Type(PrimType.nat);
-export const TInt = (): IType => new Michelson_Type(PrimType.int);
-export const TMutez = () => new Michelson_Type(PrimType.mutez);
-export const TString = () => new Michelson_Type(PrimType.string);
-export const TBool = () => new Michelson_Type(PrimType.bool);
-export const TAddress = () => new Michelson_Type(PrimType.address);
-export const TTimestamp = () => new Michelson_Type(PrimType.timestamp);
-export const TChain_id = () => new Michelson_Type(PrimType.chain_id);
-export const TBytes = () => new Michelson_Type(PrimType.bytes);
-export const TBls12_381_fr = () => new Michelson_Type(PrimType.bls12_381_fr);
-export const TBls12_381_g1 = () => new Michelson_Type(PrimType.bls12_381_g1);
-export const TBls12_381_g2 = () => new Michelson_Type(PrimType.bls12_381_g2);
-export const TKey = () => new Michelson_Type(PrimType.key);
-export const TKey_hash = () => new Michelson_Type(PrimType.key_hash);
-export const TSignature = () => new Michelson_Type(PrimType.signature);
+export const TNat = () => new Michelson_Type(Prim.nat);
+export const TInt = () => new Michelson_Type(Prim.int);
+export const TMutez = () => new Michelson_Type(Prim.mutez);
+export const TString = () => new Michelson_Type(Prim.string);
+export const TBool = () => new Michelson_Type(Prim.bool);
+export const TAddress = () => new Michelson_Type(Prim.address);
+export const TTimestamp = () => new Michelson_Type(Prim.timestamp);
+export const TChain_id = () => new Michelson_Type(Prim.chain_id);
+export const TBytes = () => new Michelson_Type(Prim.bytes);
+export const TBls12_381_fr = () => new Michelson_Type(Prim.bls12_381_fr);
+export const TBls12_381_g1 = () => new Michelson_Type(Prim.bls12_381_g1);
+export const TBls12_381_g2 = () => new Michelson_Type(Prim.bls12_381_g2);
+export const TKey = () => new Michelson_Type(Prim.key);
+export const TKey_hash = () => new Michelson_Type(Prim.key_hash);
+export const TSignature = () => new Michelson_Type(Prim.signature);
+export const TUnit = () => new Michelson_Type(Prim.unit);
 
 // Container types
-export const TList = (innerType: IType) => new Michelson_Type(PrimType.list, innerType);
-export const TSet = (innerType: IType) => new Michelson_Type(PrimType.set, innerType);
-export const TOption = (innerType: IType) => new Michelson_Type(PrimType.option, innerType);
-export const TPair = (leftType: IType, rightType: IType) => new Michelson_Type(PrimType.pair, leftType, rightType);
-export const TRecord = <T extends Record<string, IType>, K extends keyof T>(
+export const TList = (innerType: IType) => new Michelson_Type(Prim.list, innerType);
+export const TSet = (innerType: IType) => new Michelson_Type(Prim.set, innerType);
+export const TOption = (innerType: IType) => new Michelson_Type(Prim.option, innerType);
+export const TPair = (leftType: IType, rightType: IType) => new Michelson_Type(Prim.pair, leftType, rightType);
+export const TRecord = <T extends Record<string, IType> = Record<string, IType>>(
     fields: T,
-    layout?: PairsOfKeys<K>,
-): IType => new Michelson_Type_Record(fields, layout);
-export const TMap = (keyType: IType, valueType: IType) => new Michelson_Type(PrimType.map, keyType, valueType);
-export const TBig_map = (keyType: IType, valueType: IType) => new Michelson_Type(PrimType.big_map, keyType, valueType);
-export const TLambda = (inType: IType, outType: IType) => new Michelson_Type(PrimType.lambda, inType, outType);
+    layout?: PairsOfKeys<keyof T>,
+) => new Michelson_Type_Record(fields, layout);
+export const TMap = (keyType: IType, valueType: IType) => new Michelson_Type(Prim.map, keyType, valueType);
+export const TBig_map = (keyType: IType, valueType: IType) => new Michelson_Type(Prim.big_map, keyType, valueType);
+export const TLambda = (inType: IType, outType: IType) => new Michelson_Type(Prim.lambda, inType, outType);
 
 const Types = {
     // Singleton types
