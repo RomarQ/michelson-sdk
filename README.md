@@ -3,7 +3,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/RomarQ/michelson-sdk/badge.svg?branch=main)](https://coveralls.io/github/RomarQ/michelson-sdk?branch=main)
 
 
-`Michelson SDK` is a framework for generating Michelson values and types in Javascript.
+`Michelson SDK` is a framework for generating Michelson values and types from Javascript.
+
+# [Documentation](https://romarq.github.io/michelson-sdk)
 
 ## Usage
 
