@@ -172,17 +172,16 @@ export class Michelson_Type_With_Param implements IType {
     }
 }
 
-export class Michelson_Type_Record<T extends Record<string, IType> = Record<string, IType>> implements IType {
+export class Michelson_Type_RecordOrVariant<T extends Record<string, IType> = Record<string, IType>> implements IType {
     _isType = true as const;
     #annotation?: string;
     #fields: T;
     // Default: right combs => https://tezos.gitlab.io/active/michelson.html#operations-on-pairs-and-right-combs
     #layout: PairsOfKeys<keyof T>;
 
-    constructor(fields: T, layout?: PairsOfKeys<keyof T>) {
+    constructor(private type: Prim.or | Prim.pair, fields: T, layout?: PairsOfKeys<keyof T>) {
         this.#fields = fields;
-        this.#layout =
-            layout || Michelson_Type_Record.composeRightCombLayout<keyof T>(Object.keys(fields) as (keyof T)[]);
+        this.#layout = layout || Michelson_Type_RecordOrVariant.composeRightCombLayout(Object.keys(fields));
     }
 
     static composeRightCombLayout = <K>(fields: K[]): PairsOfKeys<K> => {
@@ -218,7 +217,7 @@ export class Michelson_Type_Record<T extends Record<string, IType> = Record<stri
                 return fields[layout].toMicheline();
             }, '')
             .join(' ');
-        return `(${Prim.pair}${annotation} ${innerTypes})`;
+        return `(${this.type}${annotation} ${innerTypes})`;
     }
 
     /**
@@ -237,7 +236,7 @@ export class Michelson_Type_Record<T extends Record<string, IType> = Record<stri
      */
     private _toJSON(fields: T, layout: PairsOfKeys<keyof T>): MichelsonJSON {
         return {
-            prim: Prim.pair,
+            prim: this.type,
             ...(this.#annotation ? { annots: [`%${this.#annotation}`] } : {}),
             args: layout.map((layout) => {
                 if (Array.isArray(layout)) {
@@ -301,7 +300,9 @@ export const TSapling_transaction = (memoSize: number) =>
     new Michelson_Type_With_Param(Prim.sapling_transaction, memoSize);
 // Artificial Types
 export const TRecord = (fields: Record<string, IType>, layout?: PairsOfKeys<string>) =>
-    new Michelson_Type_Record(fields, layout);
+    new Michelson_Type_RecordOrVariant(Prim.pair, fields, layout);
+export const TVariant = (fields: Record<string, IType>, layout?: PairsOfKeys<string>) =>
+    new Michelson_Type_RecordOrVariant(Prim.or, fields, layout);
 
 const Types = {
     // Singleton types

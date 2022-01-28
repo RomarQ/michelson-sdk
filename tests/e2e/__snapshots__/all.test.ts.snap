@@ -2332,3 +2332,455 @@ code {
   ],
 ]
 `;
+
+exports[`[E2E] - Michelson types with no literals contract 1`] = `
+Array [
+  "storage unit;
+parameter (contract int);
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "int",
+            },
+          ],
+          "prim": "contract",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson types with no literals never 1`] = `
+Array [
+  "storage unit;
+parameter never;
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "never",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson types with no literals operation 1`] = `
+Array [
+  "storage unit;
+parameter unit;
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson types with no literals or (nested) 1`] = `
+Array [
+  "storage unit;
+parameter (or nat (or bool chain_id));
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "prim": "bool",
+                },
+                Object {
+                  "prim": "chain_id",
+                },
+              ],
+              "prim": "or",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson types with no literals or 1`] = `
+Array [
+  "storage unit;
+parameter (or bytes unit);
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "bytes",
+            },
+            Object {
+              "prim": "unit",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson types with no literals sapling_state 1`] = `
+Array [
+  "storage unit;
+parameter (sapling_state 1);
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "int": "1",
+            },
+          ],
+          "prim": "sapling_state",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson types with no literals sapling_transaction 1`] = `
+Array [
+  "storage unit;
+parameter (sapling_transaction 1);
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "int": "1",
+            },
+          ],
+          "prim": "sapling_transaction",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson types with no literals ticket 1`] = `
+Array [
+  "storage unit;
+parameter (ticket nat);
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+          ],
+          "prim": "ticket",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;

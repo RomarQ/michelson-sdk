@@ -26,7 +26,7 @@ import {
     Michelson_LiteralUnion,
 } from '../../src/core/literal';
 import { TNat, TString } from '../../src/core/type';
-import { buildTesterContract, convertContractToJSON, convertMichelsonToJSON, startMockup, stopMockup } from './utils';
+import { buildTesterContract, convertContractToJSON, convertMichelsonToJSON } from './utils';
 
 const verifyLiteral = (testName: string, lit: Michelson_LiteralUnion) => {
     it(testName, () => {
@@ -37,10 +37,7 @@ const verifyLiteral = (testName: string, lit: Michelson_LiteralUnion) => {
     });
 };
 
-if (process.platform == 'linux') {
-    beforeAll(startMockup);
-    afterAll(stopMockup);
-
+export const runTests = () => {
     describe('[E2E] - Michelson compilation (Singleton Literals)', () => {
         verifyLiteral('Nat', Nat(1));
         verifyLiteral('Int', Int(2));
@@ -163,4 +160,4 @@ if (process.platform == 'linux') {
             expect(jsonValue).toMatchSnapshot();
         });
     });
-}
+};

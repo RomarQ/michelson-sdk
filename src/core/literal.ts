@@ -1,5 +1,5 @@
 import {
-    Michelson_Type_Record,
+    Michelson_Type_RecordOrVariant,
     TBls12_381_fr,
     TBls12_381_g1,
     TBls12_381_g2,
@@ -172,7 +172,7 @@ class Michelson_Record {
 
     constructor(fields: Record<string, Michelson_LiteralUnion>, layout?: PairsOfKeys<keyof typeof fields>) {
         this.#fields = fields;
-        this.#layout = layout || Michelson_Type_Record.composeRightCombLayout(Object.keys(fields));
+        this.#layout = layout || Michelson_Type_RecordOrVariant.composeRightCombLayout(Object.keys(fields));
 
         this.type = TRecord(
             Object.entries(fields).reduce((pv, [key, value]) => {
@@ -246,14 +246,12 @@ class Michelson_Record {
     }
 }
 
-export const Unit = () => new Michelson_Literal(Prim.Unit, TUnit());
-
+// Singletons
 export const Nat = (value: number) => new Michelson_Literal(Prim.int, TNat(), value);
 export const Int = (value: number) => new Michelson_Literal(Prim.int, TInt(), value);
 export const Mutez = (value: number) => new Michelson_Literal(Prim.int, TMutez(), value);
 export const Timestamp = (value: number | string) =>
     new Michelson_Literal(typeof value === 'string' ? Prim.string : Prim.int, TTimestamp(), value);
-
 export const String = (value: string) => new Michelson_Literal(Prim.string, TString(), value);
 export const Address = (value: string) => new Michelson_Literal(Prim.string, TAddress(), value);
 export const Bytes = (value: string) => new Michelson_Literal(Prim.bytes, TBytes(), value);
@@ -267,30 +265,28 @@ export const Bls12_381_g2 = (value: string) => new Michelson_Literal(Prim.bytes,
 export const Key = (value: string) => new Michelson_Literal(Prim.string, TKey(), value);
 export const Key_hash = (value: string) => new Michelson_Literal(Prim.string, TKey_hash(), value);
 export const Signature = (value: string) => new Michelson_Literal(Prim.string, TSignature(), value);
-
 export const Bool = (value: boolean) => new Michelson_Literal(Prim.bool, TBool(), value);
-
+export const Unit = () => new Michelson_Literal(Prim.Unit, TUnit());
+// Containers
 export const List = (elements: Michelson_LiteralUnion[], innerType: IType) =>
     new Michelson_Literal_C1(Prim.list, TList(innerType), elements);
-
 export const Set = (elements: Michelson_LiteralUnion[], innerType: IType) =>
     new Michelson_Literal_C1(Prim.list, TSet(innerType), elements);
-
 export const None = (innerType: IType) => new Michelson_Literal(Prim.None, TOption(innerType));
 export const Some = (element: Michelson_LiteralUnion) =>
     new Michelson_Literal_C1(Prim.Some, TOption(element.type), [element]);
-
 export const Pair = (left: Michelson_LiteralUnion, right: Michelson_LiteralUnion) =>
     new Michelson_Literal_C1(Prim.Pair, TPair(left.type, right.type), [left, right]);
-export const Record = (fields: Record<string, Michelson_LiteralUnion>, layout?: PairsOfKeys<keyof typeof fields>) =>
-    new Michelson_Record(fields, layout);
-
 export const Map = (elements: Michelson_LiteralUnion[][], keyType: IType, valueType: IType) =>
     new Michelson_Map(TMap(keyType, valueType), elements);
 export const Big_map = (elements: Michelson_LiteralUnion[][], keyType: IType, valueType: IType) =>
     new Michelson_Map(TBig_map(keyType, valueType), elements);
+// Artificial containers
+export const Record = (fields: Record<string, Michelson_LiteralUnion>, layout?: PairsOfKeys<keyof typeof fields>) =>
+    new Michelson_Record(fields, layout);
 
 const Literals = {
+    // Singletons
     Unit,
     Nat,
     Int,
@@ -307,16 +303,17 @@ const Literals = {
     Key,
     Key_hash,
     Signature,
-    //
+    // Containers
     List,
     Set,
     None,
     Some,
     Pair,
-    Record,
     Map,
     Big_map,
     // Lambda,
+    // Artificial containers
+    Record,
 };
 
 export default Literals;

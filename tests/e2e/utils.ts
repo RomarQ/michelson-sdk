@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import path from 'path';
 import { Michelson_LiteralUnion } from '../../src/core';
+import { IType } from '../../src/typings/type';
 
 export const TEZOS_CLIENT_CMD = './tests/e2e/tezos-binaries/tezos-client';
 
@@ -60,6 +61,29 @@ export const buildTesterContract = (literal: Michelson_LiteralUnion) => {
                         { prim: 'PAIR' },
                     ],
                 ],
+            },
+        ],
+    };
+};
+
+export const buildTypeTesterContract = (type: IType) => {
+    const michelineType = type.toMicheline();
+    const jsonType = type.toJSON();
+    return {
+        micheline:
+            'storage unit;\n' +
+            `parameter ${michelineType};\n` +
+            'code {\n' +
+            '  CDR;\n' +
+            '  NIL operation;\n' +
+            '  PAIR;\n' +
+            '};',
+        json: [
+            { prim: 'storage', args: [{ prim: 'unit' }] },
+            { prim: 'parameter', args: [jsonType] },
+            {
+                prim: 'code',
+                args: [[{ prim: 'CDR' }, { prim: 'NIL', args: [{ prim: 'operation' }] }, { prim: 'PAIR' }]],
             },
         ],
     };
