@@ -33,6 +33,7 @@ export type PrimType =
     | Prim.set
     | Prim.option
     | Prim.pair
+    | Prim.or
     | Prim.map
     | Prim.big_map
     | Prim.lambda;

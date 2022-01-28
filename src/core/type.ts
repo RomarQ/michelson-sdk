@@ -222,19 +222,18 @@ export const TKey = () => new Michelson_Type(Prim.key);
 export const TKey_hash = () => new Michelson_Type(Prim.key_hash);
 export const TSignature = () => new Michelson_Type(Prim.signature);
 export const TUnit = () => new Michelson_Type(Prim.unit);
-
 // Container types
 export const TList = (innerType: IType) => new Michelson_Type(Prim.list, innerType);
 export const TSet = (innerType: IType) => new Michelson_Type(Prim.set, innerType);
 export const TOption = (innerType: IType) => new Michelson_Type(Prim.option, innerType);
 export const TPair = (leftType: IType, rightType: IType) => new Michelson_Type(Prim.pair, leftType, rightType);
-export const TRecord = <T extends Record<string, IType> = Record<string, IType>>(
-    fields: T,
-    layout?: PairsOfKeys<keyof T>,
-) => new Michelson_Type_Record(fields, layout);
+export const TOr = (leftType: IType, rightType: IType) => new Michelson_Type(Prim.or, leftType, rightType);
 export const TMap = (keyType: IType, valueType: IType) => new Michelson_Type(Prim.map, keyType, valueType);
 export const TBig_map = (keyType: IType, valueType: IType) => new Michelson_Type(Prim.big_map, keyType, valueType);
 export const TLambda = (inType: IType, outType: IType) => new Michelson_Type(Prim.lambda, inType, outType);
+// Artificial Types
+export const TRecord = (fields: Record<string, IType>, layout?: PairsOfKeys<string>) =>
+    new Michelson_Type_Record(fields, layout);
 
 const Types = {
     // Singleton types
@@ -259,10 +258,12 @@ const Types = {
     TSet,
     TOption,
     TPair,
-    TRecord,
+    TOr,
     TMap,
     TBig_map,
     TLambda,
+    // Artificial Types
+    TRecord,
 };
 
 export default Types;
