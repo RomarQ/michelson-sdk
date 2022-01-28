@@ -180,6 +180,7 @@ export class Michelson_Type_RecordOrVariant<T extends Record<string, IType> = Re
     #layout: PairsOfKeys<keyof T>;
 
     constructor(private type: Prim.or | Prim.pair, fields: T, layout?: PairsOfKeys<keyof T>) {
+        Object.entries(fields).forEach(([key, value]) => value.setAnnotation(key));
         this.#fields = fields;
         this.#layout = layout || Michelson_Type_RecordOrVariant.composeRightCombLayout(Object.keys(fields));
     }
@@ -339,6 +340,7 @@ const Types = {
     TSapling_transaction,
     // Artificial Types
     TRecord,
+    TVariant,
 };
 
 export default Types;

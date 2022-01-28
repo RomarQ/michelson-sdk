@@ -257,6 +257,36 @@ console.log(unit_type.toMicheline());      // unit
 console.log(unit_type.toJSON());           // { prim: 'unit' }
 ```
 
+### operation
+
+The type `operation` represents an internal operation emitted by a contract.
+
+```ts
+import { TOperation } from '@tezwell/michelson-sdk';
+
+const operation_type = TOperation();
+
+// Micheline
+console.log(operation_type.toMicheline());      // operation
+// JSON
+console.log(operation_type.toJSON());           // { prim: 'operation' }
+```
+
+### never
+
+The type `never` is used to represent an unreachable branch.
+
+```ts
+import { TNever } from '@tezwell/michelson-sdk';
+
+const never_type = TNever();
+
+// Micheline
+console.log(never_type.toMicheline());      // never
+// JSON
+console.log(never_type.toJSON());           // { prim: 'never' }
+```
+
 ## Container types
 
 ### list
@@ -332,4 +362,197 @@ const or_type = TOr(TString(), TNat());
 console.log(or_type.toMicheline());      // (or string nat)
 // JSON
 console.log(or_type.toJSON());           // { prim: 'or', args: [ { prim: 'string' }, { prim: 'nat' } ] }
+```
+
+### map
+
+```ts
+import { TMap, TNat, TString } from '@tezwell/michelson-sdk';
+
+const map_type = TMap(TString(), TNat());
+
+// Micheline
+console.log(map_type.toMicheline());      // (map string nat)
+// JSON
+console.log(map_type.toJSON());           // { prim: 'map', args: [ { prim: 'string' }, { prim: 'nat' } ] }
+```
+
+### big_map
+
+The type `big_map` is used to represent lazily deserialized maps.
+
+```ts
+import { TBigMap, TNat, TString } from '@tezwell/michelson-sdk';
+
+const big_map_type = TBigMap(TString(), TNat());
+
+// Micheline
+console.log(big_map_type.toMicheline());      // (big_map string nat)
+// JSON
+console.log(big_map_type.toJSON());           // { prim: 'big_map', args: [ { prim: 'string' }, { prim: 'nat' } ] }
+```
+
+### lambda
+
+The type `lambda` represents a function signature.
+
+```ts
+import { TLambda, TNat, TString } from '@tezwell/michelson-sdk';
+
+const lambda_type = TLambda(TString(), TNat());
+
+// Micheline
+console.log(lambda_type.toMicheline());      // (lambda string nat)
+// JSON
+console.log(lambda_type.toJSON());           // { prim: 'lambda', args: [ { prim: 'string' }, { prim: 'nat' } ] }
+```
+
+### ticket
+
+The type `ticket` represents a ticket used to authenticate information.
+
+```ts
+import { TTicket, TString } from '@tezwell/michelson-sdk';
+
+const ticket_type = TTicket(TString());
+
+// Micheline
+console.log(ticket_type.toMicheline());      // (ticket string)
+// JSON
+console.log(ticket_type.toJSON());           // { prim: 'ticket', args: [ { prim: 'string' } ] }
+```
+
+### contract
+
+The type `contract` represents the interface and address of a contract entrypoint.
+
+```ts
+import { TContract, TString } from '@tezwell/michelson-sdk';
+
+const contract_type = TContract(TString());
+
+// Micheline
+console.log(contract_type.toMicheline());      // (contract string)
+// JSON
+console.log(contract_type.toJSON());           // { prim: 'contract', args: [ { prim: 'string' } ] }
+```
+
+### sapling_state
+
+Michelson reference [sapling_state](https://tezos.gitlab.io/michelson-reference/#type-sapling_state).
+
+```ts
+import { TSapling_state } from '@tezwell/michelson-sdk';
+
+const sapling_state_type = TSapling_state(8);
+
+// Micheline
+console.log(sapling_state_type.toMicheline());      // (sapling_state 8)
+// JSON
+console.log(sapling_state_type.toJSON());           // { prim: 'sapling_state', args: [ { int: '8' } ] }
+```
+
+### sapling_transaction
+
+Michelson reference [sapling_transaction](https://tezos.gitlab.io/michelson-reference/#type-sapling_transaction).
+
+```ts
+import { TSapling_transaction } from '@tezwell/michelson-sdk';
+
+const sapling_transaction_type = TSapling_transaction(8);
+
+// Micheline
+console.log(sapling_transaction_type.toMicheline());      // (sapling_transaction 8)
+// JSON
+console.log(sapling_transaction_type.toJSON());           // { prim: 'sapling_transaction', args: [ { int: '8' } ] }
+```
+
+## Artificial types
+
+### record
+
+A `TRecord` is an artificial type composed of nested `pair's` with annotated leaves to simulate a dictionary.
+
+```ts
+import { TRecord, TNat, TInt, TBytes } from '@tezwell/michelson-sdk';
+
+const record_type = TRecord(
+    {
+        field1: TNat(),
+        field2: TInt(),
+        field3: TBytes()
+    },
+    // Optional argument (defaults to right combs)
+    ["field1", ["field2", "field3"]]
+);
+
+// Micheline
+console.log(record_type.toMicheline());      // (pair (nat %field1) (pair (int %field2) (bytes %field3)))
+// JSON
+console.log(record_type.toJSON());           // {
+                                             //     prim: 'pair',
+                                             //     args: [
+                                             //         {
+                                             //             prim: 'nat',
+                                             //             annots: ["%field1"]
+                                             //         },
+                                             //         {
+                                             //             prim: 'pair',
+                                             //             args: [
+                                             //                 {
+                                             //                     prim: 'int',
+                                             //                     annots: ["%field2"]
+                                             //                 },
+                                             //                 {
+                                             //                     prim: 'bytes',
+                                             //                     annots: ["%field3"]
+                                             //                 },
+                                             //             ]
+                                             //         }
+                                             //     ]
+                                             // }
+```
+
+### variant
+
+A `TVariant` is an artificial type composed of nested `or's` with annotated leaves to create a union type.
+
+```ts
+import { TVariant, TNat, TInt, TBytes } from '@tezwell/michelson-sdk';
+
+const variant_type = TVariant(
+    {
+        branch1: TNat(),
+        branch2: TInt(),
+        branch3: TBytes()
+    },
+    // Optional argument (defaults to right combs)
+    ["branch1", ["branch2", "branch3"]]
+);
+
+// Micheline
+console.log(variant_type.toMicheline());      // (or (nat %branch1) (or (int %branch2) (bytes %branch3)))
+// JSON
+console.log(variant_type.toJSON());          // {
+                                             //     prim: 'or',
+                                             //     args: [
+                                             //         {
+                                             //             prim: 'nat',
+                                             //             annots: ["%branch1"]
+                                             //         },
+                                             //         {
+                                             //             prim: 'or',
+                                             //             args: [
+                                             //                 {
+                                             //                     prim: 'int',
+                                             //                     annots: ["%branch2"]
+                                             //                 },
+                                             //                 {
+                                             //                     prim: 'bytes',
+                                             //                     annots: ["%branch3"]
+                                             //                 },
+                                             //             ]
+                                             //         }
+                                             //     ]
+                                             // }
 ```

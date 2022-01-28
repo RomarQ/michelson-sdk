@@ -8,10 +8,12 @@ import {
     TNever,
     TOperation,
     TOr,
+    TRecord,
     TSapling_state,
     TSapling_transaction,
     TTicket,
     TUnit,
+    TVariant,
 } from '../../src/core/type';
 import { IType } from '../../src/typings/type';
 import { buildTypeTesterContract, convertContractToJSON } from './utils';
@@ -26,6 +28,24 @@ const verifyType = (testName: string, type: IType) => {
 };
 
 export const runTests = () => {
+    describe('[E2E] - Artificial types', () => {
+        verifyType(
+            'variant',
+            TVariant({
+                branch1: TNat(),
+                branch2: TInt(),
+                branch3: TBytes(),
+            }),
+        );
+        verifyType(
+            'record',
+            TRecord({
+                field1: TNat(),
+                field2: TInt(),
+                field3: TBytes(),
+            }),
+        );
+    });
     describe('[E2E] - Michelson types with no literals', () => {
         verifyType('ticket', TTicket(TNat()));
         verifyType('never', TNever());
@@ -34,6 +54,7 @@ export const runTests = () => {
         verifyType('sapling_transaction', TSapling_transaction(1));
         verifyType('or', TOr(TBytes(), TUnit()));
         verifyType('or (nested)', TOr(TNat(), TOr(TBool(), TChain_id())));
+
         it('operation', () => {
             const micheline =
                 `storage unit;\n` +

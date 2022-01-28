@@ -1,5 +1,157 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`[E2E] - Artificial types record 1`] = `
+Array [
+  "storage unit;
+parameter (pair (nat %field1) (pair (int %field2) (bytes %field3)));
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "annots": Array [
+                "%field1",
+              ],
+              "prim": "nat",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%field2",
+                  ],
+                  "prim": "int",
+                },
+                Object {
+                  "annots": Array [
+                    "%field3",
+                  ],
+                  "prim": "bytes",
+                },
+              ],
+              "prim": "pair",
+            },
+          ],
+          "prim": "pair",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Artificial types variant 1`] = `
+Array [
+  "storage unit;
+parameter (or (nat %branch1) (or (int %branch2) (bytes %branch3)));
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "annots": Array [
+                "%branch1",
+              ],
+              "prim": "nat",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%branch2",
+                  ],
+                  "prim": "int",
+                },
+                Object {
+                  "annots": Array [
+                    "%branch3",
+                  ],
+                  "prim": "bytes",
+                },
+              ],
+              "prim": "or",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
 exports[`[E2E] - Michelson compilation (List) List 1`] = `
 Array [
   "storage (list nat);
