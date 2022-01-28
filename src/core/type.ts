@@ -45,6 +45,7 @@ export class Michelson_Type implements IType {
             case Prim.key_hash:
             case Prim.signature:
             case Prim.operation:
+            case Prim.never:
                 return expr;
             case Prim.list:
             case Prim.set:
@@ -86,6 +87,7 @@ export class Michelson_Type implements IType {
             case Prim.key_hash:
             case Prim.signature:
             case Prim.operation:
+            case Prim.never:
                 return {
                     ...obj,
                     prim: this.type,
@@ -282,6 +284,7 @@ export const TKey_hash = () => new Michelson_Type(Prim.key_hash);
 export const TSignature = () => new Michelson_Type(Prim.signature);
 export const TUnit = () => new Michelson_Type(Prim.unit);
 export const TOperation = () => new Michelson_Type(Prim.operation);
+export const TNever = () => new Michelson_Type(Prim.never);
 // Container types
 export const TList = (innerType: IType) => new Michelson_Type(Prim.list, innerType);
 export const TSet = (innerType: IType) => new Michelson_Type(Prim.set, innerType);
@@ -319,6 +322,7 @@ const Types = {
     TKey_hash,
     TSignature,
     TOperation,
+    TNever,
     // Container types
     TList,
     TSet,

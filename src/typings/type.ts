@@ -28,6 +28,7 @@ export type PrimType =
     | Prim.key_hash
     | Prim.signature
     | Prim.operation
+    | Prim.never
     // Container types
     | Prim.list
     | Prim.set
