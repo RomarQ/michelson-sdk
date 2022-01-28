@@ -2,7 +2,6 @@ import { MichelsonJSON, MichelsonMicheline } from '.';
 import { Prim } from '../core/enums/prim';
 
 export interface IType {
-    _isType: true;
     setAnnotation: (annotation: string) => IType;
     toMicheline: () => MichelsonMicheline;
     toJSON: () => MichelsonJSON;
@@ -28,6 +27,7 @@ export type PrimType =
     | Prim.key
     | Prim.key_hash
     | Prim.signature
+    | Prim.operation
     // Container types
     | Prim.list
     | Prim.set
@@ -36,4 +36,8 @@ export type PrimType =
     | Prim.or
     | Prim.map
     | Prim.big_map
-    | Prim.lambda;
+    | Prim.lambda
+    | Prim.ticket
+    | Prim.contract
+    | Prim.sapling_state
+    | Prim.sapling_transaction;

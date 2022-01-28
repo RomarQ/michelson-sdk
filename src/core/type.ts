@@ -3,7 +3,6 @@ import { IType, PrimType } from '../typings/type';
 import { Prim } from './enums/prim';
 
 export class Michelson_Type implements IType {
-    _isType = true as const;
     #annotation?: string;
 
     private innerTypes: IType[];
@@ -45,17 +44,22 @@ export class Michelson_Type implements IType {
             case Prim.key:
             case Prim.key_hash:
             case Prim.signature:
+            case Prim.operation:
                 return expr;
             case Prim.list:
             case Prim.set:
             case Prim.pair:
+            case Prim.or:
             case Prim.option:
             case Prim.map:
             case Prim.big_map:
             case Prim.lambda:
+            case Prim.ticket:
+            case Prim.contract:
+            case Prim.sapling_state:
+            case Prim.sapling_transaction:
                 return `(${[expr, ...this.innerTypes.map((t) => t.toMicheline())].join(' ')})`;
         }
-        throw new Error(`Cannot produce michelson for type: ${this.type}`);
     }
 
     /**
@@ -81,6 +85,7 @@ export class Michelson_Type implements IType {
             case Prim.key:
             case Prim.key_hash:
             case Prim.signature:
+            case Prim.operation:
                 return {
                     ...obj,
                     prim: this.type,
@@ -88,18 +93,72 @@ export class Michelson_Type implements IType {
             case Prim.list:
             case Prim.set:
             case Prim.pair:
+            case Prim.or:
             case Prim.option:
             case Prim.map:
             case Prim.big_map:
             case Prim.lambda:
+            case Prim.ticket:
+            case Prim.contract:
+            case Prim.sapling_state:
+            case Prim.sapling_transaction:
                 return {
                     ...obj,
                     prim: this.type,
                     args: this.innerTypes.map((t) => t.toJSON()),
                 };
         }
+    }
 
-        throw new Error(`Cannot produce michelson JSON for type: ${this.type}`);
+    /**
+     * @description Resolve type instance to a primitive
+     * @return {MichelsonJSON} Michelson JSON format
+     */
+    [Symbol.toPrimitive](): MichelsonJSON {
+        return this.toJSON();
+    }
+}
+
+export class Michelson_Type_With_Param implements IType {
+    #annotation?: string;
+
+    #params: number[];
+
+    constructor(private type: PrimType, ...params: number[]) {
+        this.#params = params;
+    }
+
+    /**
+     * @description Set field annotation
+     * @link https://tezos.gitlab.io/active/michelson.html#field-and-constructor-annotations
+     * @param {string} annotation field annotation
+     */
+    public setAnnotation(annotation: string) {
+        this.#annotation = annotation;
+        return this;
+    }
+
+    /**
+     * @description Generate the Micheline representation of the type
+     * @returns {MichelsonMicheline} Micheline representation
+     */
+    toMicheline(): MichelsonMicheline {
+        return `(${[this.type, ...this.#params.map(String)].join(' ')})`;
+    }
+
+    /**
+     * @description Generate the JSON representation of the type
+     * @returns {MichelsonMicheline} JSON representation
+     */
+    toJSON(): MichelsonJSON {
+        const obj = this.#annotation ? { annots: [`%${this.#annotation}`] } : {};
+        return {
+            ...obj,
+            prim: this.type,
+            args: this.#params.map((p) => ({
+                int: String(p),
+            })),
+        };
     }
 
     /**
@@ -222,6 +281,7 @@ export const TKey = () => new Michelson_Type(Prim.key);
 export const TKey_hash = () => new Michelson_Type(Prim.key_hash);
 export const TSignature = () => new Michelson_Type(Prim.signature);
 export const TUnit = () => new Michelson_Type(Prim.unit);
+export const TOperation = () => new Michelson_Type(Prim.operation);
 // Container types
 export const TList = (innerType: IType) => new Michelson_Type(Prim.list, innerType);
 export const TSet = (innerType: IType) => new Michelson_Type(Prim.set, innerType);
@@ -231,6 +291,11 @@ export const TOr = (leftType: IType, rightType: IType) => new Michelson_Type(Pri
 export const TMap = (keyType: IType, valueType: IType) => new Michelson_Type(Prim.map, keyType, valueType);
 export const TBig_map = (keyType: IType, valueType: IType) => new Michelson_Type(Prim.big_map, keyType, valueType);
 export const TLambda = (inType: IType, outType: IType) => new Michelson_Type(Prim.lambda, inType, outType);
+export const TTicket = (innerType: IType) => new Michelson_Type(Prim.ticket, innerType);
+export const TContract = (innerType: IType) => new Michelson_Type(Prim.contract, innerType);
+export const TSapling_state = (memoSize: number) => new Michelson_Type_With_Param(Prim.sapling_state, memoSize);
+export const TSapling_transaction = (memoSize: number) =>
+    new Michelson_Type_With_Param(Prim.sapling_transaction, memoSize);
 // Artificial Types
 export const TRecord = (fields: Record<string, IType>, layout?: PairsOfKeys<string>) =>
     new Michelson_Type_Record(fields, layout);
@@ -253,6 +318,7 @@ const Types = {
     TKey,
     TKey_hash,
     TSignature,
+    TOperation,
     // Container types
     TList,
     TSet,
@@ -262,6 +328,10 @@ const Types = {
     TMap,
     TBig_map,
     TLambda,
+    TTicket,
+    TContract,
+    TSapling_state,
+    TSapling_transaction,
     // Artificial Types
     TRecord,
 };
