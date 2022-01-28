@@ -96,7 +96,7 @@ console.log(bytes_type.toJSON());           // { prim: 'bytes' }
 
 ### address
 
-The address type merely gives the guarantee that the value has the form of a Tezos address, as opposed to contract that guarantees that the value is indeed a valid, existing account.
+The type `address` gives the guarantee that the value has the form of a Tezos address, as opposed to contract that guarantees that the value is indeed a valid, existing account.
 
 A valid Tezos address is a string prefixed by either `tz1`, `tz2`, `tz3` or `KT1` and followed by a Base58 encoded hash and terminated by a 4-byte checksum.
 
@@ -123,18 +123,145 @@ console.log(address_type.toJSON());           // { prim: 'address' }
 ```
 
 ### timestamp
+
+The type `timestamp` is used to represent timestamps that are written either using [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) notation in a string (readable), or as the number of seconds since Epoch in a natural (optimized).
+
+```ts
+import { TTimestamp } from '@tezwell/michelson-sdk';
+
+const timestamp_type = TTimestamp();
+
+// Micheline
+console.log(timestamp_type.toMicheline());      // timestamp
+// JSON
+console.log(timestamp_type.toJSON());           // { prim: 'timestamp' }
+```
+
 ### chain_id
+
+The type `chain_id` represents an identifier for a chain, used to distinguish the test and the main chains.
+
+```ts
+import { TChain_id } from '@tezwell/michelson-sdk';
+
+const chain_id_type = TChain_id();
+
+// Micheline
+console.log(chain_id_type.toMicheline());      // chain_id
+// JSON
+console.log(chain_id_type.toJSON());           // { prim: 'chain_id' }
+```
+
 ### bls12_381_fr
+
+The type `bls12_381_fr` represents an element of the scalar field Fr, used for scalar multiplication on the BLS12-381 curves G1 and G2.
+
+```ts
+import { TBls12_381_fr } from '@tezwell/michelson-sdk';
+
+const bls12_381_fr_type = TBls12_381_fr();
+
+// Micheline
+console.log(bls12_381_fr_type.toMicheline());      // bls12_381_fr
+// JSON
+console.log(bls12_381_fr_type.toJSON());           // { prim: 'bls12_381_fr' }
+```
+
 ### bls12_381_g1
+
+The type `bls12_381_g1` represents a point on the BLS12-381 curve G1.
+
+```ts
+import { TBls12_381_g1 } from '@tezwell/michelson-sdk';
+
+const bls12_381_g1_type = TBls12_381_g1();
+
+// Micheline
+console.log(bls12_381_g1_type.toMicheline());      // bls12_381_g1
+// JSON
+console.log(bls12_381_g1_type.toJSON());           // { prim: 'bls12_381_g1' }
+```
+
 ### bls12_381_g2
+
+The type `bls12_381_g2` represents a point on the BLS12-381 curve G2.
+
+```ts
+import { TBls12_381_g2 } from '@tezwell/michelson-sdk';
+
+const bls12_381_g2_type = TBls12_381_g2();
+
+// Micheline
+console.log(bls12_381_g2_type.toMicheline());      // bls12_381_g2
+// JSON
+console.log(bls12_381_g2_type.toJSON());           // { prim: 'bls12_381_g2' }
+```
+
 ### key
+
+The type `key` represents a public cryptographic key.
+
+```ts
+import { TKey } from '@tezwell/michelson-sdk';
+
+const key_type = TKey();
+
+// Micheline
+console.log(key_type.toMicheline());      // key
+// JSON
+console.log(key_type.toJSON());           // { prim: 'key' }
+```
+
 ### key_hash
+
+The type `key_hash` represents a hash of a public cryptographic key.
+
+```ts
+import { TKey_hash } from '@tezwell/michelson-sdk';
+
+const key_hash_type = TKey_hash();
+
+// Micheline
+console.log(key_hash_type.toMicheline());      // key_hash
+// JSON
+console.log(key_hash_type.toJSON());           // { prim: 'key_hash' }
+```
+
 ### signature
+
+The type `signature` represents a cryptographic signature.
+
+```ts
+import { TSignature } from '@tezwell/michelson-sdk';
+
+const signature_type = TSignature();
+
+// Micheline
+console.log(signature_type.toMicheline());      // signature
+// JSON
+console.log(signature_type.toJSON());           // { prim: 'signature' }
+```
+
 ### unit
+
+The type whose only value is Unit, to use as a placeholder when some result or parameter is non-necessary.
+
+```ts
+import { TUnit } from '@tezwell/michelson-sdk';
+
+const unit_type = TUnit();
+
+// Micheline
+console.log(unit_type.toMicheline());      // unit
+// JSON
+console.log(unit_type.toJSON());           // { prim: 'unit' }
+```
 
 ## Container types
 
 ### list
+
+The `list` type reprensents a immutable and homogeneous linked list.
 
 ```ts
 import { TList, TNat } from '@tezwell/michelson-sdk';
@@ -149,6 +276,8 @@ console.log(list_type.toJSON());           // { prim: 'list', args: [ { prim: 'n
 
 ### set
 
+The `set` type is used to represent sequences of unique elements.
+
 ```ts
 import { TSet, TNat } from '@tezwell/michelson-sdk';
 
@@ -161,8 +290,46 @@ console.log(set_type.toJSON());           // { prim: 'set', args: [ { prim: 'nat
 ```
 
 ### option
+
+The `option` type is used to represent an optional value.
+
+```ts
+import { TOption, TNat } from '@tezwell/michelson-sdk';
+
+const option_type = TOption(TNat());
+
+// Micheline
+console.log(option_type.toMicheline());      // (option nat)
+// JSON
+console.log(option_type.toJSON());           // { prim: 'option', args: [ { prim: 'nat' } ] }
+```
+
 ### pair
-### record
-### map
-### big_map
-### lambda
+
+The `pair` type represents a binary tuple composed of a left element and a right element.
+
+```ts
+import { TPair, TNat, TString } from '@tezwell/michelson-sdk';
+
+const pair_type = TPair(TString(), TNat());
+
+// Micheline
+console.log(pair_type.toMicheline());      // (pair string nat)
+// JSON
+console.log(pair_type.toJSON());           // { prim: 'pair', args: [ { prim: 'string' }, { prim: 'nat' } ] }
+```
+
+### or
+
+The type `or` represents a union of two types. Used for type variance. (e.g. number | string)
+
+```ts
+import { TOr, TNat, TString } from '@tezwell/michelson-sdk';
+
+const or_type = TOr(TString(), TNat());
+
+// Micheline
+console.log(or_type.toMicheline());      // (or string nat)
+// JSON
+console.log(or_type.toJSON());           // { prim: 'or', args: [ { prim: 'string' }, { prim: 'nat' } ] }
+```
