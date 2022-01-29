@@ -1,12 +1,13 @@
+import type { Michelson_Type, IRecordVariant } from './type';
+import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, IType, PrimValue } from '../typings';
 import {
-    Michelson_Type_RecordOrVariant,
+    TBig_map,
     TBls12_381_fr,
     TBls12_381_g1,
     TBls12_381_g2,
     TKey,
     TKey_hash,
     TOption,
-    TRecord,
     TSet,
     TSignature,
     TAddress,
@@ -22,16 +23,14 @@ import {
     TUnit,
     TPair,
     TMap,
+    TOr,
+    //
+    buildRecordVariantType,
 } from './type';
-import type { Michelson_Type } from './type';
-import Utils from '../misc/utils';
-import { MichelsonJSON, MichelsonMicheline, PairsOfKeys } from '../typings';
-import { IType } from '../typings/type';
 import { Prim } from './enums/prim';
-import { TBig_map } from '.';
-import { PrimValue } from '../typings/literal';
+import Utils, { composeRightCombLayout } from '../misc/utils';
 
-export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1 | Michelson_Record | Michelson_Map;
+export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1 | Michelson_Map;
 
 export class Michelson_Literal {
     private prim: PrimValue;
@@ -105,7 +104,7 @@ export class Michelson_Literal_C1 {
     #elements: Michelson_LiteralUnion[];
     type: IType;
 
-    constructor(prim: PrimValue, type: Michelson_Type, elements: Michelson_LiteralUnion[]) {
+    constructor(prim: PrimValue, type: IType, elements: Michelson_LiteralUnion[]) {
         this.#prim = prim;
         this.type = type;
         this.#elements = elements;
@@ -115,6 +114,8 @@ export class Michelson_Literal_C1 {
         switch (this.#prim) {
             case Prim.Some:
             case Prim.Pair:
+            case Prim.Left:
+            case Prim.Right:
                 return `(${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ')})`;
             case Prim.list:
                 return `{ ${this.#elements.map((v) => v.toMicheline()).join(' ; ')} }`;
@@ -127,6 +128,8 @@ export class Michelson_Literal_C1 {
         switch (this.#prim) {
             case Prim.Some:
             case Prim.Pair:
+            case Prim.Left:
+            case Prim.Right:
                 return {
                     prim: this.#prim,
                     args: this.#elements.map((v) => v.toJSON()),
@@ -164,87 +167,52 @@ export class Michelson_Map {
     }
 }
 
-class Michelson_Record {
-    #fields: Record<string, Michelson_LiteralUnion>;
-    type: IType;
-    // Default: right combs => https://tezos.gitlab.io/active/michelson.html#operations-on-pairs-and-right-combs
-    #layout;
+/**
+ * @description Build record literal
+ * @param fields record dictionary
+ * @param layout record layout
+ * @returns {Michelson_LiteralUnion}
+ */
+const buildRecord = (
+    fields: Record<string, Michelson_LiteralUnion>,
+    layout?: PairsOfKeys<string>,
+): Michelson_LiteralUnion => {
+    const buildBranch = (branch: string | PairsOfKeys<string>): Michelson_LiteralUnion => {
+        if (typeof branch === 'string') {
+            // Set field annotation
+            fields[branch].type.setAnnotation(branch);
+            return fields[branch];
+        }
+        const [left, right] = branch;
+        return Pair(buildBranch(left), buildBranch(right));
+    };
+    return buildBranch(layout || composeRightCombLayout(Object.keys(fields)));
+};
 
-    constructor(fields: Record<string, Michelson_LiteralUnion>, layout?: PairsOfKeys<keyof typeof fields>) {
-        this.#fields = fields;
-        this.#layout = layout || Michelson_Type_RecordOrVariant.composeRightCombLayout(Object.keys(fields));
-
-        this.type = TRecord(
-            Object.entries(fields).reduce((pv, [key, value]) => {
-                return {
-                    ...pv,
-                    [key]: value.type.setAnnotation(key),
-                };
-            }, {} as Record<string, IType>),
-            this.#layout,
-        );
+/**
+ * @description Build variant literal
+ * @param branch branch name
+ * @param value branch value
+ * @param type variant type
+ * @returns {Michelson_LiteralUnion}
+ */
+const buildVariant = (target: string, value: Michelson_LiteralUnion, type: IRecordVariant): Michelson_LiteralUnion => {
+    const [left, right] = type.layout;
+    if (left === target) {
+        return Left(value, type);
+    }
+    if (right === target) {
+        return Right(value, type);
+    }
+    if (Array.isArray(left) && left.flat().includes(target)) {
+        return Left(buildVariant(target, value, buildRecordVariantType(type.fields, left, TOr)), type);
+    }
+    if (Array.isArray(right) && right.flat().includes(target)) {
+        return Right(buildVariant(target, value, buildRecordVariantType(type.fields, right, TOr)), type);
     }
 
-    /**
-     * @description Generate the Micheline representation
-     * @param fields Record fields
-     * @param layout Record layout
-     * @returns {MichelsonMicheline} Micheline representation
-     */
-    private _toMicheline(
-        fields: Record<string, Michelson_LiteralUnion>,
-        layout: PairsOfKeys<keyof typeof fields>,
-    ): MichelsonMicheline {
-        const innerTypes = layout
-            .map((layout) => {
-                if (Array.isArray(layout)) {
-                    return this._toMicheline(fields, layout);
-                }
-
-                return fields[layout].toMicheline();
-            }, '')
-            .join(' ');
-        return `(${Prim.Pair} ${innerTypes})`;
-    }
-
-    /**
-     * @description Generate the Micheline representation
-     * @returns {MichelsonMicheline} Micheline representation
-     */
-    public toMicheline(): MichelsonMicheline {
-        return this._toMicheline(this.#fields, this.#layout);
-    }
-
-    /**
-     * @description Generate the JSON representation
-     * @param fields Record fields
-     * @param layout Record layout
-     * @returns {MichelsonMicheline} JSON representation
-     */
-    private _toJSON(
-        fields: Record<string, Michelson_LiteralUnion>,
-        layout: PairsOfKeys<keyof typeof fields>,
-    ): MichelsonJSON {
-        return {
-            prim: Prim.Pair,
-            args: layout.map((layout) => {
-                if (Array.isArray(layout)) {
-                    return this._toJSON(fields, layout);
-                }
-
-                return fields[layout].toJSON();
-            }, []),
-        };
-    }
-
-    /**
-     * @description Generate the JSON representation
-     * @returns {MichelsonMicheline} JSON representation
-     */
-    public toJSON(): MichelsonJSON {
-        return this._toJSON(this.#fields, this.#layout);
-    }
-}
+    throw new Error(`Variant (${target}) is invalid.`);
+};
 
 // Singletons
 export const Nat = (value: number) => new Michelson_Literal(Prim.int, TNat(), value);
@@ -281,9 +249,14 @@ export const Map = (elements: Michelson_LiteralUnion[][], keyType: IType, valueT
     new Michelson_Map(TMap(keyType, valueType), elements);
 export const Big_map = (elements: Michelson_LiteralUnion[][], keyType: IType, valueType: IType) =>
     new Michelson_Map(TBig_map(keyType, valueType), elements);
+export const Left = (value: Michelson_LiteralUnion, type: IType) => new Michelson_Literal_C1(Prim.Left, type, [value]);
+export const Right = (value: Michelson_LiteralUnion, type: IType) =>
+    new Michelson_Literal_C1(Prim.Right, type, [value]);
 // Artificial containers
-export const Record = (fields: Record<string, Michelson_LiteralUnion>, layout?: PairsOfKeys<keyof typeof fields>) =>
-    new Michelson_Record(fields, layout);
+export const Record = (fields: Record<string, Michelson_LiteralUnion>, layout?: PairsOfKeys<string>) =>
+    buildRecord(fields, layout);
+export const Variant = (branch: string, value: Michelson_LiteralUnion, type: IRecordVariant) =>
+    buildVariant(branch, value, type);
 
 const Literals = {
     // Singletons
@@ -314,6 +287,7 @@ const Literals = {
     // Lambda,
     // Artificial containers
     Record,
+    Variant,
 };
 
 export default Literals;

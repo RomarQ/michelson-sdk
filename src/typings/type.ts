@@ -7,8 +7,6 @@ export interface IType {
     toJSON: () => MichelsonJSON;
 }
 
-export type ILayout = (string | ILayout)[];
-
 export type PrimType =
     // Singleton types
     | Prim.unit

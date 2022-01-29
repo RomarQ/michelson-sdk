@@ -1,5 +1,5 @@
-import { MichelsonJSON, MichelsonMicheline, PairsOfKeys } from '../typings';
-import { IType, PrimType } from '../typings/type';
+import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, IType, PrimType } from '../typings';
+import { composeRightCombLayout } from '../misc/utils';
 import { Prim } from './enums/prim';
 
 export class Michelson_Type implements IType {
@@ -172,99 +172,25 @@ export class Michelson_Type_With_Param implements IType {
     }
 }
 
-export class Michelson_Type_RecordOrVariant<T extends Record<string, IType> = Record<string, IType>> implements IType {
-    _isType = true as const;
-    #annotation?: string;
-    #fields: T;
-    // Default: right combs => https://tezos.gitlab.io/active/michelson.html#operations-on-pairs-and-right-combs
-    #layout: PairsOfKeys<keyof T>;
-
-    constructor(private type: Prim.or | Prim.pair, fields: T, layout?: PairsOfKeys<keyof T>) {
-        Object.entries(fields).forEach(([key, value]) => value.setAnnotation(key));
-        this.#fields = fields;
-        this.#layout = layout || Michelson_Type_RecordOrVariant.composeRightCombLayout(Object.keys(fields));
-    }
-
-    static composeRightCombLayout = <K>(fields: K[]): PairsOfKeys<K> => {
-        if (fields.length > 2) {
-            return [fields[0], this.composeRightCombLayout<K>(fields.slice(1))];
+export interface IRecordVariant extends IType {
+    fields: Record<string, IType>;
+    layout: PairsOfKeys<string>;
+}
+export const buildRecordVariantType = (
+    fields: Record<string, IType>,
+    layout: PairsOfKeys<string>,
+    container: (leftType: IType, rightType: IType) => IType,
+): IRecordVariant => {
+    const buildBranch = (branch: string | PairsOfKeys<string>): IType => {
+        if (typeof branch === 'string') {
+            return fields[branch].setAnnotation(branch);
         }
-        return fields;
+        const [left, right] = branch;
+        return container(buildBranch(left), buildBranch(right));
     };
 
-    /**
-     * @description Set field annotation
-     * @link https://tezos.gitlab.io/active/michelson.html#field-and-constructor-annotations
-     * @param {string} annotation field annotation
-     */
-    public setAnnotation(annotation: string) {
-        this.#annotation = annotation;
-        return this;
-    }
-
-    /**
-     * @description Generate the Micheline representation of the type
-     * @param fields Record fields
-     * @param layout Record layout
-     * @returns {MichelsonMicheline} Micheline representation
-     */
-    private _toMicheline(fields: T, layout: PairsOfKeys<keyof T>): MichelsonMicheline {
-        const annotation = this.#annotation ? ` %${this.#annotation}` : '';
-        const innerTypes = layout
-            .map((layout) => {
-                if (Array.isArray(layout)) {
-                    return this._toMicheline(fields, layout);
-                }
-                return fields[layout].toMicheline();
-            }, '')
-            .join(' ');
-        return `(${this.type}${annotation} ${innerTypes})`;
-    }
-
-    /**
-     * @description Generate the Micheline representation of the type
-     * @returns {MichelsonMicheline} Micheline representation
-     */
-    public toMicheline(): MichelsonMicheline {
-        return this._toMicheline(this.#fields, this.#layout);
-    }
-
-    /**
-     * @description Generate the JSON representation of the type
-     * @param fields Record fields
-     * @param layout Record layout
-     * @returns {MichelsonMicheline} JSON representation
-     */
-    private _toJSON(fields: T, layout: PairsOfKeys<keyof T>): MichelsonJSON {
-        return {
-            prim: this.type,
-            ...(this.#annotation ? { annots: [`%${this.#annotation}`] } : {}),
-            args: layout.map((layout) => {
-                if (Array.isArray(layout)) {
-                    return this._toJSON(fields, layout);
-                }
-
-                return fields[layout].toJSON();
-            }, []),
-        };
-    }
-
-    /**
-     * @description Generate the JSON representation of the type
-     * @returns {MichelsonMicheline} JSON representation
-     */
-    public toJSON(): MichelsonJSON {
-        return this._toJSON(this.#fields, this.#layout);
-    }
-
-    /**
-     * @description Resolve type instance to a primitive
-     * @return {MichelsonJSON} Michelson JSON format
-     */
-    [Symbol.toPrimitive](): MichelsonJSON {
-        return this.toJSON();
-    }
-}
+    return Object.assign(buildBranch(layout), { fields, layout });
+};
 
 // Singleton types
 export const TNat = () => new Michelson_Type(Prim.nat);
@@ -301,9 +227,9 @@ export const TSapling_transaction = (memoSize: number) =>
     new Michelson_Type_With_Param(Prim.sapling_transaction, memoSize);
 // Artificial Types
 export const TRecord = (fields: Record<string, IType>, layout?: PairsOfKeys<string>) =>
-    new Michelson_Type_RecordOrVariant(Prim.pair, fields, layout);
+    buildRecordVariantType(fields, layout || composeRightCombLayout(Object.keys(fields)), TPair);
 export const TVariant = (fields: Record<string, IType>, layout?: PairsOfKeys<string>) =>
-    new Michelson_Type_RecordOrVariant(Prim.or, fields, layout);
+    buildRecordVariantType(fields, layout || composeRightCombLayout(Object.keys(fields)), TOr);
 
 const Types = {
     // Singleton types

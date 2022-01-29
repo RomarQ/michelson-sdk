@@ -40,4 +40,6 @@ export enum Prim {
     None = 'None',
     Pair = 'Pair',
     Elt = 'Elt',
+    Left = 'Left',
+    Right = 'Right',
 }

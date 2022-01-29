@@ -24,8 +24,11 @@ import {
     Map,
     Big_map,
     Michelson_LiteralUnion,
+    Variant,
+    Left,
+    Right,
 } from '../../src/core/literal';
-import { TNat, TString } from '../../src/core/type';
+import { TBool, TBytes, TInt, TNat, TOr, TString, TVariant } from '../../src/core/type';
 import { buildTesterContract, convertContractToJSON, convertMichelsonToJSON } from './utils';
 
 const verifyLiteral = (testName: string, lit: Michelson_LiteralUnion) => {
@@ -125,6 +128,65 @@ export const runTests = () => {
                 field2: Nat(2),
                 field3: Nat(3),
             }),
+        );
+    });
+
+    describe('[E2E] - Michelson compilation (Variant)', () => {
+        verifyLiteral('Left', Left(Bytes('0x00'), TOr(TBytes(), TBool())));
+        verifyLiteral('Right', Right(Bool(true), TOr(TBytes(), TBool())));
+        verifyLiteral(
+            'Right Left',
+            Right(Left(Bytes('0x00'), TOr(TBytes(), TOr(TBytes(), TBool()))), TOr(TBytes(), TOr(TBytes(), TBool()))),
+        );
+        verifyLiteral(
+            'Right Right',
+            Right(Right(Bool(true), TOr(TBytes(), TBool())), TOr(TBytes(), TOr(TBytes(), TBool()))),
+        );
+        verifyLiteral(
+            'Left Comb Layout',
+            Variant(
+                'match2',
+                Bytes('0x00'),
+                TVariant(
+                    {
+                        match1: TNat(),
+                        match2: TBytes(),
+                        match3: TInt(),
+                    },
+                    [['match1', 'match2'], 'match3'],
+                ),
+            ),
+        );
+        verifyLiteral(
+            'Balanced Layout',
+            Variant(
+                'match3',
+                Int(1),
+                TVariant(
+                    {
+                        match1: TNat(),
+                        match2: TBytes(),
+                        match3: TInt(),
+                        match4: TString(),
+                    },
+                    [
+                        ['match1', 'match2'],
+                        ['match3', 'match4'],
+                    ],
+                ),
+            ),
+        );
+        verifyLiteral(
+            'Right Comb Layout',
+            Variant(
+                'match3',
+                Int(1),
+                TVariant({
+                    match1: TNat(),
+                    match2: TBytes(),
+                    match3: TInt(),
+                }),
+            ),
         );
     });
 

@@ -1,9 +1,5 @@
 import { Prim } from '../core/enums/prim';
 
-export interface ILiteral {
-    _isLiteral: true;
-}
-
 export type PrimValue =
     | Prim.Unit
     | Prim.int
@@ -13,4 +9,6 @@ export type PrimValue =
     | Prim.Some
     | Prim.None
     | Prim.list
-    | Prim.Pair;
+    | Prim.Pair
+    | Prim.Left
+    | Prim.Right;

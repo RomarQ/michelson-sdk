@@ -2485,6 +2485,775 @@ code {
 ]
 `;
 
+exports[`[E2E] - Michelson compilation (Variant) Balanced Layout 1`] = `
+Array [
+  "storage (or (or (nat %match1) (bytes %match2)) (or (int %match3) (string %match4)));
+parameter unit;
+code {
+  DROP;
+  PUSH (or (or (nat %match1) (bytes %match2)) (or (int %match3) (string %match4))) (Right (Left 1));
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%match1",
+                  ],
+                  "prim": "nat",
+                },
+                Object {
+                  "annots": Array [
+                    "%match2",
+                  ],
+                  "prim": "bytes",
+                },
+              ],
+              "prim": "or",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%match3",
+                  ],
+                  "prim": "int",
+                },
+                Object {
+                  "annots": Array [
+                    "%match4",
+                  ],
+                  "prim": "string",
+                },
+              ],
+              "prim": "or",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%match1",
+                        ],
+                        "prim": "nat",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%match2",
+                        ],
+                        "prim": "bytes",
+                      },
+                    ],
+                    "prim": "or",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%match3",
+                        ],
+                        "prim": "int",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%match4",
+                        ],
+                        "prim": "string",
+                      },
+                    ],
+                    "prim": "or",
+                  },
+                ],
+                "prim": "or",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "int": "1",
+                      },
+                    ],
+                    "prim": "Left",
+                  },
+                ],
+                "prim": "Right",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Variant) Left 1`] = `
+Array [
+  "storage (or bytes bool);
+parameter unit;
+code {
+  DROP;
+  PUSH (or bytes bool) (Left 0x00);
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "bytes",
+            },
+            Object {
+              "prim": "bool",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "bytes",
+                  },
+                  Object {
+                    "prim": "bool",
+                  },
+                ],
+                "prim": "or",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "bytes": "00",
+                  },
+                ],
+                "prim": "Left",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Variant) Left Comb Layout 1`] = `
+Array [
+  "storage (or (or (nat %match1) (bytes %match2)) (int %match3));
+parameter unit;
+code {
+  DROP;
+  PUSH (or (or (nat %match1) (bytes %match2)) (int %match3)) (Left (Right 0x00));
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%match1",
+                  ],
+                  "prim": "nat",
+                },
+                Object {
+                  "annots": Array [
+                    "%match2",
+                  ],
+                  "prim": "bytes",
+                },
+              ],
+              "prim": "or",
+            },
+            Object {
+              "annots": Array [
+                "%match3",
+              ],
+              "prim": "int",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%match1",
+                        ],
+                        "prim": "nat",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%match2",
+                        ],
+                        "prim": "bytes",
+                      },
+                    ],
+                    "prim": "or",
+                  },
+                  Object {
+                    "annots": Array [
+                      "%match3",
+                    ],
+                    "prim": "int",
+                  },
+                ],
+                "prim": "or",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "bytes": "00",
+                      },
+                    ],
+                    "prim": "Right",
+                  },
+                ],
+                "prim": "Left",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Variant) Right 1`] = `
+Array [
+  "storage (or bytes bool);
+parameter unit;
+code {
+  DROP;
+  PUSH (or bytes bool) (Right True);
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "bytes",
+            },
+            Object {
+              "prim": "bool",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "bytes",
+                  },
+                  Object {
+                    "prim": "bool",
+                  },
+                ],
+                "prim": "or",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "True",
+                  },
+                ],
+                "prim": "Right",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Variant) Right Comb Layout 1`] = `
+Array [
+  "storage (or (nat %match1) (or (bytes %match2) (int %match3)));
+parameter unit;
+code {
+  DROP;
+  PUSH (or (nat %match1) (or (bytes %match2) (int %match3))) (Right (Right 1));
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "annots": Array [
+                "%match1",
+              ],
+              "prim": "nat",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%match2",
+                  ],
+                  "prim": "bytes",
+                },
+                Object {
+                  "annots": Array [
+                    "%match3",
+                  ],
+                  "prim": "int",
+                },
+              ],
+              "prim": "or",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "annots": Array [
+                      "%match1",
+                    ],
+                    "prim": "nat",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%match2",
+                        ],
+                        "prim": "bytes",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%match3",
+                        ],
+                        "prim": "int",
+                      },
+                    ],
+                    "prim": "or",
+                  },
+                ],
+                "prim": "or",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "int": "1",
+                      },
+                    ],
+                    "prim": "Right",
+                  },
+                ],
+                "prim": "Right",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Variant) Right Left 1`] = `
+Array [
+  "storage (or bytes (or bytes bool));
+parameter unit;
+code {
+  DROP;
+  PUSH (or bytes (or bytes bool)) (Right (Left 0x00));
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "bytes",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "prim": "bytes",
+                },
+                Object {
+                  "prim": "bool",
+                },
+              ],
+              "prim": "or",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "bytes",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "prim": "bytes",
+                      },
+                      Object {
+                        "prim": "bool",
+                      },
+                    ],
+                    "prim": "or",
+                  },
+                ],
+                "prim": "or",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "bytes": "00",
+                      },
+                    ],
+                    "prim": "Left",
+                  },
+                ],
+                "prim": "Right",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Variant) Right Right 1`] = `
+Array [
+  "storage (or bytes (or bytes bool));
+parameter unit;
+code {
+  DROP;
+  PUSH (or bytes (or bytes bool)) (Right (Right True));
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "bytes",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "prim": "bytes",
+                },
+                Object {
+                  "prim": "bool",
+                },
+              ],
+              "prim": "or",
+            },
+          ],
+          "prim": "or",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "bytes",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "prim": "bytes",
+                      },
+                      Object {
+                        "prim": "bool",
+                      },
+                    ],
+                    "prim": "or",
+                  },
+                ],
+                "prim": "or",
+              },
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "prim": "True",
+                      },
+                    ],
+                    "prim": "Right",
+                  },
+                ],
+                "prim": "Right",
+              },
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
 exports[`[E2E] - Michelson types with no literals contract 1`] = `
 Array [
   "storage unit;
