@@ -1,9 +1,11 @@
+import type { IType } from '../../src/typings';
 import {
     TBool,
     TBytes,
     TChain_id,
     TContract,
     TInt,
+    TLambda,
     TNat,
     TNever,
     TOperation,
@@ -15,7 +17,6 @@ import {
     TUnit,
     TVariant,
 } from '../../src/core/type';
-import { IType } from '../../src/typings/type';
 import { buildTypeTesterContract, convertContractToJSON } from './utils';
 
 const verifyType = (testName: string, type: IType) => {
@@ -54,6 +55,7 @@ export const runTests = () => {
         verifyType('sapling_transaction', TSapling_transaction(1));
         verifyType('or', TOr(TBytes(), TUnit()));
         verifyType('or (nested)', TOr(TNat(), TOr(TBool(), TChain_id())));
+        verifyType('lambda', TLambda(TBool(), TChain_id()));
 
         it('operation', () => {
             const micheline =

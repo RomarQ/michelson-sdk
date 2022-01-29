@@ -1,12 +1,8 @@
-import { MichelsonJSON, MichelsonMicheline } from '.';
 import { Prim } from '../core/enums/prim';
 
-export interface IType {
-    setAnnotation: (annotation: string) => IType;
-    toMicheline: () => MichelsonMicheline;
-    toJSON: () => MichelsonJSON;
-}
-
+/**
+ * @see https://tezos.gitlab.io/alpha/michelson.html#full-grammar
+ */
 export type PrimType =
     // Singleton types
     | Prim.unit

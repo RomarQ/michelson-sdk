@@ -1,7 +1,6 @@
+import type { IValue, IType } from '../../src/typings';
 import { execSync } from 'child_process';
 import path from 'path';
-import { Michelson_LiteralUnion } from '../../src/core';
-import { IType } from '../../src/typings/type';
 
 export const TEZOS_CLIENT_CMD = './tests/e2e/tezos-binaries/tezos-client';
 
@@ -33,7 +32,7 @@ export const convertContractToJSON = (contract: string) => {
     return execSync(`${path.resolve(TEZOS_CLIENT_CMD)} ${parameters}`).toString('utf-8');
 };
 
-export const buildTesterContract = (literal: Michelson_LiteralUnion) => {
+export const buildTesterContract = (literal: IValue) => {
     const michelineType = literal.type.toMicheline();
     const michelineValue = literal.toMicheline();
     const jsonType = literal.type.toJSON();

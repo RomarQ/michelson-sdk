@@ -1,5 +1,5 @@
 import type { Michelson_Type, IRecordVariant } from './type';
-import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, IType, PrimValue } from '../typings';
+import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, IType, PrimValue, IValue } from '../typings';
 import {
     TBig_map,
     TBls12_381_fr,
@@ -29,12 +29,12 @@ import {
 } from './type';
 import { Prim } from './enums/prim';
 import Utils, { composeRightCombLayout } from '../misc/utils';
+import Converter from '../../src/converter';
+import { TLambda } from '.';
 
-export type Michelson_LiteralUnion = Michelson_Literal | Michelson_Literal_C1 | Michelson_Map;
-
-export class Michelson_Literal {
+export class Michelson_Literal implements IValue {
     private prim: PrimValue;
-    private value: number | string | boolean;
+    private value: number | string | boolean | Prim;
     type: IType;
 
     constructor(prim: PrimValue, type: IType, value?: number | string | boolean) {
@@ -43,6 +43,8 @@ export class Michelson_Literal {
         switch (prim) {
             case Prim.Unit:
             case Prim.None:
+            case Prim.False:
+            case Prim.True:
                 this.value = prim;
                 break;
             default:
@@ -56,25 +58,27 @@ export class Michelson_Literal {
     toMicheline(): MichelsonMicheline {
         switch (this.prim) {
             case Prim.None:
+            case Prim.False:
+            case Prim.True:
             case Prim.Unit:
             case Prim.int:
             case Prim.bytes:
                 return `${this.value}`;
             case Prim.string:
                 return `"${this.value}"`;
-            case Prim.bool:
-                return Utils.capitalizeBoolean(this.value as boolean);
         }
 
         throw new Error(`Cannot produce michelson for literal of type: ${this.prim}`);
     }
 
-    toJSON(): Record<string, unknown> {
+    toJSON(): MichelsonJSON {
         switch (this.prim) {
             case Prim.None:
             case Prim.Unit:
+            case Prim.False:
+            case Prim.True:
                 return {
-                    prim: this.value,
+                    prim: this.value as Prim,
                 };
             case Prim.int:
                 return {
@@ -82,16 +86,12 @@ export class Michelson_Literal {
                 };
             case Prim.string:
                 return {
-                    [Prim.string]: this.value,
+                    [Prim.string]: this.value as string,
                 };
             case Prim.bytes:
                 return {
                     // Same behaviour as in "tezos-client"
                     [Prim.bytes]: Utils.compressHexString(`${this.value}`),
-                };
-            case Prim.bool:
-                return {
-                    prim: Utils.capitalizeBoolean(this.value as boolean),
                 };
         }
 
@@ -99,12 +99,12 @@ export class Michelson_Literal {
     }
 }
 
-export class Michelson_Literal_C1 {
-    #prim: Prim;
-    #elements: Michelson_LiteralUnion[];
+export class Michelson_Literal_C1 implements IValue {
+    #prim: PrimValue;
+    #elements: IValue[];
     type: IType;
 
-    constructor(prim: PrimValue, type: IType, elements: Michelson_LiteralUnion[]) {
+    constructor(prim: PrimValue, type: IType, elements: IValue[]) {
         this.#prim = prim;
         this.type = type;
         this.#elements = elements;
@@ -117,7 +117,7 @@ export class Michelson_Literal_C1 {
             case Prim.Left:
             case Prim.Right:
                 return `(${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ')})`;
-            case Prim.list:
+            case Prim.Elt:
                 return `{ ${this.#elements.map((v) => v.toMicheline()).join(' ; ')} }`;
         }
 
@@ -134,7 +134,7 @@ export class Michelson_Literal_C1 {
                     prim: this.#prim,
                     args: this.#elements.map((v) => v.toJSON()),
                 };
-            case Prim.list:
+            case Prim.Elt:
                 return this.#elements.map((v) => v.toJSON());
         }
 
@@ -142,16 +142,16 @@ export class Michelson_Literal_C1 {
     }
 }
 
-export class Michelson_Map {
-    #elements: Michelson_LiteralUnion[][];
+export class Michelson_Map implements IValue {
+    #elements: IValue[][];
     type: IType;
 
-    constructor(type: Michelson_Type, elements: Michelson_LiteralUnion[][]) {
+    constructor(type: Michelson_Type, elements: IValue[][]) {
         this.type = type;
         this.#elements = elements;
     }
 
-    private buildMichelineElt = (key: Michelson_LiteralUnion, value: Michelson_LiteralUnion) => {
+    private buildMichelineElt = (key: IValue, value: IValue) => {
         return `${Prim.Elt} ${key.toMicheline()} ${value.toMicheline()}`;
     };
 
@@ -173,11 +173,8 @@ export class Michelson_Map {
  * @param layout record layout
  * @returns {Michelson_LiteralUnion}
  */
-const buildRecord = (
-    fields: Record<string, Michelson_LiteralUnion>,
-    layout?: PairsOfKeys<string>,
-): Michelson_LiteralUnion => {
-    const buildBranch = (branch: string | PairsOfKeys<string>): Michelson_LiteralUnion => {
+const buildRecord = (fields: Record<string, IValue>, layout?: PairsOfKeys<string>): IValue => {
+    const buildBranch = (branch: string | PairsOfKeys<string>): IValue => {
         if (typeof branch === 'string') {
             // Set field annotation
             fields[branch].type.setAnnotation(branch);
@@ -196,7 +193,7 @@ const buildRecord = (
  * @param type variant type
  * @returns {Michelson_LiteralUnion}
  */
-const buildVariant = (target: string, value: Michelson_LiteralUnion, type: IRecordVariant): Michelson_LiteralUnion => {
+const buildVariant = (target: string, value: IValue, type: IRecordVariant): IValue => {
     const [left, right] = type.layout;
     if (left === target) {
         return Left(value, type);
@@ -212,6 +209,23 @@ const buildVariant = (target: string, value: Michelson_LiteralUnion, type: IReco
     }
 
     throw new Error(`Variant (${target}) is invalid.`);
+};
+
+const buildLambda = (michelson: MichelsonMicheline | MichelsonJSON, type: IType): IValue => {
+    if (typeof michelson === 'string') {
+        return {
+            toMicheline: () => michelson,
+            toJSON: () => {
+                throw new Error('Convertion from Micheline to JSON is not implemented.');
+            },
+            type,
+        };
+    }
+    return {
+        toMicheline: () => Converter.michelineOfJSON(michelson),
+        toJSON: () => michelson,
+        type,
+    };
 };
 
 // Singletons
@@ -233,30 +247,28 @@ export const Bls12_381_g2 = (value: string) => new Michelson_Literal(Prim.bytes,
 export const Key = (value: string) => new Michelson_Literal(Prim.string, TKey(), value);
 export const Key_hash = (value: string) => new Michelson_Literal(Prim.string, TKey_hash(), value);
 export const Signature = (value: string) => new Michelson_Literal(Prim.string, TSignature(), value);
-export const Bool = (value: boolean) => new Michelson_Literal(Prim.bool, TBool(), value);
+export const Bool = (value: boolean) => new Michelson_Literal(value ? Prim.True : Prim.False, TBool());
 export const Unit = () => new Michelson_Literal(Prim.Unit, TUnit());
 // Containers
-export const List = (elements: Michelson_LiteralUnion[], innerType: IType) =>
-    new Michelson_Literal_C1(Prim.list, TList(innerType), elements);
-export const Set = (elements: Michelson_LiteralUnion[], innerType: IType) =>
-    new Michelson_Literal_C1(Prim.list, TSet(innerType), elements);
+export const List = (elements: IValue[], innerType: IType) =>
+    new Michelson_Literal_C1(Prim.Elt, TList(innerType), elements);
+export const Set = (elements: IValue[], innerType: IType) =>
+    new Michelson_Literal_C1(Prim.Elt, TSet(innerType), elements);
 export const None = (innerType: IType) => new Michelson_Literal(Prim.None, TOption(innerType));
-export const Some = (element: Michelson_LiteralUnion) =>
-    new Michelson_Literal_C1(Prim.Some, TOption(element.type), [element]);
-export const Pair = (left: Michelson_LiteralUnion, right: Michelson_LiteralUnion) =>
+export const Some = (element: IValue) => new Michelson_Literal_C1(Prim.Some, TOption(element.type), [element]);
+export const Pair = (left: IValue, right: IValue) =>
     new Michelson_Literal_C1(Prim.Pair, TPair(left.type, right.type), [left, right]);
-export const Map = (elements: Michelson_LiteralUnion[][], keyType: IType, valueType: IType) =>
+export const Map = (elements: IValue[][], keyType: IType, valueType: IType) =>
     new Michelson_Map(TMap(keyType, valueType), elements);
-export const Big_map = (elements: Michelson_LiteralUnion[][], keyType: IType, valueType: IType) =>
+export const Big_map = (elements: IValue[][], keyType: IType, valueType: IType) =>
     new Michelson_Map(TBig_map(keyType, valueType), elements);
-export const Left = (value: Michelson_LiteralUnion, type: IType) => new Michelson_Literal_C1(Prim.Left, type, [value]);
-export const Right = (value: Michelson_LiteralUnion, type: IType) =>
-    new Michelson_Literal_C1(Prim.Right, type, [value]);
+export const Lambda = (code: MichelsonMicheline | MichelsonJSON, inType: IType, outType: IType) =>
+    buildLambda(code, TLambda(inType, outType));
+export const Left = (value: IValue, type: IType) => new Michelson_Literal_C1(Prim.Left, type, [value]);
+export const Right = (value: IValue, type: IType) => new Michelson_Literal_C1(Prim.Right, type, [value]);
 // Artificial containers
-export const Record = (fields: Record<string, Michelson_LiteralUnion>, layout?: PairsOfKeys<string>) =>
-    buildRecord(fields, layout);
-export const Variant = (branch: string, value: Michelson_LiteralUnion, type: IRecordVariant) =>
-    buildVariant(branch, value, type);
+export const Record = (fields: Record<string, IValue>, layout?: PairsOfKeys<string>) => buildRecord(fields, layout);
+export const Variant = (branch: string, value: IValue, type: IRecordVariant) => buildVariant(branch, value, type);
 
 const Literals = {
     // Singletons
@@ -284,7 +296,7 @@ const Literals = {
     Pair,
     Map,
     Big_map,
-    // Lambda,
+    Lambda,
     // Artificial containers
     Record,
     Variant,

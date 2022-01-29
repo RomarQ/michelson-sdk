@@ -1,3 +1,4 @@
+import type { IValue } from '../../src/typings';
 import {
     Address,
     Bool,
@@ -23,15 +24,15 @@ import {
     Key_hash,
     Map,
     Big_map,
-    Michelson_LiteralUnion,
     Variant,
     Left,
     Right,
+    Lambda,
 } from '../../src/core/literal';
-import { TBool, TBytes, TInt, TNat, TOr, TString, TVariant } from '../../src/core/type';
+import { TBool, TBytes, TInt, TLambda, TNat, TOr, TString, TUnit, TVariant } from '../../src/core/type';
 import { buildTesterContract, convertContractToJSON, convertMichelsonToJSON } from './utils';
 
-const verifyLiteral = (testName: string, lit: Michelson_LiteralUnion) => {
+const verifyLiteral = (testName: string, lit: IValue) => {
     it(testName, () => {
         const { micheline, json } = buildTesterContract(lit);
         const jsonResult = convertContractToJSON(micheline);
@@ -221,5 +222,63 @@ export const runTests = () => {
             expect(jsonValue).toEqual(JSON.parse(result));
             expect(jsonValue).toMatchSnapshot();
         });
+    });
+
+    describe('[E2E] - Michelson compilation (Lambda)', () => {
+        verifyLiteral(
+            'Lambda',
+            Lambda(
+                [
+                    {
+                        prim: 'DROP',
+                    },
+                    {
+                        prim: 'LAMBDA',
+                        args: [
+                            {
+                                prim: 'nat',
+                            },
+                            {
+                                prim: 'bool',
+                            },
+                            [
+                                {
+                                    prim: 'DROP',
+                                },
+                                {
+                                    prim: 'PUSH',
+                                    args: [
+                                        {
+                                            prim: 'bool',
+                                        },
+                                        {
+                                            prim: 'True',
+                                        },
+                                    ],
+                                },
+                            ],
+                        ],
+                    },
+                ],
+                TNat(),
+                TLambda(TNat(), TBool()),
+            ),
+        );
+        verifyLiteral(
+            'Lambda with IF control',
+            Lambda(
+                [
+                    {
+                        prim: 'IF',
+                        args: [
+                            [{ prim: 'PUSH', args: [{ prim: 'unit' }, { prim: 'Unit' }] }],
+                            [{ prim: 'PUSH', args: [{ prim: 'unit' }, { prim: 'Unit' }] }],
+                        ],
+                    },
+                ],
+                TBool(),
+                TUnit(),
+            ),
+        );
     });
 };

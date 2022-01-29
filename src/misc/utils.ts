@@ -1,6 +1,7 @@
-import { PairsOfKeys } from '../typings';
+import type { PairsOfKeys } from '../typings';
+import { Prim } from '../core/enums/prim';
 
-export const capitalizeBoolean = (bool: boolean): string => (bool ? 'True' : 'False');
+export const capitalizeBoolean = (bool: boolean): Prim.True | Prim.False => (bool ? Prim.True : Prim.False);
 
 export const compressHexString = (str: string) => {
     return (str.slice(0, 2) === '0x' ? str.slice(2) : str).toLowerCase();

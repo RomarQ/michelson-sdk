@@ -152,6 +152,254 @@ code {
 ]
 `;
 
+exports[`[E2E] - Michelson compilation (Lambda) Lambda 1`] = `
+Array [
+  "storage (lambda nat (lambda nat bool));
+parameter unit;
+code {
+  DROP;
+  PUSH (lambda nat (lambda nat bool)) {
+  DROP;
+  LAMBDA nat bool 
+  {
+    DROP;
+    PUSH bool True;
+  };
+};
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "prim": "nat",
+                },
+                Object {
+                  "prim": "bool",
+                },
+              ],
+              "prim": "lambda",
+            },
+          ],
+          "prim": "lambda",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "prim": "nat",
+                      },
+                      Object {
+                        "prim": "bool",
+                      },
+                    ],
+                    "prim": "lambda",
+                  },
+                ],
+                "prim": "lambda",
+              },
+              Array [
+                Object {
+                  "prim": "DROP",
+                },
+                Object {
+                  "args": Array [
+                    Object {
+                      "prim": "nat",
+                    },
+                    Object {
+                      "prim": "bool",
+                    },
+                    Array [
+                      Object {
+                        "prim": "DROP",
+                      },
+                      Object {
+                        "args": Array [
+                          Object {
+                            "prim": "bool",
+                          },
+                          Object {
+                            "prim": "True",
+                          },
+                        ],
+                        "prim": "PUSH",
+                      },
+                    ],
+                  ],
+                  "prim": "LAMBDA",
+                },
+              ],
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Lambda) Lambda with IF control 1`] = `
+Array [
+  "storage (lambda bool unit);
+parameter unit;
+code {
+  DROP;
+  PUSH (lambda bool unit) {
+  IF 
+  {
+    PUSH unit Unit;
+  } 
+  {
+    PUSH unit Unit;
+  };
+};
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "bool",
+            },
+            Object {
+              "prim": "unit",
+            },
+          ],
+          "prim": "lambda",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "bool",
+                  },
+                  Object {
+                    "prim": "unit",
+                  },
+                ],
+                "prim": "lambda",
+              },
+              Array [
+                Object {
+                  "args": Array [
+                    Array [
+                      Object {
+                        "args": Array [
+                          Object {
+                            "prim": "unit",
+                          },
+                          Object {
+                            "prim": "Unit",
+                          },
+                        ],
+                        "prim": "PUSH",
+                      },
+                    ],
+                    Array [
+                      Object {
+                        "args": Array [
+                          Object {
+                            "prim": "unit",
+                          },
+                          Object {
+                            "prim": "Unit",
+                          },
+                        ],
+                        "prim": "PUSH",
+                      },
+                    ],
+                  ],
+                  "prim": "IF",
+                },
+              ],
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
 exports[`[E2E] - Michelson compilation (List) List 1`] = `
 Array [
   "storage (list nat);
@@ -3281,6 +3529,65 @@ code {
             },
           ],
           "prim": "contract",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "CDR",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
+exports[`[E2E] - Michelson types with no literals lambda 1`] = `
+Array [
+  "storage unit;
+parameter (lambda bool chain_id);
+code {
+  CDR;
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "bool",
+            },
+            Object {
+              "prim": "chain_id",
+            },
+          ],
+          "prim": "lambda",
         },
       ],
       "prim": "parameter",

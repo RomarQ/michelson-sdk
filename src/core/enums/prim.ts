@@ -1,3 +1,6 @@
+/**
+ * @see https://tezos.gitlab.io/alpha/michelson.html#full-grammar
+ */
 export enum Prim {
     // Type
     unit = 'unit',
@@ -42,4 +45,17 @@ export enum Prim {
     Elt = 'Elt',
     Left = 'Left',
     Right = 'Right',
+    // Root fields
+    storage = 'storage',
+    parameter = 'parameter',
+    code = 'code',
+    // Instructions
+    DROP = 'DROP',
+    CDR = 'CDR',
+    NIL = 'NIL',
+    PAIR = 'PAIR',
+    UNPAIR = 'UNPAIR',
+    PUSH = 'PUSH',
+    LAMBDA = 'LAMBDA',
+    IF = 'IF',
 }
