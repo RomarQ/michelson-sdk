@@ -7,6 +7,7 @@ export type PrimValue =
     | Prim.int
     | Prim.string
     | Prim.bytes
+    | Prim.list
     | Prim.Unit
     | Prim.Some
     | Prim.None

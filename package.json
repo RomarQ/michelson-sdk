@@ -1,6 +1,6 @@
 {
     "name": "@tezwell/michelson-sdk",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Michelson SDK",
     "keywords": [
         "Tezos",
@@ -20,6 +20,7 @@
     "module": "index.js",
     "exports": {
         ".": "./index.js",
+        "./converter": "./converter/index.js",
         "./core": "./core/index.js",
         "./literal": "./core/literal.js",
         "./type": "./core/type.js"

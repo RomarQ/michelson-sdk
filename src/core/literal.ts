@@ -24,13 +24,13 @@ import {
     TPair,
     TMap,
     TOr,
+    TLambda,
     //
     buildRecordVariantType,
 } from './type';
 import { Prim } from './enums/prim';
 import Utils, { composeRightCombLayout } from '../misc/utils';
 import Converter from '../../src/converter';
-import { TLambda } from '.';
 
 export class Michelson_Literal implements IValue {
     private prim: PrimValue;
@@ -117,7 +117,7 @@ export class Michelson_Literal_C1 implements IValue {
             case Prim.Left:
             case Prim.Right:
                 return `(${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ')})`;
-            case Prim.Elt:
+            case Prim.list:
                 return `{ ${this.#elements.map((v) => v.toMicheline()).join(' ; ')} }`;
         }
 
@@ -134,7 +134,7 @@ export class Michelson_Literal_C1 implements IValue {
                     prim: this.#prim,
                     args: this.#elements.map((v) => v.toJSON()),
                 };
-            case Prim.Elt:
+            case Prim.list:
                 return this.#elements.map((v) => v.toJSON());
         }
 
@@ -251,9 +251,9 @@ export const Bool = (value: boolean) => new Michelson_Literal(value ? Prim.True 
 export const Unit = () => new Michelson_Literal(Prim.Unit, TUnit());
 // Containers
 export const List = (elements: IValue[], innerType: IType) =>
-    new Michelson_Literal_C1(Prim.Elt, TList(innerType), elements);
+    new Michelson_Literal_C1(Prim.list, TList(innerType), elements);
 export const Set = (elements: IValue[], innerType: IType) =>
-    new Michelson_Literal_C1(Prim.Elt, TSet(innerType), elements);
+    new Michelson_Literal_C1(Prim.list, TSet(innerType), elements);
 export const None = (innerType: IType) => new Michelson_Literal(Prim.None, TOption(innerType));
 export const Some = (element: IValue) => new Michelson_Literal_C1(Prim.Some, TOption(element.type), [element]);
 export const Pair = (left: IValue, right: IValue) =>

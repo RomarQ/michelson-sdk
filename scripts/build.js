@@ -5,7 +5,13 @@ const DIST_FOLDER = './dist';
 
 // Build steps
 cleanUP();
-generateBundle(['./src/index.ts', './src/core/index.ts', './src/core/type.ts', './src/core/literal.ts']);
+generateBundle([
+    './src/index.ts',
+    './src/converter/index.ts',
+    './src/core/index.ts',
+    './src/core/type.ts',
+    './src/core/literal.ts',
+]);
 
 /**
  * Produces the js bundle
