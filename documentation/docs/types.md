@@ -9,7 +9,7 @@ Official [Michelson type reference](https://tezos.gitlab.io/michelson-reference/
 Naturals are arbitrary-precision, meaning that the only size limit is gas.
 
 ```ts
-import { TNat } from '@tezwell/michelson-sdk';
+const { TNat } = require('@tezwell/michelson-sdk');
 
 const nat_type = TNat();
 
@@ -24,7 +24,7 @@ console.log(nat_type.toJSON());           // { prim: 'nat' }
 Integers are arbitrary-precision, meaning that the only size limit is gas.
 
 ```ts
-import { TInt } from '@tezwell/michelson-sdk';
+const { TInt } = require('@tezwell/michelson-sdk');
 
 const int_type = TInt();
 
@@ -39,7 +39,7 @@ console.log(int_type.toJSON());           // { prim: 'int' }
 Mutez (micro-Tez) are internally represented by **64-bit** signed integers. These are restricted to prevent creating a negative amount of mutez.
 
 ```ts
-import { TMutez } from '@tezwell/michelson-sdk';
+const { TMutez } = require('@tezwell/michelson-sdk');
 
 const mutez_type = TMutez();
 
@@ -54,7 +54,7 @@ console.log(mutez_type.toJSON());           // { prim: 'mutez' }
 The current version of Michelson restricts strings to be the printable subset of **7-bit ASCII**, namely characters with codes from within [32, 126] range, plus the following escape characters `\n`, `\\`, `\"`.
 
 ```ts
-import { TString } from '@tezwell/michelson-sdk';
+const { TString } = require('@tezwell/michelson-sdk');
 
 const string_type = TString();
 
@@ -69,7 +69,7 @@ console.log(string_type.toJSON());           // { prim: 'string' }
 The type for booleans whose values are `True` and `False`.
 
 ```ts
-import { TBool } from '@tezwell/michelson-sdk';
+const { TBool } = require('@tezwell/michelson-sdk');
 
 const bool_type = TBool();
 
@@ -84,7 +84,7 @@ console.log(bool_type.toJSON());           // { prim: 'bool' }
 Bytes are used for serializing data, in order to check signatures and compute hashes on them. They can also be used to incorporate data from the wild and untyped outside world.
 
 ```ts
-import { TBytes } from '@tezwell/michelson-sdk';
+const { TBytes } = require('@tezwell/michelson-sdk');
 
 const bytes_type = TBytes();
 
@@ -112,7 +112,7 @@ Addresses prefixed by tz1, tz2 and tz3 designate implicit accounts, whereas thos
 Addresses can also specify an entrypoint, with a `%<entrypoint_name>` suffix.
 
 ```ts
-import { TAddress } from '@tezwell/michelson-sdk';
+const { TAddress } = require('@tezwell/michelson-sdk');
 
 const address_type = TAddress();
 
@@ -127,7 +127,7 @@ console.log(address_type.toJSON());           // { prim: 'address' }
 The type `timestamp` is used to represent timestamps that are written either using [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) notation in a string (readable), or as the number of seconds since Epoch in a natural (optimized).
 
 ```ts
-import { TTimestamp } from '@tezwell/michelson-sdk';
+const { TTimestamp } = require('@tezwell/michelson-sdk');
 
 const timestamp_type = TTimestamp();
 
@@ -142,7 +142,7 @@ console.log(timestamp_type.toJSON());           // { prim: 'timestamp' }
 The type `chain_id` represents an identifier for a chain, used to distinguish the test and the main chains.
 
 ```ts
-import { TChain_id } from '@tezwell/michelson-sdk';
+const { TChain_id } = require('@tezwell/michelson-sdk');
 
 const chain_id_type = TChain_id();
 
@@ -157,7 +157,7 @@ console.log(chain_id_type.toJSON());           // { prim: 'chain_id' }
 The type `bls12_381_fr` represents an element of the scalar field Fr, used for scalar multiplication on the BLS12-381 curves G1 and G2.
 
 ```ts
-import { TBls12_381_fr } from '@tezwell/michelson-sdk';
+const { TBls12_381_fr } = require('@tezwell/michelson-sdk');
 
 const bls12_381_fr_type = TBls12_381_fr();
 
@@ -172,7 +172,7 @@ console.log(bls12_381_fr_type.toJSON());           // { prim: 'bls12_381_fr' }
 The type `bls12_381_g1` represents a point on the BLS12-381 curve G1.
 
 ```ts
-import { TBls12_381_g1 } from '@tezwell/michelson-sdk';
+const { TBls12_381_g1 } = require('@tezwell/michelson-sdk');
 
 const bls12_381_g1_type = TBls12_381_g1();
 
@@ -187,7 +187,7 @@ console.log(bls12_381_g1_type.toJSON());           // { prim: 'bls12_381_g1' }
 The type `bls12_381_g2` represents a point on the BLS12-381 curve G2.
 
 ```ts
-import { TBls12_381_g2 } from '@tezwell/michelson-sdk';
+const { TBls12_381_g2 } = require('@tezwell/michelson-sdk');
 
 const bls12_381_g2_type = TBls12_381_g2();
 
@@ -202,7 +202,7 @@ console.log(bls12_381_g2_type.toJSON());           // { prim: 'bls12_381_g2' }
 The type `key` represents a public cryptographic key.
 
 ```ts
-import { TKey } from '@tezwell/michelson-sdk';
+const { TKey } = require('@tezwell/michelson-sdk');
 
 const key_type = TKey();
 
@@ -217,7 +217,7 @@ console.log(key_type.toJSON());           // { prim: 'key' }
 The type `key_hash` represents a hash of a public cryptographic key.
 
 ```ts
-import { TKey_hash } from '@tezwell/michelson-sdk';
+const { TKey_hash } = require('@tezwell/michelson-sdk');
 
 const key_hash_type = TKey_hash();
 
@@ -232,7 +232,7 @@ console.log(key_hash_type.toJSON());           // { prim: 'key_hash' }
 The type `signature` represents a cryptographic signature.
 
 ```ts
-import { TSignature } from '@tezwell/michelson-sdk';
+const { TSignature } = require('@tezwell/michelson-sdk');
 
 const signature_type = TSignature();
 
@@ -247,7 +247,7 @@ console.log(signature_type.toJSON());           // { prim: 'signature' }
 The type whose only value is Unit, to use as a placeholder when some result or parameter is non-necessary.
 
 ```ts
-import { TUnit } from '@tezwell/michelson-sdk';
+const { TUnit } = require('@tezwell/michelson-sdk');
 
 const unit_type = TUnit();
 
@@ -262,7 +262,7 @@ console.log(unit_type.toJSON());           // { prim: 'unit' }
 The type `operation` represents an internal operation emitted by a contract.
 
 ```ts
-import { TOperation } from '@tezwell/michelson-sdk';
+const { TOperation } = require('@tezwell/michelson-sdk');
 
 const operation_type = TOperation();
 
@@ -277,7 +277,7 @@ console.log(operation_type.toJSON());           // { prim: 'operation' }
 The type `never` is used to represent an unreachable branch.
 
 ```ts
-import { TNever } from '@tezwell/michelson-sdk';
+const { TNever } = require('@tezwell/michelson-sdk');
 
 const never_type = TNever();
 
@@ -294,7 +294,7 @@ console.log(never_type.toJSON());           // { prim: 'never' }
 The `list` type reprensents a immutable and homogeneous linked list.
 
 ```ts
-import { TList, TNat } from '@tezwell/michelson-sdk';
+const { TList, TNat } = require('@tezwell/michelson-sdk');
 
 const list_type = TList(TNat());
 
@@ -309,7 +309,7 @@ console.log(list_type.toJSON());           // { prim: 'list', args: [ { prim: 'n
 The `set` type is used to represent sequences of unique elements.
 
 ```ts
-import { TSet, TNat } from '@tezwell/michelson-sdk';
+const { TSet, TNat } = require('@tezwell/michelson-sdk');
 
 const set_type = TSet(TNat());
 
@@ -324,7 +324,7 @@ console.log(set_type.toJSON());           // { prim: 'set', args: [ { prim: 'nat
 The `option` type is used to represent an optional value.
 
 ```ts
-import { TOption, TNat } from '@tezwell/michelson-sdk';
+const { TOption, TNat } = require('@tezwell/michelson-sdk');
 
 const option_type = TOption(TNat());
 
@@ -339,7 +339,7 @@ console.log(option_type.toJSON());           // { prim: 'option', args: [ { prim
 The `pair` type represents a binary tuple composed of a left element and a right element.
 
 ```ts
-import { TPair, TNat, TString } from '@tezwell/michelson-sdk';
+const { TPair, TNat, TString } = require('@tezwell/michelson-sdk');
 
 const pair_type = TPair(TString(), TNat());
 
@@ -354,7 +354,7 @@ console.log(pair_type.toJSON());           // { prim: 'pair', args: [ { prim: 's
 The type `or` represents a union of two types. Used for type variance. (e.g. number | string)
 
 ```ts
-import { TOr, TNat, TString } from '@tezwell/michelson-sdk';
+const { TOr, TNat, TString } = require('@tezwell/michelson-sdk');
 
 const or_type = TOr(TString(), TNat());
 
@@ -367,7 +367,7 @@ console.log(or_type.toJSON());           // { prim: 'or', args: [ { prim: 'strin
 ### map
 
 ```ts
-import { TMap, TNat, TString } from '@tezwell/michelson-sdk';
+const { TMap, TNat, TString } = require('@tezwell/michelson-sdk');
 
 const map_type = TMap(TString(), TNat());
 
@@ -382,7 +382,7 @@ console.log(map_type.toJSON());           // { prim: 'map', args: [ { prim: 'str
 The type `big_map` is used to represent lazily deserialized maps.
 
 ```ts
-import { TBigMap, TNat, TString } from '@tezwell/michelson-sdk';
+const { TBigMap, TNat, TString } = require('@tezwell/michelson-sdk');
 
 const big_map_type = TBigMap(TString(), TNat());
 
@@ -397,7 +397,7 @@ console.log(big_map_type.toJSON());           // { prim: 'big_map', args: [ { pr
 The type `lambda` represents a function signature.
 
 ```ts
-import { TLambda, TNat, TString } from '@tezwell/michelson-sdk';
+const { TLambda, TNat, TString } = require('@tezwell/michelson-sdk');
 
 const lambda_type = TLambda(TString(), TNat());
 
@@ -412,7 +412,7 @@ console.log(lambda_type.toJSON());           // { prim: 'lambda', args: [ { prim
 The type `ticket` represents a ticket used to authenticate information.
 
 ```ts
-import { TTicket, TString } from '@tezwell/michelson-sdk';
+const { TTicket, TString } = require('@tezwell/michelson-sdk');
 
 const ticket_type = TTicket(TString());
 
@@ -427,7 +427,7 @@ console.log(ticket_type.toJSON());           // { prim: 'ticket', args: [ { prim
 The type `contract` represents the interface and address of a contract entrypoint.
 
 ```ts
-import { TContract, TString } from '@tezwell/michelson-sdk';
+const { TContract, TString } = require('@tezwell/michelson-sdk');
 
 const contract_type = TContract(TString());
 
@@ -442,7 +442,7 @@ console.log(contract_type.toJSON());           // { prim: 'contract', args: [ { 
 Michelson reference [sapling_state](https://tezos.gitlab.io/michelson-reference/#type-sapling_state).
 
 ```ts
-import { TSapling_state } from '@tezwell/michelson-sdk';
+const { TSapling_state } = require('@tezwell/michelson-sdk');
 
 const sapling_state_type = TSapling_state(8);
 
@@ -457,7 +457,7 @@ console.log(sapling_state_type.toJSON());           // { prim: 'sapling_state', 
 Michelson reference [sapling_transaction](https://tezos.gitlab.io/michelson-reference/#type-sapling_transaction).
 
 ```ts
-import { TSapling_transaction } from '@tezwell/michelson-sdk';
+const { TSapling_transaction } = require('@tezwell/michelson-sdk');
 
 const sapling_transaction_type = TSapling_transaction(8);
 
@@ -474,7 +474,7 @@ console.log(sapling_transaction_type.toJSON());           // { prim: 'sapling_tr
 A `TRecord` is an artificial type composed of nested `pair's` with annotated leaves to simulate a dictionary.
 
 ```ts
-import { TRecord, TNat, TInt, TBytes } from '@tezwell/michelson-sdk';
+const { TRecord, TNat, TInt, TBytes } = require('@tezwell/michelson-sdk');
 
 const record_type = TRecord(
     {
@@ -518,7 +518,7 @@ console.log(record_type.toJSON());           // {
 A `TVariant` is an artificial type composed of nested `or's` with annotated leaves to create a union type.
 
 ```ts
-import { TVariant, TNat, TInt, TBytes } from '@tezwell/michelson-sdk';
+const { TVariant, TNat, TInt, TBytes } = require('@tezwell/michelson-sdk');
 
 const variant_type = TVariant(
     {

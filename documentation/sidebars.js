@@ -28,6 +28,10 @@ const sidebars = {
             type: 'doc',
             id: 'values',
         },
+        {
+            type: 'doc',
+            id: 'taquito',
+        },
     ],
 };
 
