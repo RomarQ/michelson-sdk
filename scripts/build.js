@@ -21,7 +21,7 @@ function generateBundle(entryPoints) {
         .build({
             entryPoints,
             bundle: true,
-            minify: true,
+            sourcemap: true,
             outdir: DIST_FOLDER,
             platform: 'browser',
             format: 'cjs',

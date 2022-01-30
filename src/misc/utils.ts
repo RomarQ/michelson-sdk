@@ -1,6 +1,9 @@
 import type { PairsOfKeys } from '../typings';
 import { Prim } from '../core/enums/prim';
 
+export const parenthesis = (str: string) => `(${str})`;
+export const curlyBrackets = (str: string) => `{ ${str} }`;
+
 export const capitalizeBoolean = (bool: boolean): Prim.True | Prim.False => (bool ? Prim.True : Prim.False);
 
 export const compressHexString = (str: string) => {
@@ -21,6 +24,8 @@ export const composeRightCombLayout = <K>(fields: K[]): PairsOfKeys<K> => {
 };
 
 const Utils = {
+    parenthesis,
+    curlyBrackets,
     capitalizeBoolean,
     compressHexString,
     composeRightCombLayout,

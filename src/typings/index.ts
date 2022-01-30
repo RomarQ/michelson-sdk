@@ -27,7 +27,7 @@ export type MichelsonMicheline = string;
 export type PairsOfKeys<K> = (K | PairsOfKeys<K>)[];
 
 export interface IValue {
-    toMicheline: () => MichelsonMicheline;
+    toMicheline: (wrap?: boolean) => MichelsonMicheline;
     toJSON: () => MichelsonJSON;
     type: IType;
 }

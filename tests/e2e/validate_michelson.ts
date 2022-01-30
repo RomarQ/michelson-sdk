@@ -29,7 +29,20 @@ import {
     Right,
     Lambda,
 } from '../../src/core/literal';
-import { TBool, TBytes, TInt, TLambda, TNat, TOr, TString, TUnit, TVariant } from '../../src/core/type';
+import {
+    TAddress,
+    TBool,
+    TBytes,
+    TInt,
+    TLambda,
+    TList,
+    TNat,
+    TOr,
+    TRecord,
+    TString,
+    TUnit,
+    TVariant,
+} from '../../src/core/type';
 import { buildTesterContract, convertContractToJSON, convertMichelsonToJSON } from './utils';
 
 const verifyLiteral = (testName: string, lit: IValue) => {
@@ -83,6 +96,40 @@ export const runTests = () => {
     describe('[E2E] - Michelson compilation (List)', () => {
         verifyLiteral('List', List([Nat(1), Nat(2)], TNat()));
         verifyLiteral('Set', Set([Nat(1), Nat(2)], TNat()));
+        verifyLiteral(
+            'Complex list',
+            List(
+                [
+                    Record({
+                        from_: Address('tz1gTnKMA65qaKVpp6x4cgMLU2UyKF2zjHYN'),
+                        txs: List(
+                            [
+                                Record({
+                                    to_: Address('KT1JehYdejjvFf1BqdXzTPt1QWqqSd3xS4JF'),
+                                    token_id: Nat(0),
+                                    amount: Nat(10),
+                                }),
+                            ],
+                            TRecord({
+                                to_: TAddress(),
+                                token_id: TNat(),
+                                amount: TNat(),
+                            }),
+                        ),
+                    }),
+                ],
+                TRecord({
+                    from_: TAddress(),
+                    txs: TList(
+                        TRecord({
+                            to_: TAddress(),
+                            token_id: TNat(),
+                            amount: TNat(),
+                        }),
+                    ),
+                }),
+            ),
+        );
     });
 
     describe('[E2E] - Michelson compilation (Option)', () => {
@@ -222,6 +269,44 @@ export const runTests = () => {
             expect(jsonValue).toEqual(JSON.parse(result));
             expect(jsonValue).toMatchSnapshot();
         });
+        verifyLiteral(
+            'Complex map',
+            Map(
+                [
+                    [
+                        Nat(1),
+                        Record({
+                            from_: Address('tz1gTnKMA65qaKVpp6x4cgMLU2UyKF2zjHYN'),
+                            txs: List(
+                                [
+                                    Record({
+                                        to_: Address('KT1JehYdejjvFf1BqdXzTPt1QWqqSd3xS4JF'),
+                                        token_id: Nat(0),
+                                        amount: Nat(10),
+                                    }),
+                                ],
+                                TRecord({
+                                    to_: TAddress(),
+                                    token_id: TNat(),
+                                    amount: TNat(),
+                                }),
+                            ),
+                        }),
+                    ],
+                ],
+                TNat(),
+                TRecord({
+                    from_: TAddress(),
+                    txs: TList(
+                        TRecord({
+                            to_: TAddress(),
+                            token_id: TNat(),
+                            amount: TNat(),
+                        }),
+                    ),
+                }),
+            ),
+        );
     });
 
     describe('[E2E] - Michelson compilation (Lambda)', () => {

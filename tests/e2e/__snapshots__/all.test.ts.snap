@@ -400,6 +400,195 @@ code {
 ]
 `;
 
+exports[`[E2E] - Michelson compilation (List) Complex list 1`] = `
+Array [
+  "storage (list (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount))))));
+parameter unit;
+code {
+  DROP;
+  PUSH (list (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount)))))) { Pair \\"tz1gTnKMA65qaKVpp6x4cgMLU2UyKF2zjHYN\\" { Pair \\"KT1JehYdejjvFf1BqdXzTPt1QWqqSd3xS4JF\\" (Pair 0 10) } };
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%from_",
+                  ],
+                  "prim": "address",
+                },
+                Object {
+                  "annots": Array [
+                    "%txs",
+                  ],
+                  "args": Array [
+                    Object {
+                      "args": Array [
+                        Object {
+                          "annots": Array [
+                            "%to_",
+                          ],
+                          "prim": "address",
+                        },
+                        Object {
+                          "args": Array [
+                            Object {
+                              "annots": Array [
+                                "%token_id",
+                              ],
+                              "prim": "nat",
+                            },
+                            Object {
+                              "annots": Array [
+                                "%amount",
+                              ],
+                              "prim": "nat",
+                            },
+                          ],
+                          "prim": "pair",
+                        },
+                      ],
+                      "prim": "pair",
+                    },
+                  ],
+                  "prim": "list",
+                },
+              ],
+              "prim": "pair",
+            },
+          ],
+          "prim": "list",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%from_",
+                        ],
+                        "prim": "address",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%txs",
+                        ],
+                        "args": Array [
+                          Object {
+                            "args": Array [
+                              Object {
+                                "annots": Array [
+                                  "%to_",
+                                ],
+                                "prim": "address",
+                              },
+                              Object {
+                                "args": Array [
+                                  Object {
+                                    "annots": Array [
+                                      "%token_id",
+                                    ],
+                                    "prim": "nat",
+                                  },
+                                  Object {
+                                    "annots": Array [
+                                      "%amount",
+                                    ],
+                                    "prim": "nat",
+                                  },
+                                ],
+                                "prim": "pair",
+                              },
+                            ],
+                            "prim": "pair",
+                          },
+                        ],
+                        "prim": "list",
+                      },
+                    ],
+                    "prim": "pair",
+                  },
+                ],
+                "prim": "list",
+              },
+              Array [
+                Object {
+                  "args": Array [
+                    Object {
+                      "string": "tz1gTnKMA65qaKVpp6x4cgMLU2UyKF2zjHYN",
+                    },
+                    Array [
+                      Object {
+                        "args": Array [
+                          Object {
+                            "string": "KT1JehYdejjvFf1BqdXzTPt1QWqqSd3xS4JF",
+                          },
+                          Object {
+                            "args": Array [
+                              Object {
+                                "int": "0",
+                              },
+                              Object {
+                                "int": "10",
+                              },
+                            ],
+                            "prim": "Pair",
+                          },
+                        ],
+                        "prim": "Pair",
+                      },
+                    ],
+                  ],
+                  "prim": "Pair",
+                },
+              ],
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
+]
+`;
+
 exports[`[E2E] - Michelson compilation (List) List 1`] = `
 Array [
   "storage (list nat);
@@ -580,6 +769,209 @@ Array [
     ],
     "prim": "Elt",
   },
+]
+`;
+
+exports[`[E2E] - Michelson compilation (Maps) Complex map 1`] = `
+Array [
+  "storage (map nat (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount))))));
+parameter unit;
+code {
+  DROP;
+  PUSH (map nat (pair (address %from_) (list %txs (pair (address %to_) (pair (nat %token_id) (nat %amount)))))) { Elt 1 (Pair \\"tz1gTnKMA65qaKVpp6x4cgMLU2UyKF2zjHYN\\" { Pair \\"KT1JehYdejjvFf1BqdXzTPt1QWqqSd3xS4JF\\" (Pair 0 10) }) };
+  NIL operation;
+  PAIR;
+};",
+  Array [
+    Object {
+      "args": Array [
+        Object {
+          "args": Array [
+            Object {
+              "prim": "nat",
+            },
+            Object {
+              "args": Array [
+                Object {
+                  "annots": Array [
+                    "%from_",
+                  ],
+                  "prim": "address",
+                },
+                Object {
+                  "annots": Array [
+                    "%txs",
+                  ],
+                  "args": Array [
+                    Object {
+                      "args": Array [
+                        Object {
+                          "annots": Array [
+                            "%to_",
+                          ],
+                          "prim": "address",
+                        },
+                        Object {
+                          "args": Array [
+                            Object {
+                              "annots": Array [
+                                "%token_id",
+                              ],
+                              "prim": "nat",
+                            },
+                            Object {
+                              "annots": Array [
+                                "%amount",
+                              ],
+                              "prim": "nat",
+                            },
+                          ],
+                          "prim": "pair",
+                        },
+                      ],
+                      "prim": "pair",
+                    },
+                  ],
+                  "prim": "list",
+                },
+              ],
+              "prim": "pair",
+            },
+          ],
+          "prim": "map",
+        },
+      ],
+      "prim": "storage",
+    },
+    Object {
+      "args": Array [
+        Object {
+          "prim": "unit",
+        },
+      ],
+      "prim": "parameter",
+    },
+    Object {
+      "args": Array [
+        Array [
+          Object {
+            "prim": "DROP",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "args": Array [
+                  Object {
+                    "prim": "nat",
+                  },
+                  Object {
+                    "args": Array [
+                      Object {
+                        "annots": Array [
+                          "%from_",
+                        ],
+                        "prim": "address",
+                      },
+                      Object {
+                        "annots": Array [
+                          "%txs",
+                        ],
+                        "args": Array [
+                          Object {
+                            "args": Array [
+                              Object {
+                                "annots": Array [
+                                  "%to_",
+                                ],
+                                "prim": "address",
+                              },
+                              Object {
+                                "args": Array [
+                                  Object {
+                                    "annots": Array [
+                                      "%token_id",
+                                    ],
+                                    "prim": "nat",
+                                  },
+                                  Object {
+                                    "annots": Array [
+                                      "%amount",
+                                    ],
+                                    "prim": "nat",
+                                  },
+                                ],
+                                "prim": "pair",
+                              },
+                            ],
+                            "prim": "pair",
+                          },
+                        ],
+                        "prim": "list",
+                      },
+                    ],
+                    "prim": "pair",
+                  },
+                ],
+                "prim": "map",
+              },
+              Array [
+                Object {
+                  "args": Array [
+                    Object {
+                      "int": "1",
+                    },
+                    Object {
+                      "args": Array [
+                        Object {
+                          "string": "tz1gTnKMA65qaKVpp6x4cgMLU2UyKF2zjHYN",
+                        },
+                        Array [
+                          Object {
+                            "args": Array [
+                              Object {
+                                "string": "KT1JehYdejjvFf1BqdXzTPt1QWqqSd3xS4JF",
+                              },
+                              Object {
+                                "args": Array [
+                                  Object {
+                                    "int": "0",
+                                  },
+                                  Object {
+                                    "int": "10",
+                                  },
+                                ],
+                                "prim": "Pair",
+                              },
+                            ],
+                            "prim": "Pair",
+                          },
+                        ],
+                      ],
+                      "prim": "Pair",
+                    },
+                  ],
+                  "prim": "Elt",
+                },
+              ],
+            ],
+            "prim": "PUSH",
+          },
+          Object {
+            "args": Array [
+              Object {
+                "prim": "operation",
+              },
+            ],
+            "prim": "NIL",
+          },
+          Object {
+            "prim": "PAIR",
+          },
+        ],
+      ],
+      "prim": "code",
+    },
+  ],
 ]
 `;
 

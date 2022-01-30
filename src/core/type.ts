@@ -1,5 +1,5 @@
 import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, IType, PrimType } from '../typings';
-import { composeRightCombLayout } from '../misc/utils';
+import { composeRightCombLayout, parenthesis } from '../misc/utils';
 import { Prim } from './enums/prim';
 
 export class Michelson_Type implements IType {
@@ -26,7 +26,7 @@ export class Michelson_Type implements IType {
      * @returns {MichelsonMicheline} Micheline representation
      */
     toMicheline(): MichelsonMicheline {
-        const expr = this.#annotation ? `(${this.type} %${this.#annotation})` : `${this.type}`;
+        const annot = this.#annotation ? `%${this.#annotation}` : '';
         switch (this.type) {
             case Prim.unit:
             case Prim.int:
@@ -46,7 +46,7 @@ export class Michelson_Type implements IType {
             case Prim.signature:
             case Prim.operation:
             case Prim.never:
-                return expr;
+                return annot ? parenthesis(`${this.type} ${annot}`) : this.type;
             case Prim.list:
             case Prim.set:
             case Prim.pair:
@@ -59,7 +59,9 @@ export class Michelson_Type implements IType {
             case Prim.contract:
             case Prim.sapling_state:
             case Prim.sapling_transaction:
-                return `(${[expr, ...this.innerTypes.map((t) => t.toMicheline())].join(' ')})`;
+                return parenthesis(
+                    [this.type, ...(annot ? [annot] : []), ...this.innerTypes.map((t) => t.toMicheline())].join(' '),
+                );
         }
     }
 

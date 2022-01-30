@@ -29,7 +29,7 @@ import {
     buildRecordVariantType,
 } from './type';
 import { Prim } from './enums/prim';
-import Utils, { composeRightCombLayout } from '../misc/utils';
+import Utils, { composeRightCombLayout, curlyBrackets, parenthesis } from '../misc/utils';
 import Converter from '../../src/converter';
 
 export class Michelson_Literal implements IValue {
@@ -110,15 +110,16 @@ export class Michelson_Literal_C1 implements IValue {
         this.#elements = elements;
     }
 
-    toMicheline(): MichelsonMicheline {
+    toMicheline(wrap = true): MichelsonMicheline {
         switch (this.#prim) {
             case Prim.Some:
             case Prim.Pair:
             case Prim.Left:
             case Prim.Right:
-                return `(${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ')})`;
+                const prim = `${this.#prim} ${this.#elements.map((v) => v.toMicheline()).join(' ')}`;
+                return wrap ? parenthesis(prim) : prim;
             case Prim.list:
-                return `{ ${this.#elements.map((v) => v.toMicheline()).join(' ; ')} }`;
+                return curlyBrackets(this.#elements.map((v) => v.toMicheline(false)).join(' ; '));
         }
 
         throw new Error(`Cannot produce michelson for literal of type: ${this.#prim}`);
@@ -156,7 +157,7 @@ export class Michelson_Map implements IValue {
     };
 
     toMicheline(): MichelsonMicheline {
-        return `{ ${this.#elements.map(([key, value]) => this.buildMichelineElt(key, value)).join(' ; ')} }`;
+        return curlyBrackets(this.#elements.map(([key, value]) => this.buildMichelineElt(key, value)).join(' ; '));
     }
 
     toJSON(): MichelsonJSON {
