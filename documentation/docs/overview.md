@@ -22,17 +22,15 @@ npm install @tezwell/michelson-sdk
 #### Compile a value and its type
 
 ```ts
-import { List, Nat, TNat } from '@tezwell/michelson-sdk';
+import { List, Nat } from '@tezwell/michelson-sdk';
 
-const literal = List([Nat(1), Nat(2)], TNat());
+const literal = List([Nat(1), Nat(2)]);
 
 // Micheline
 console.log(literal.toMicheline());         // { 1 ; 2 }
-console.log(literal.type.toMicheline());    // (list nat)
 
 // JSON
 console.log(literal.toJSON());              // [ { int: '1' }, { int: '2' } ]
-console.log(literal.type.toJSON());         // { prim: 'list', args: [ { prim: 'nat' } ] }
 ```
 
 #### Compile a type

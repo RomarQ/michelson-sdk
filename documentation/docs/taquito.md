@@ -23,25 +23,10 @@ const transferParameters = List(
                         token_id: Nat(0),
                         amount: Nat(10),
                     })
-                ],
-                TRecord({
-                    to_: TAddress(),
-                    token_id: TNat(),
-                    amount: TNat(),
-                })
+                ]
             ),
         })
-    ],
-    TRecord({
-        from_: TAddress(),
-        txs: TList(
-            TRecord({
-                to_: TAddress(),
-                token_id: TNat(),
-                amount: TNat(),
-            })
-        )
-    })
+    ]
 ).toJSON();
 
 Tezos.contract.transfer({
@@ -58,5 +43,4 @@ Tezos.contract.transfer({
 })
 .then((hash) => console.log(`Operation injected: https://hangzhou.tzstats.com/${hash}`))
 .catch((error) => console.log(`Error: ${error} ${JSON.stringify(error, null, 2)}`));
-
 ```

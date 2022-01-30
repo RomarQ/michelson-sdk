@@ -1,11 +1,12 @@
 {
     "name": "@tezwell/michelson-sdk",
-    "version": "0.2.0",
-    "description": "Michelson SDK",
+    "version": "0.3.0",
+    "description": "Michelson SDK is a framework for generating Michelson values and types from Javascript.",
     "keywords": [
         "Tezos",
         "Michelson",
         "Micheline",
+        "Blockchain",
         "Smart Contract"
     ],
     "author": {

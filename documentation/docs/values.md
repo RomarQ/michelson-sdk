@@ -35,9 +35,9 @@ console.log(int_value.toJSON());           // { int: '1' }
 ### list
 
 ```ts
-import { List, Nat, TNat } from '@tezwell/michelson-sdk';
+import { List, Nat } from '@tezwell/michelson-sdk';
 
-const list_value = List([Nat(1), Nat(2)], TNat());
+const list_value = List([Nat(1), Nat(2)]);
 
 // Micheline
 console.log(list_value.toMicheline());      // { 1 ; 2 }
@@ -48,9 +48,9 @@ console.log(list_value.toJSON());           // [ { int: '1' }, { int: '2' } ]
 ### set
 
 ```ts
-import { Set, Nat, TNat } from '@tezwell/michelson-sdk';
+import { Set, Nat } from '@tezwell/michelson-sdk';
 
-const set_value = Set([Nat(1), Nat(2)], TNat());
+const set_value = Set([Nat(1), Nat(2)]);
 
 // Micheline
 console.log(set_value.toMicheline());      // { 1 ; 2 }

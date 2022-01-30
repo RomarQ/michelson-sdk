@@ -32,10 +32,10 @@ export const convertContractToJSON = (contract: string) => {
     return execSync(`${path.resolve(TEZOS_CLIENT_CMD)} ${parameters}`).toString('utf-8');
 };
 
-export const buildTesterContract = (literal: IValue) => {
-    const michelineType = literal.type.toMicheline();
+export const buildTesterContract = (literal: IValue, type: IType) => {
+    const michelineType = type.toMicheline();
     const michelineValue = literal.toMicheline();
-    const jsonType = literal.type.toJSON();
+    const jsonType = type.toJSON();
     const jsonValue = literal.toJSON();
     return {
         micheline:
