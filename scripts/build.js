@@ -17,27 +17,22 @@ generateBundle([
  * Produces the js bundle
  */
 function generateBundle(entryPoints) {
-    esbuild
-        .build({
-            entryPoints,
-            bundle: true,
-            sourcemap: true,
-            outdir: DIST_FOLDER,
-            platform: 'browser',
-            format: 'cjs',
-        })
-        .then((result) => {
-            console.log();
-            console.log('[SUCCESS]:', result);
-            console.log();
-        })
-        .catch((e) => {
-            console.log();
-            console.log('[FAIL]:', 'Could not produce bundle :(');
-            console.log();
-            console.error(JSON.stringify(e, null, 4));
-            process.exit(1);
-        });
+    esbuild.buildSync({
+        entryPoints,
+        bundle: true,
+        outdir: DIST_FOLDER,
+        platform: 'browser',
+        format: 'esm',
+        outExtension: { '.js': '.mjs' },
+    });
+    esbuild.buildSync({
+        entryPoints,
+        bundle: true,
+        outdir: DIST_FOLDER,
+        platform: 'browser',
+        format: 'cjs',
+        outExtension: { '.js': '.cjs' },
+    });
 }
 
 /**

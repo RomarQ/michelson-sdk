@@ -1,11 +1,13 @@
 import type { IType } from '../../src/typings';
 import {
+    TAddress,
     TBool,
     TBytes,
     TChain_id,
     TContract,
     TInt,
     TLambda,
+    TList,
     TNat,
     TNever,
     TOperation,
@@ -56,6 +58,20 @@ export const runTests = () => {
         verifyType('or', TOr(TBytes(), TUnit()));
         verifyType('or (nested)', TOr(TNat(), TOr(TBool(), TChain_id())));
         verifyType('lambda', TLambda(TBool(), TChain_id()));
+        verifyType(
+            'contract',
+            TContract(
+                TList(
+                    TRecord({
+                        request: TRecord({
+                            owner: TAddress(),
+                            token_id: TNat(),
+                        }),
+                        balance: TNat(),
+                    }),
+                ),
+            ),
+        );
 
         it('operation', () => {
             const micheline =

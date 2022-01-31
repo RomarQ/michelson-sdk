@@ -1,6 +1,6 @@
 {
     "name": "@tezwell/michelson-sdk",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "Michelson SDK is a framework for generating Michelson values and types from Javascript.",
     "keywords": [
         "Tezos",
@@ -17,14 +17,27 @@
     "publishConfig": {
         "access": "public"
     },
-    "main": "index.js",
-    "module": "index.js",
     "exports": {
-        ".": "./index.js",
-        "./converter": "./converter/index.js",
-        "./core": "./core/index.js",
-        "./literal": "./core/literal.js",
-        "./type": "./core/type.js"
+        ".": {
+            "require": "./index.cjs",
+            "import": "./index.mjs"
+        },
+        "./converter": {
+            "require": "./converter/index.cjs",
+            "import": "./converter/index.mjs"
+        },
+        "./core": {
+            "require": "./core/index.cjs",
+            "import": "./core/index.mjs"
+        },
+        "./literal": {
+            "require": "./core/literal.cjs",
+            "import": "./core/literal.mjs"
+        },
+        "./type": {
+            "require": "./core/type.cjs",
+            "import": "./core/type.mjs"
+        }
     },
     "scripts": {
         "build": "node --max_old_space_size=8192 scripts/build.js && tsc --build",

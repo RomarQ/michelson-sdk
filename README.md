@@ -7,6 +7,14 @@
 
 # [Documentation](https://romarq.github.io/michelson-sdk)
 
+## Getting Started
+
+### Install the package
+
+```shell
+npm install @tezwell/michelson-sdk
+```
+
 ## Usage
 
 ### Compile a value and its type
@@ -37,3 +45,7 @@ console.log(list_type.toJSON());         // { prim: 'list', args: [ { prim: 'nat
 ```
 
 ## [Contributing](CONTRIBUTING.md)
+
+## **About**
+
+Project was supported by **Tezos Foundation**.

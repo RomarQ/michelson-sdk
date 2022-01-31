@@ -39,23 +39,25 @@ export const buildTesterContract = (literal: IValue, type: IType) => {
     const jsonValue = literal.toJSON();
     return {
         micheline:
-            `storage ${michelineType};\n` +
+            `storage unit;\n` +
             'parameter unit;\n' +
             'code {\n' +
-            '  DROP;\n' +
             `  PUSH ${michelineType} ${michelineValue};\n` +
+            '  DROP;\n' +
+            '  CAR;\n' +
             '  NIL operation;\n' +
             '  PAIR;\n' +
             '};',
         json: [
-            { prim: 'storage', args: [jsonType] },
+            { prim: 'storage', args: [{ prim: 'unit' }] },
             { prim: 'parameter', args: [{ prim: 'unit' }] },
             {
                 prim: 'code',
                 args: [
                     [
-                        { prim: 'DROP' },
                         { prim: 'PUSH', args: [jsonType, jsonValue] },
+                        { prim: 'DROP' },
+                        { prim: 'CAR' },
                         { prim: 'NIL', args: [{ prim: 'operation' }] },
                         { prim: 'PAIR' },
                     ],

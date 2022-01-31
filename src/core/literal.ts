@@ -203,7 +203,9 @@ export const Mutez = (value: number) => new Michelson_Literal(Prim.int, value);
 export const Timestamp = (value: number | string) =>
     new Michelson_Literal(typeof value === 'string' ? Prim.string : Prim.int, value);
 export const String = (value: string) => new Michelson_Literal(Prim.string, value);
-export const Address = (value: string) => new Michelson_Literal(Prim.string, value);
+export const Address = (address: string) => new Michelson_Literal(Prim.string, address);
+export const Contract = (address: string, entry_point: string) =>
+    new Michelson_Literal(Prim.string, `${address}%${entry_point}`);
 export const Bytes = (value: string) => new Michelson_Literal(Prim.bytes, value);
 export const Chain_id = (value: string) => {
     return new Michelson_Literal(`${value}`.slice(0, 2) === '0x' ? Prim.bytes : Prim.string, value);
@@ -212,10 +214,10 @@ export const Bls12_381_fr = (value: string | number) =>
     new Michelson_Literal(typeof value === 'string' ? Prim.bytes : Prim.int, value);
 export const Bls12_381_g1 = (value: string) => new Michelson_Literal(Prim.bytes, value);
 export const Bls12_381_g2 = (value: string) => new Michelson_Literal(Prim.bytes, value);
-export const Key = (value: string) => new Michelson_Literal(Prim.string, value);
-export const Key_hash = (value: string) => new Michelson_Literal(Prim.string, value);
-export const Signature = (value: string) => new Michelson_Literal(Prim.string, value);
-export const Bool = (value: boolean) => new Michelson_Literal(value ? Prim.True : Prim.False);
+export const Key = (key: string) => new Michelson_Literal(Prim.string, key);
+export const Key_hash = (key_hash: string) => new Michelson_Literal(Prim.string, key_hash);
+export const Signature = (signature: string) => new Michelson_Literal(Prim.string, signature);
+export const Bool = (bool: boolean) => new Michelson_Literal(bool ? Prim.True : Prim.False);
 export const Unit = () => new Michelson_Literal(Prim.Unit);
 // Containers
 export const List = (elements: IValue[]) => new Michelson_Literal_C1(Prim.list, elements);
@@ -241,6 +243,7 @@ const Literals = {
     String,
     Bool,
     Address,
+    Contract,
     Timestamp,
     Chain_id,
     Bytes,

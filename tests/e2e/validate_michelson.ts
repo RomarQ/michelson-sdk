@@ -28,6 +28,7 @@ import {
     Left,
     Right,
     Lambda,
+    Contract,
 } from '../../src/core/literal';
 import {
     TAddress,
@@ -38,6 +39,7 @@ import {
     TBool,
     TBytes,
     TChain_id,
+    TContract,
     TInt,
     TKey,
     TKey_hash,
@@ -308,7 +310,7 @@ export const runTests = () => {
         );
         // big_map prim cannot be used with "PUSH <big_map>"
         it('Big Map', () => {
-            const literal = Map([
+            const literal = Big_map([
                 [String('KEY1'), Nat(1)],
                 [String('KEY2'), Nat(2)],
             ]);
