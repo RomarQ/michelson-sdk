@@ -30,7 +30,15 @@ const sidebars = {
         },
         {
             type: 'doc',
+            id: 'FA2',
+        },
+        {
+            type: 'doc',
             id: 'taquito',
+        },
+        {
+            type: 'doc',
+            id: 'conseiljs',
         },
     ],
 };

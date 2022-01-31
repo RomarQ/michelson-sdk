@@ -159,7 +159,7 @@ parameter unit;
 code {
   PUSH (lambda nat (lambda nat bool)) {
   DROP;
-  LAMBDA nat bool 
+  LAMBDA nat bool
   {
     DROP;
     PUSH bool True;
@@ -277,10 +277,10 @@ Array [
 parameter unit;
 code {
   PUSH (lambda bool unit) {
-  IF 
+  IF
   {
     PUSH unit Unit;
-  } 
+  }
   {
     PUSH unit Unit;
   };

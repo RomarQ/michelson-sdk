@@ -28,7 +28,6 @@ import {
     Left,
     Right,
     Lambda,
-    Contract,
 } from '../../src/core/literal';
 import {
     TAddress,
@@ -39,7 +38,6 @@ import {
     TBool,
     TBytes,
     TChain_id,
-    TContract,
     TInt,
     TKey,
     TKey_hash,

@@ -18,6 +18,7 @@ console.log(nat_type.toMicheline());      // nat
 // JSON
 console.log(nat_type.toJSON());           // { prim: 'nat' }
 ```
+- [Value Example](./values#nat)
 
 ### int
 
@@ -33,6 +34,7 @@ console.log(int_type.toMicheline());      // int
 // JSON
 console.log(int_type.toJSON());           // { prim: 'int' }
 ```
+- [Value Example](./values#int)
 
 ### mutez
 
@@ -48,6 +50,7 @@ console.log(mutez_type.toMicheline());      // mutez
 // JSON
 console.log(mutez_type.toJSON());           // { prim: 'mutez' }
 ```
+- [Value Example](./values#mutez)
 
 ### string
 
@@ -63,6 +66,7 @@ console.log(string_type.toMicheline());      // string
 // JSON
 console.log(string_type.toJSON());           // { prim: 'string' }
 ```
+- [Value Example](./values#string)
 
 ### bool
 
@@ -78,6 +82,7 @@ console.log(bool_type.toMicheline());      // bool
 // JSON
 console.log(bool_type.toJSON());           // { prim: 'bool' }
 ```
+- [Value Example](./values#bool)
 
 ### bytes
 
@@ -93,6 +98,7 @@ console.log(bytes_type.toMicheline());      // bytes
 // JSON
 console.log(bytes_type.toJSON());           // { prim: 'bytes' }
 ```
+- [Value Example](./values#bytes)
 
 ### address
 
@@ -121,6 +127,7 @@ console.log(address_type.toMicheline());      // address
 // JSON
 console.log(address_type.toJSON());           // { prim: 'address' }
 ```
+- [Value Example](./values#address)
 
 ### timestamp
 
@@ -136,6 +143,7 @@ console.log(timestamp_type.toMicheline());      // timestamp
 // JSON
 console.log(timestamp_type.toJSON());           // { prim: 'timestamp' }
 ```
+- [Value Example](./values#timestamp)
 
 ### chain_id
 
@@ -151,6 +159,7 @@ console.log(chain_id_type.toMicheline());      // chain_id
 // JSON
 console.log(chain_id_type.toJSON());           // { prim: 'chain_id' }
 ```
+- [Value Example](./values#chain_id)
 
 ### bls12_381_fr
 
@@ -166,6 +175,7 @@ console.log(bls12_381_fr_type.toMicheline());      // bls12_381_fr
 // JSON
 console.log(bls12_381_fr_type.toJSON());           // { prim: 'bls12_381_fr' }
 ```
+- [Value Example](./values#bls12_381_fr)
 
 ### bls12_381_g1
 
@@ -181,6 +191,7 @@ console.log(bls12_381_g1_type.toMicheline());      // bls12_381_g1
 // JSON
 console.log(bls12_381_g1_type.toJSON());           // { prim: 'bls12_381_g1' }
 ```
+- [Value Example](./values#bls12_381_g1)
 
 ### bls12_381_g2
 
@@ -196,6 +207,7 @@ console.log(bls12_381_g2_type.toMicheline());      // bls12_381_g2
 // JSON
 console.log(bls12_381_g2_type.toJSON());           // { prim: 'bls12_381_g2' }
 ```
+- [Value Example](./values#bls12_381_g2)
 
 ### key
 
@@ -211,6 +223,7 @@ console.log(key_type.toMicheline());      // key
 // JSON
 console.log(key_type.toJSON());           // { prim: 'key' }
 ```
+- [Value Example](./values#key)
 
 ### key_hash
 
@@ -226,6 +239,7 @@ console.log(key_hash_type.toMicheline());      // key_hash
 // JSON
 console.log(key_hash_type.toJSON());           // { prim: 'key_hash' }
 ```
+- [Value Example](./values#key_hash)
 
 ### signature
 
@@ -241,6 +255,7 @@ console.log(signature_type.toMicheline());      // signature
 // JSON
 console.log(signature_type.toJSON());           // { prim: 'signature' }
 ```
+- [Value Example](./values#signature)
 
 ### unit
 
@@ -256,6 +271,7 @@ console.log(unit_type.toMicheline());      // unit
 // JSON
 console.log(unit_type.toJSON());           // { prim: 'unit' }
 ```
+- [Value Example](./values#unit)
 
 ### operation
 
@@ -303,6 +319,7 @@ console.log(list_type.toMicheline());      // (list nat)
 // JSON
 console.log(list_type.toJSON());           // { prim: 'list', args: [ { prim: 'nat' } ] }
 ```
+- [Value Example](./values#list)
 
 ### set
 
@@ -318,6 +335,7 @@ console.log(set_type.toMicheline());      // (set nat)
 // JSON
 console.log(set_type.toJSON());           // { prim: 'set', args: [ { prim: 'nat' } ] }
 ```
+- [Value Example](./values#set)
 
 ### option
 
@@ -333,6 +351,8 @@ console.log(option_type.toMicheline());      // (option nat)
 // JSON
 console.log(option_type.toJSON());           // { prim: 'option', args: [ { prim: 'nat' } ] }
 ```
+- [Value Example (Some)](./values#some)
+- [Value Example (None)](./values#none)
 
 ### pair
 
@@ -348,6 +368,7 @@ console.log(pair_type.toMicheline());      // (pair string nat)
 // JSON
 console.log(pair_type.toJSON());           // { prim: 'pair', args: [ { prim: 'string' }, { prim: 'nat' } ] }
 ```
+- [Value Example](./values#pair)
 
 ### or
 
@@ -363,6 +384,8 @@ console.log(or_type.toMicheline());      // (or string nat)
 // JSON
 console.log(or_type.toJSON());           // { prim: 'or', args: [ { prim: 'string' }, { prim: 'nat' } ] }
 ```
+- [Value Example (Left)](./values#left)
+- [Value Example (Right)](./values#right)
 
 ### map
 
@@ -376,6 +399,7 @@ console.log(map_type.toMicheline());      // (map string nat)
 // JSON
 console.log(map_type.toJSON());           // { prim: 'map', args: [ { prim: 'string' }, { prim: 'nat' } ] }
 ```
+[Value Example](./values#map)
 
 ### big_map
 
@@ -391,6 +415,7 @@ console.log(big_map_type.toMicheline());      // (big_map string nat)
 // JSON
 console.log(big_map_type.toJSON());           // { prim: 'big_map', args: [ { prim: 'string' }, { prim: 'nat' } ] }
 ```
+[Value Example](./values#big_map)
 
 ### lambda
 
@@ -406,6 +431,7 @@ console.log(lambda_type.toMicheline());      // (lambda string nat)
 // JSON
 console.log(lambda_type.toJSON());           // { prim: 'lambda', args: [ { prim: 'string' }, { prim: 'nat' } ] }
 ```
+[Value Example](./values#lambda)
 
 ### ticket
 
@@ -436,6 +462,7 @@ console.log(contract_type.toMicheline());      // (contract string)
 // JSON
 console.log(contract_type.toJSON());           // { prim: 'contract', args: [ { prim: 'string' } ] }
 ```
+[Value Example](./values#contract)
 
 ### sapling_state
 
@@ -512,6 +539,7 @@ console.log(record_type.toJSON());           // {
                                              //     ]
                                              // }
 ```
+[Value Example](./values#record)
 
 ### variant
 
@@ -556,3 +584,4 @@ console.log(variant_type.toJSON());          // {
                                              //     ]
                                              // }
 ```
+[Value Example](./values#variant)
