@@ -28,7 +28,7 @@ import {
     Left,
     Right,
     Lambda,
-} from '../../src/core/literal';
+} from '../../src/literal';
 import {
     TAddress,
     TBig_map,
@@ -56,7 +56,7 @@ import {
     TTimestamp,
     TUnit,
     TVariant,
-} from '../../src/core/type';
+} from '../../src/type';
 import { buildTesterContract, convertContractToJSON, convertMichelsonToJSON } from './utils';
 
 const verifyLiteral = (testName: string, lit: IValue, type: IType) => {

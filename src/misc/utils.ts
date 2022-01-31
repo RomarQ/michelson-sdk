@@ -1,5 +1,5 @@
 import type { PairsOfKeys } from '../typings';
-import { Prim } from '../core/enums/prim';
+import { Prim } from '../enums/prim';
 
 export const parenthesis = (str: string) => `(${str})`;
 export const curlyBrackets = (str: string) => `{ ${str} }`;

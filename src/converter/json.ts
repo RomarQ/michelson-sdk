@@ -1,4 +1,4 @@
-import { Prim } from '../core/enums/prim';
+import { Prim } from '../enums/prim';
 import Guards from '../misc/guards';
 import { MichelsonJSON, MichelsonJSON_Prim, MichelsonMicheline } from '../typings';
 

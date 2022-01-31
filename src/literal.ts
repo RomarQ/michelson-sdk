@@ -1,13 +1,13 @@
 import type { IRecordVariant } from './type';
-import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, PrimValue, IValue } from '../typings';
+import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, PrimValue, IValue } from './typings';
 import {
     TOr,
     //
     buildRecordVariantType,
 } from './type';
 import { Prim } from './enums/prim';
-import Utils, { composeRightCombLayout, curlyBrackets, parenthesis } from '../misc/utils';
-import Converter from '../converter';
+import Utils, { composeRightCombLayout, curlyBrackets, parenthesis } from './misc/utils';
+import Converter from './converter';
 
 export class Michelson_Literal implements IValue {
     private prim: PrimValue;

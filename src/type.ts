@@ -1,5 +1,5 @@
-import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, IType, PrimType } from '../typings';
-import { composeRightCombLayout, parenthesis } from '../misc/utils';
+import type { MichelsonJSON, MichelsonMicheline, PairsOfKeys, IType, PrimType } from './typings';
+import { composeRightCombLayout, parenthesis } from './misc/utils';
 import { Prim } from './enums/prim';
 
 export class Michelson_Type implements IType {

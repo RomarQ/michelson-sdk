@@ -1,4 +1,4 @@
-import { Prim } from '../core/enums/prim';
+import { Prim } from '../enums/prim';
 
 export type MichelsonJSON_Prim = {
     prim: keyof typeof Prim;

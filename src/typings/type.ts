@@ -1,4 +1,4 @@
-import { Prim } from '../core/enums/prim';
+import { Prim } from '../enums/prim';
 
 /**
  * @see https://tezos.gitlab.io/alpha/michelson.html#full-grammar

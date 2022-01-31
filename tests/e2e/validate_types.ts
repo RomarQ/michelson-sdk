@@ -18,7 +18,7 @@ import {
     TTicket,
     TUnit,
     TVariant,
-} from '../../src/core/type';
+} from '../../src/type';
 import { buildTypeTesterContract, convertContractToJSON } from './utils';
 
 const verifyType = (testName: string, type: IType) => {
