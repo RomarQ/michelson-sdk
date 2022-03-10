@@ -33,5 +33,9 @@ function generateBundle(entryPoints) {
  * Clean UP build files
  */
 function cleanUP() {
-    fs.rmSync(DIST_FOLDER, { recursive: true, force: true });
+    try {
+        fs.rmdirSync(DIST_FOLDER, { recursive: true, force: true });
+    } catch {
+        // Ignore error
+    }
 }

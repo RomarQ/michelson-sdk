@@ -225,7 +225,7 @@ export const Set = List;
 export const None = () => new Michelson_Literal(Prim.None);
 export const Some = (element: IValue) => new Michelson_Literal_C1(Prim.Some, [element]);
 export const Pair = (left: IValue, right: IValue) => new Michelson_Literal_C1(Prim.Pair, [left, right]);
-export const Map = (elements: IValue[][]) => new Michelson_Map(elements);
+export const Map = (elements: IValue[][] = []) => new Michelson_Map(elements);
 export const Big_map = Map;
 export const Lambda = (code: MichelsonMicheline | MichelsonJSON) => buildLambda(code);
 export const Left = (value: IValue) => new Michelson_Literal_C1(Prim.Left, [value]);

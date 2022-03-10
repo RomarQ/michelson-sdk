@@ -273,7 +273,7 @@ console.log(Unit().toJSON());           // { prim: 'Unit' }
 ```ts
 import { Left, Nat } from '@tezwell/michelson-sdk';
 
-const or_value = Left(Nat(1);
+const or_value = Left(Nat(1));
 
 // Micheline
 console.log(or_value.toMicheline());      // Left 1
@@ -288,7 +288,7 @@ console.log(or_value.toJSON());           // { prim: 'Left', args: [{ int: '1' }
 ```ts
 import { Right, Nat } from '@tezwell/michelson-sdk';
 
-const or_value = Right(Nat(1);
+const or_value = Right(Nat(1));
 
 // Micheline
 console.log(or_value.toMicheline());      // Right 1
