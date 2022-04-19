@@ -197,9 +197,9 @@ const buildLambda = (michelson: MichelsonMicheline | MichelsonJSON): IValue => {
 };
 
 // Singletons
-export const Nat = (value: number) => new Michelson_Literal(Prim.int, value);
-export const Int = (value: number) => new Michelson_Literal(Prim.int, value);
-export const Mutez = (value: number) => new Michelson_Literal(Prim.int, value);
+export const Nat = (value: number | string) => new Michelson_Literal(Prim.int, value);
+export const Int = (value: number | string) => new Michelson_Literal(Prim.int, value);
+export const Mutez = (value: number | string) => new Michelson_Literal(Prim.int, value);
 export const Timestamp = (value: number | string) =>
     new Michelson_Literal(typeof value === 'string' ? Prim.string : Prim.int, value);
 export const String = (value: string) => new Michelson_Literal(Prim.string, value);
