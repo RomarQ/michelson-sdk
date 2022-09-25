@@ -37,7 +37,7 @@ export const toMicheline = (michelson: MichelsonJSON, padding = ''): MichelsonMi
         return michelson.int;
     }
     if (Guards.isString(michelson)) {
-        return michelson.string;
+        return `"${michelson.string}"`;
     }
     if (Guards.isBytes(michelson)) {
         return michelson.bytes;
